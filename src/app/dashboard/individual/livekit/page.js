@@ -226,6 +226,7 @@ const ImprovedVoiceAssistant = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [debugStatus, setDebugStatus] = useState('Ready');
   const [turnCount, setTurnCount] = useState(0);
+  const [conversationMessages, setConversationMessages] = useState([]);
   
   const roomRef = useRef(null);
   const sessionIdRef = useRef(null);
@@ -312,12 +313,42 @@ const ImprovedVoiceAssistant = () => {
         setDebugStatus('Ready to talk');
       });
 
-      room.on(RoomEvent.DataReceived, (payload) => {
+      room.on(RoomEvent.DataReceived, (payload, participant) => {
         try {
-          const decoder = new TextDecoder();
-          const message = JSON.parse(decoder.decode(payload));
+          console.log('📦 Raw data received:', payload);
           
-          if (message.type === 'transcript') {
+          let message;
+          if (typeof payload === 'string') {
+            message = JSON.parse(payload);
+          } else if (payload instanceof Uint8Array) {
+            const decoder = new TextDecoder();
+            const decoded = decoder.decode(payload);
+            console.log('🔤 Decoded string:', decoded);
+            message = JSON.parse(decoded);
+          } else {
+            console.warn('Unknown payload type:', typeof payload);
+            return;
+          }
+          
+          console.log('📩 Parsed message:', message);
+          
+          if (message.type === 'message') {
+            const newMsg = {
+              sender: message.sender,
+              text: message.text,
+              timestamp: message.timestamp || Date.now()
+            };
+            console.log('💬 Adding message:', newMsg);
+            setConversationMessages(prev => {
+              const updated = [...prev, newMsg];
+              console.log('📝 Total messages:', updated.length);
+              return updated;
+            });
+            
+            if (message.sender === 'agent') {
+              setCurrentMessage(message.text);
+            }
+          } else if (message.type === 'transcript') {
             setCurrentMessage(message.text);
           } else if (message.type === 'user_speech') {
             setIsListening(true);
@@ -326,7 +357,7 @@ const ImprovedVoiceAssistant = () => {
             setIsListening(false);
           }
         } catch (e) {
-          console.error('Error parsing data:', e);
+          console.error('❌ Error parsing data:', e, payload);
         }
       });
 
@@ -351,6 +382,17 @@ const ImprovedVoiceAssistant = () => {
       await room.localParticipant.setMicrophoneEnabled(true);
 
       console.log('Voice session started successfully');
+      
+      // Test: Add a welcome message to verify display works
+      setTimeout(() => {
+        const testMessage = {
+          sender: 'agent',
+          text: 'Hello! I\'m ready to assist you. Start speaking anytime!',
+          timestamp: Date.now()
+        };
+        console.log('🧪 Adding test message:', testMessage);
+        setConversationMessages(prev => [...prev, testMessage]);
+      }, 2000);
 
     } catch (error) {
       console.error('Error starting voice session:', error);
@@ -382,6 +424,7 @@ const ImprovedVoiceAssistant = () => {
       setIsListening(false);
       setIsBotSpeaking(false);
       setCurrentMessage('');
+      setConversationMessages([]);
       setTurnCount(0);
       setDebugStatus('Ready');
 
@@ -422,15 +465,54 @@ const ImprovedVoiceAssistant = () => {
   }, []);
 
   // Conversation Display
+  const messagesEndRef = useRef(null);
+  
+  // Auto-scroll to latest message
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [conversationMessages]);
+
   const ConversationDisplay = () => {
-    if (currentMessage) {
+    if (conversationMessages.length > 0) {
       return (
-        <div className="text-center opacity-95">
-          <div className="inline-block bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] px-6 py-4 lg:px-8 lg:py-5 rounded-2xl backdrop-blur-sm border border-gray-300/20 shadow-md max-w-2xl">
+        <div className="space-y-3 max-h-96 overflow-y-auto px-2 py-2 scroll-smooth">
+          {conversationMessages.map((msg, idx) => (
+            <div 
+              key={idx}
+              className={`flex ${msg.sender === 'agent' ? 'justify-start' : 'justify-end'}`}
+              style={{ animation: 'fadeIn 0.3s ease-in' }}
+            >
+              <div className={`max-w-[85%] px-4 py-3 rounded-2xl ${
+                msg.sender === 'agent' 
+                  ? 'bg-white text-gray-800 border border-gray-200'
+                  : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+              } shadow-lg`}>
+                <div className="text-xs font-semibold mb-1.5 opacity-80">
+                  {msg.sender === 'agent' ? '🤖 Noyco' : '👤 You'}
+                </div>
+                <div className="text-sm lg:text-base leading-relaxed">
+                  {msg.text}
+                </div>
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      );
+    } else if (currentMessage) {
+      return (
+        <div className="text-center">
+          <div className="inline-block bg-white px-6 py-4 lg:px-8 lg:py-5 rounded-2xl border border-gray-200 shadow-lg max-w-2xl">
             <div className="text-gray-800 text-sm lg:text-base">
               {currentMessage}
             </div>
           </div>
+        </div>
+      );
+    } else if (isRecording) {
+      return (
+        <div className="text-center text-gray-600">
+          <div className="text-sm">Start speaking to begin the conversation...</div>
         </div>
       );
     }
@@ -442,8 +524,21 @@ const ImprovedVoiceAssistant = () => {
   const canStartSession = isAuthenticated && user && isProfileReady;
 
   return (
-    <div className="min-h-screen bg-[#f8f7f1] flex flex-col items-center justify-center p-3 sm:p-4 lg:p-6">
-      <div className="w-full max-w-2xl mx-auto">
+    <>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+      <div className="min-h-screen bg-[#f8f7f1] flex flex-col items-center justify-center p-3 sm:p-4 lg:p-6">
+        <div className="w-full max-w-2xl mx-auto">
         
         {/* Profile Loading State */}
         {profilesLoading && (
@@ -617,7 +712,7 @@ const ImprovedVoiceAssistant = () => {
         )}
 
         {/* Conversation Display */}
-        <div className="bg-white/20 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-8 min-h-60 sm:min-h-72 lg:min-h-80 border border-white/10 w-full max-w-4xl mx-auto">
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-8 min-h-60 sm:min-h-72 lg:min-h-80 border border-gray-200 w-full max-w-4xl mx-auto shadow-xl">
           <ConversationDisplay />
         </div>
 
@@ -627,8 +722,9 @@ const ImprovedVoiceAssistant = () => {
             <div className="text-sm sm:text-base font-light">Speak naturally • Assistant responds in real-time</div>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
