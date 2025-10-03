@@ -116,7 +116,7 @@ const navItems = [
 ];
 
 // User Profile Dropdown Component
-const UserProfileDropdown = ({ isOpen, onClose, user, onLogout }) => {
+const UserProfileDropdown = ({ isOpen, onClose, user, onLogout, placement = 'sidebar' }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isOpen && !event.target.closest('.user-profile-dropdown')) {
@@ -130,8 +130,13 @@ const UserProfileDropdown = ({ isOpen, onClose, user, onLogout }) => {
 
   if (!isOpen) return null;
 
+  // Positioning depends on where this dropdown is used
+  const positionClass = placement === 'header'
+    ? 'top-full right-0 mt-2'
+    : 'bottom-full left-full ml-2 mb-2';
+
   return (
-    <div className="user-profile-dropdown absolute bottom-full left-full ml-2 mb-2 w-64 bg-beige rounded-none shadow-xl border border-gray-200 py-2 z-50 ">
+    <div className={`user-profile-dropdown absolute ${positionClass} w-64 bg-beige rounded-none shadow-xl border border-gray-200 py-2 z-50 `}>
       {/* User Info */}
       <div className="px-4 py-3 border-b border-gray-100 bg-beige">
         <div className="flex items-center space-x-3">
@@ -332,12 +337,28 @@ export default function IndividualLayout({ children }) {
                 <h1 className="text-xl font-semibold text-gray-900">Noyco</h1>
               </div>
             </div>
-            <UserProfileDropdown 
-              isOpen={isProfileDropdownOpen} 
-              onClose={() => setIsProfileDropdownOpen(false)} 
-              user={user} 
-              onLogout={handleLogout}
-            />
+            {/* Mobile user profile button and dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                aria-label="User profile menu"
+                onClick={() => setIsProfileDropdownOpen(prev => !prev)}
+                className={`p-2 rounded-full transition-all duration-200 ${
+                  isProfileDropdownOpen
+                    ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 shadow'
+                    : 'bg-beige text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                {icons.userProfile}
+              </button>
+              <UserProfileDropdown 
+                isOpen={isProfileDropdownOpen} 
+                onClose={() => setIsProfileDropdownOpen(false)} 
+                user={user} 
+                onLogout={handleLogout}
+                placement="header"
+              />
+            </div>
           </div>
 
           {/* Sidebar Overlay for Mobile */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useMarketingFunnel } from '../../context/MarketingFunnelContext';
 
 const options = ['5 min', '10–15 min', '20+ min'];
@@ -18,14 +19,22 @@ const TimeBudgetStep = () => {
   return (
     <div className="text-center space-y-8">
       <div className="space-y-4">
-        <h2 className="text-xl font-medium text-gray-900">How much time do you actually have most days?</h2>
+        <h2 className="text-xl  text-gray-900">How much time do you actually have most days?</h2>
         <p className="text-gray-500 leading-relaxed">Right-size plan = stickiness</p>
       </div>
 
       {/* Image placeholder */}
       <div className="flex justify-center my-8">
         <div className="w-76 h-76 flex items-center justify-center">
-          <img src="./time.jpg" alt="" />
+          {/* <img src="./time.jpg" alt="" /> */}
+          <Image
+                src="/time.jpg"
+                 alt="Before - feeling better"
+                objectFit='contain'
+                height={300}
+                width={300}
+                priority={true}
+                />
         </div>
       </div>
 

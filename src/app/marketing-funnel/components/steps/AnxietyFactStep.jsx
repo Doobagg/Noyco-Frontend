@@ -24,7 +24,7 @@ const AnxietyFactStep = () => {
 
       {/* Fact highlight */}
       <div className="bg-purple-50 border-l-4 border-purple-400 p-6 text-left">
-        <h3 className="text-2xl font-bold text-gray-900 mb-4">
+        <h3 className="text-2xl  text-gray-900 mb-4">
           Over <span className="text-purple-600">280 million people</span> worldwide struggle with anxiety
         </h3>
         <p className="text-gray-600 leading-relaxed">
@@ -34,8 +34,8 @@ const AnxietyFactStep = () => {
 
       {/* Breathing guide visual */}
       <div className="flex justify-center">
-        <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
-          <span className="text-purple-600 text-xs font-medium">breathe</span>
+        <div className="w-16 h-16 bg-purple-100  flex items-center justify-center">
+          <span className="text-purple-600 text-xs font-medium">BREATHE</span>
         </div>
       </div>
 

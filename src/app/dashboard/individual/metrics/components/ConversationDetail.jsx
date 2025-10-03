@@ -100,7 +100,7 @@ export default function ConversationDetail({ conversation, onClose }) {
   }
 
   return (
-    <div className="h-full flex flex-col bg-beige">
+    <div className="h-full flex flex-col bg-beige min-w-0">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
         <div className="flex items-center space-x-3">
@@ -130,7 +130,7 @@ export default function ConversationDetail({ conversation, onClose }) {
 
       {/* Conversation Info */}
       <div className="p-4 bg-gray-50 border-b border-gray-200">
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
           <div>
             <span className="text-gray-600">Agent Instance:</span>
             <span className="ml-2 font-medium text-gray-900">{detail.agent_instance_id}</span>
@@ -190,7 +190,7 @@ export default function ConversationDetail({ conversation, onClose }) {
               </div>
 
               {/* Message Content */}
-              <div className={`flex-1 max-w-xl ${
+              <div className={`flex-1 max-w-full sm:max-w-xl break-words ${
                 message.role === 'user' ? 'text-right' : 'text-left'
               }`}>
                 <div className={`inline-block px-4 py-2 rounded-lg ${
@@ -198,7 +198,7 @@ export default function ConversationDetail({ conversation, onClose }) {
                     ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800'
                     : 'bg-gray-100 text-gray-900'
                 }`}>
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                 </div>
                 {message.timestamp && (
                   <p className={`text-xs text-gray-500 mt-1 ${

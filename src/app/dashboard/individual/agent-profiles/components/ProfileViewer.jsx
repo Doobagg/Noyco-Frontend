@@ -81,13 +81,13 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
 
   return (
     <div className="min-h-screen bg-beige">
-      <div className="max-w-7xl mx-auto p-6">
+  <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {/* Header */}
         <div className="mb-6">
           {/* Profile Header Card */}
-          <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-6 hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-4">
+          <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+              <div className="flex items-center gap-4 min-w-0">
                 <div className="relative">
                   <div className="w-16 h-16 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] flex items-center justify-center text-gray-800 shadow-lg">
                     <User className="w-7 h-7" />
@@ -96,12 +96,12 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
                     {getStatusBadge(profile.is_active)}
                   </div>
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                <div className="min-w-0">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 truncate">
                     {profile.profile_name || profile.name}
                   </h1>
-                  <p className="text-gray-600 text-base font-medium mb-2">{profile.name}</p>
-                  <div className="flex items-center gap-3 text-sm text-gray-500">
+                  <p className="text-gray-600 text-sm sm:text-base font-medium mb-2 truncate">{profile.name}</p>
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
                     <span className="flex items-center gap-1">
                       <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
                       ID: {profile.user_profile_id || profile.id}
@@ -114,17 +114,17 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
                 </div>
               </div>
               
-              <div className="flex gap-2">
+              <div className="flex gap-2 sm:self-start">
                 <button
                   onClick={() => onEdit(profile)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 hover:shadow-md transition-colors text-sm font-medium shadow-sm"
+                  className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 hover:shadow-md transition-colors text-sm font-medium shadow-sm"
                 >
                   <Edit className="w-4 h-4" />
                   Edit Profile
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 transition-colors text-sm font-medium shadow-sm hover:shadow-md"
+                  className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 transition-colors text-sm font-medium shadow-sm hover:shadow-md"
                 >
                   <Trash2 className="w-4 h-4" />
                   Delete
@@ -135,9 +135,9 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Basic Information */}
-          <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-6 hover:shadow-md transition-shadow duration-200">
+          <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-3 mb-4">
               <User className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-semibold text-gray-900">Basic Information</h3>
@@ -187,7 +187,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
           </div>
 
           {/* Personality & Traits */}
-          <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-6 hover:shadow-md transition-shadow duration-200">
+          <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-3 mb-4">
               <Sparkles className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-semibold text-gray-900">Personality & Traits</h3>
@@ -234,7 +234,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
           </div>
 
           {/* Preferences */}
-          <div className="bg-beige shadow-sm border border-accent p-6 hover:shadow-md transition-shadow duration-200">
+          <div className="bg-beige shadow-sm border border-accent p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-3 mb-4">
               <Settings className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-semibold text-gray-900">Preferences</h3>
@@ -264,7 +264,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
 
         {/* Health Information */}
         {Object.keys(formatHealthInfo(profile.health_info)).length > 0 && (
-          <div className="mt-6 bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-6 hover:shadow-md transition-shadow duration-200">
+          <div className="mt-6 bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-red-100 rounded-lg">
                 <span className="text-red-600 text-lg">🏥</span>
@@ -272,7 +272,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
               <h3 className="text-lg font-semibold text-gray-900">Health Information</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {Object.entries(formatHealthInfo(profile.health_info)).map(([key, value]) => (
                 <div key={key} className="p-4 bg-beige border-accent border-accent-top border-accent-left border-accent-right">
                   <h4 className="font-semibold text-gray-800 text-sm mb-2 capitalize">
@@ -384,7 +384,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
 
         {/* Past Stories */}
         {profile.past_stories && profile.past_stories.length > 0 && (
-          <div className="mt-6 bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-6 hover:shadow-md transition-shadow duration-200">
+          <div className="mt-6 bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-3 mb-4">
               <FileText className="w-5 h-5 text-orange-600" />
               <h3 className="text-lg font-semibold text-gray-900">Past Stories</h3>
@@ -417,13 +417,13 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
         )}
 
         {/* Timestamps */}
-        <div className="mt-6 bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-6">
+        <div className="mt-6 bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
               <Clock className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-semibold text-gray-900">Timeline</h3>
             </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                          <div className="p-4 bg-beige">
                <span className="text-gray-600 font-medium text-sm">Created At</span>
                <p className="text-gray-900 font-semibold mt-1">{formatDateTime(profile.created_at)}</p>

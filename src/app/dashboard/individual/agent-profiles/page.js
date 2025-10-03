@@ -110,11 +110,14 @@ export default function AgentProfilesPage() {
   };
 
   // Transform backend data format to match frontend expectations
-  const transformedProfiles = profiles.map(profile => {
+  const transformedProfiles = profiles.map(raw => {
+    // Some endpoints return `{ profile: {...} }`; normalize here
+    const profile = raw?.profile ? raw.profile : raw;
     try {
       return {
         id: profile.user_profile_id || profile.id,
         user_profile_id: profile.user_profile_id || profile.id,
+        role_entity_id: profile.role_entity_id,
         profile_name: profile.profile_name || 'Unnamed Profile',
         name: profile.name || profile.profile_name || 'Unnamed Agent',
         description: generateProfileDescription(profile),
@@ -219,7 +222,7 @@ export default function AgentProfilesPage() {
         {currentView === "grid" && (
           <>
             <div className="mb-6">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 flex items-center justify-center text-gray-800">
                   <Bot className="w-7 h-7 text-gray-700" />

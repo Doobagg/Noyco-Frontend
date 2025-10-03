@@ -1,9 +1,9 @@
 import { apiRequest } from '@/lib/api';
 import { getStripe } from '../utils/stripeLoader';
 
-export const createCheckout = async (planType, billingCycle = 'monthly') => {
+export const createCheckout = async (planType) => {
   const stripe = await getStripe();
-  const body = { plan_type: planType, billing_cycle: billingCycle };
+  const body = { plan_type: planType };
   const { checkout_url } = await apiRequest('/stripe/checkout', {
     method: 'POST',
     body: JSON.stringify(body),

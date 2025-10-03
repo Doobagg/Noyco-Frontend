@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMarketingFunnel } from '../../context/MarketingFunnelContext';
 
 const options = [
@@ -10,6 +10,22 @@ const options = [
 const TriggerSnapshotStep = () => {
   const { data, actions } = useMarketingFunnel();
   const [selected, setSelected] = useState(Array.isArray(data.triggers) ? data.triggers : []);
+
+  // Typewriter effect for the fact
+  const factText = "Identifying your triggers reduces anxiety episodes by 68% according to clinical research.";
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < factText.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(prev => prev + factText[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, 50); // Adjust speed here (lower = faster)
+      
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, factText]);
 
   const toggle = (opt) => {
     setSelected((prev) => prev.includes(opt) ? prev.filter(o => o !== opt) : [...prev, opt]);
@@ -24,7 +40,18 @@ const TriggerSnapshotStep = () => {
     <div className="text-center space-y-8">
       <div className="space-y-4">
         <h2 className="text-xl font-medium text-gray-900">What tends to trigger it?</h2>
-        <p className="text-gray-500 leading-relaxed">Personalization without therapy session</p>
+        
+        {/* Animated fact box */}
+        <div className="mx-auto max-w-md">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 shadow-sm">
+            <p className="text-sm text-yellow-800 leading-relaxed">
+              {displayedText}
+              {currentIndex < factText.length && (
+                <span className="animate-pulse">|</span>
+              )}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Image placeholder */}

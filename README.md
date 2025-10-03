@@ -67,6 +67,8 @@ NEXT_PUBLIC_WS_URL=ws://localhost:8000
 NEXT_PUBLIC_LIVEKIT_URL=wss://your-livekit-server.com
 ```
 
+Note: The backend must also be configured with Stripe price IDs for the new individual plans (intro and recurring phases). See the backend README section "Stripe configuration (Leapply-style plans)" for details.
+
 ### 4. Start Development Server
 
 ```bash

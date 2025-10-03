@@ -42,7 +42,7 @@ const CopingAnchorsStep = () => {
             <button
               key={opt}
               onClick={() => toggle(opt)}
-              className={`border border-gray-300 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${
+              className={`border border-gray-300 px-3 py-2 text-sm font-medium transition-all duration-200  ${
                 selected.includes(opt) 
                   ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-transparent shadow-sm' 
                   : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-sm'

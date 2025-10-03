@@ -195,9 +195,9 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
   const isFirstStep = currentStep === 1;
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-4 sm:px-0">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <button
           onClick={onBack}
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
@@ -206,7 +206,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
           <span>Back to Profiles</span>
         </button>
         
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
           {isEdit ? "Edit Agent Profile" : "Create New Agent Profile"}
         </h1>
         <p className="text-gray-600">
@@ -257,7 +257,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
       </div> */}
 
       {/* Form Content */}
-      <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-8 mb-8">
+      <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-8 mb-6 sm:mb-8">
         {CurrentStepComponent && (
           <CurrentStepComponent
             data={profileData}
@@ -270,7 +270,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
 
       {/* Navigation */}
       {!isLastStep && (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
           <button
             onClick={handlePrevious}
             disabled={isFirstStep}

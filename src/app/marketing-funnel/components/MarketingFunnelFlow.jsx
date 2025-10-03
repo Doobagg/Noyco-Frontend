@@ -10,7 +10,6 @@ import AgeRangeStep from './steps/AgeRangeStep';
 import LonelinessFactStep from './steps/LonelinessFactStep';
 import AnxietyFactStep from './steps/AnxietyFactStep';
 import ConsistencyFactStep from './steps/ConsistencyFactStep';
-import PersonalizationStep from './steps/PersonalizationStep';
 import MeetAgentsStep from './steps/MeetAgentsStep';
 import CurrentIntensityStep from './steps/CurrentIntensityStep';
 import PrimaryTopicStep from './steps/PrimaryTopicStep';
@@ -23,6 +22,10 @@ import TimeBudgetStep from './steps/TimeBudgetStep';
 import BoundariesSafetyStep from './steps/BoundariesSafetyStep';
 import AccountabilityStyleStep from './steps/AccountabilityStyleStep';
 import Goal30Step from './steps/Goal30Step';
+import ProgressReductionStep from './steps/ProgressReductionStep';
+import PersonalizedPlanCreationStep from './steps/PersonalizedPlanCreationStep';
+import EmailCollectionStep from './steps/EmailCollectionStep';
+import WellbeingProgressStep from './steps/WellbeingProgressStep';
 import InstantPlanPreviewStep from './steps/InstantPlanPreviewStep';
 
 // Order reflects the desired flow. Personalization and MeetAgents remain just before the plan preview.
@@ -43,13 +46,25 @@ const stepComponents = {
   14: BoundariesSafetyStep,
   15: AccountabilityStyleStep,
   16: Goal30Step,
-  17: PersonalizationStep,
-  18: MeetAgentsStep,
-  19: InstantPlanPreviewStep,
+  17: MeetAgentsStep,
+  18: ProgressReductionStep, // New progress reduction chart step
+  19: PersonalizedPlanCreationStep, // New plan creation step with reviews
+  20: EmailCollectionStep, // Email collection before plan preview
+  21: WellbeingProgressStep, // 4-week progress visualization
+  22: InstantPlanPreviewStep,
 };
 
 const MarketingFunnelFlow = () => {
   const { currentStep, totalSteps, direction, actions } = useMarketingFunnel();
+
+  // Debug: Check which components are invalid
+  console.log('Current step:', currentStep);
+  console.log('Step component:', stepComponents[currentStep]);
+  console.log('All step components:', Object.keys(stepComponents).map(key => ({ 
+    step: key, 
+    component: stepComponents[key], 
+    isFunction: typeof stepComponents[key] === 'function' 
+  })));
 
   const CurrentStepComponent = stepComponents[currentStep];
 
@@ -110,13 +125,6 @@ const MarketingFunnelFlow = () => {
                   ))}
                 </div>
               </div>
-              
-              {/* Step indicator */}
-              <div className="text-center">
-                <span className="text-gray-500 text-xs font-medium">
-                  Step {currentStep > 1 ? currentStep - 1 : 1} of {totalSteps - 1}
-                </span>
-              </div>
             </div>
           )}
 
@@ -132,12 +140,17 @@ const MarketingFunnelFlow = () => {
                 transition={{ duration: 0.2 }}
                 className="w-full"
               >
-                {CurrentStepComponent ? (
+                {CurrentStepComponent && typeof CurrentStepComponent === 'function' ? (
                   <CurrentStepComponent />
                 ) : (
                   <div className="text-center p-8">
                     <h2 className="text-xl text-gray-900 mb-4">Step not found</h2>
-                    <p className="text-gray-500 mb-4">Unable to load step {currentStep}</p>
+                    <p className="text-gray-500 mb-4">
+                      Unable to load step {currentStep}. Component type: {typeof CurrentStepComponent}
+                    </p>
+                    <p className="text-gray-500 mb-4 text-xs">
+                      Component value: {JSON.stringify(CurrentStepComponent)}
+                    </p>
                     <button 
                       onClick={() => actions.goToStep(1)}
                       className="bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 px-6 py-2 rounded text-sm"

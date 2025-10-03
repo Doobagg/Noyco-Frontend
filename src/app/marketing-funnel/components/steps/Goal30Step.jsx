@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMarketingFunnel } from '../../context/MarketingFunnelContext';
 
 const options = [
@@ -14,6 +14,22 @@ const options = [
 const Goal30Step = () => {
   const { data, actions } = useMarketingFunnel();
   const [selected, setSelected] = useState(data.goal30 || '');
+  
+  // Typewriter effect for the fact
+  const factText = "Studies show that focusing on one specific goal increases success rates by 73%.";
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < factText.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(prev => prev + factText[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, 50); // Adjust speed here (lower = faster)
+      
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, factText]);
 
   const onContinue = () => {
     if (!selected) return;
@@ -25,7 +41,18 @@ const Goal30Step = () => {
     <div className="text-center space-y-8">
       <div className="space-y-4">
         <h2 className="text-xl font-medium text-gray-900">If we nailed one outcome in 30 days, what would it be?</h2>
-        <p className="text-gray-500 leading-relaxed">Singular focus converts better</p>
+        
+        {/* Animated fact box */}
+        <div className="mx-auto max-w-md">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 shadow-sm">
+            <p className="text-sm text-yellow-800 leading-relaxed">
+              {displayedText}
+              {currentIndex < factText.length && (
+                <span className="animate-pulse">|</span>
+              )}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Image placeholder */}
