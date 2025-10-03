@@ -27,6 +27,10 @@ const nextConfig = {
     
     return [
       {
+        source: '/public/:path*',
+        destination: `${API_URL}/public/:path*`,
+      },
+      {
         source: '/auth/:path*',
         destination: `${API_URL}/auth/:path*`,
       },
@@ -57,6 +61,10 @@ const nextConfig = {
       {
         source: '/stripe/:path*',
         destination: `${API_URL}/stripe/:path*`,
+      },
+      {
+        source: '/public/:path*',
+        destination: `${API_URL}/public/:path*`,
       },
       {
         source: '/tracking/:path*',

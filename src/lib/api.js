@@ -8,14 +8,12 @@ const REFRESH_COOLDOWN = 5000; // 5 seconds cooldown between refresh attempts
 const MAX_AUTH_RETRIES = 1; // Maximum number of retry attempts for auth endpoints
 const MAX_REFRESH_RETRIES = 2; // Maximum number of refresh attempts
 
-// Only bypass proxy for the initial login endpoint. Refresh should go through
-// the same-origin proxy so that cookies are always sent.
+// Only bypass proxy for the initial login endpoints. All other auth calls
+// should go through the same-origin proxy so cookies are always sent even with
+// SameSite=Lax in dev.
 const BYPASS_PROXY_ENDPOINTS = [
   "/auth/login",
   "/auth/google/login",
-  "/auth/me",
-  "/auth/refresh",
-  "/auth/logout",
   "/docs/",
 ];
 

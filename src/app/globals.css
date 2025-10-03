@@ -239,6 +239,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide scrollbar utility while preserving scroll */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
   width: 8px;

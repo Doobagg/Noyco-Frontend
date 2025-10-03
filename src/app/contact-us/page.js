@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import Link from 'next/link';
+import { Mail, MapPin, Clock, LifeBuoy, Check, X, Loader2 } from 'lucide-react';
 
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
@@ -55,15 +56,15 @@ const ContactUsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+    <div className="min-h-screen bg-beige" style={{ fontFamily: '"Mier A", sans-serif' }}>
       
 
       {/* Hero Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="pt-16 pb-12 relative overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full blur-3xl"></div>
+        <div className="absolute inset-0 opacity-15">
+          <div className="absolute top-8 left-8 w-40 h-40 bg-gradient-to-r from-[#E6D3E7] to-[#F6D9D5] blur-3xl mix-blend-multiply"></div>
+          <div className="absolute -bottom-8 right-8 w-48 h-48 bg-gradient-to-r from-[#F6D9D5] to-[#D6E3EC] blur-3xl mix-blend-multiply"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -71,12 +72,13 @@ const ContactUsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <h1 className="text-display font-mier text-gray-900 mb-6">
+            
+            <h1 className="text-3xl md:text-5xl  text-gray-900 mb-6">
               Get in Touch
             </h1>
-            <p className="text-title-large font-mier text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Have questions about Noyco? Want to learn more about our AI companions? 
               We'd love to hear from you and help you get started on your journey.
             </p>
@@ -96,14 +98,12 @@ const ContactUsPage = () => {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="flex items-center space-x-4"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-gray-800" />
                   </div>
                   <div>
-                    <h3 className="text-title font-mier text-gray-900">Email Us</h3>
-                    <p className="text-body font-mier text-gray-600">hello@noyco.com</p>
+                    <h3 className="text-lg  text-gray-900">Email Us</h3>
+                    <p className="text-sm text-gray-600">hello@noyco.com</p>
                   </div>
                 </motion.div>
 
@@ -113,15 +113,12 @@ const ContactUsPage = () => {
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="flex items-center space-x-4"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-gray-800" />
                   </div>
                   <div>
-                    <h3 className="text-title font-mier text-gray-900">Visit Us</h3>
-                    <p className="text-body font-mier text-gray-600">Chandigarh, India</p>
+                    <h3 className="text-lg  text-gray-900">Visit Us</h3>
+                    <p className="text-sm text-gray-600">Chandigarh, India</p>
                   </div>
                 </motion.div>
 
@@ -131,14 +128,12 @@ const ContactUsPage = () => {
                   transition={{ duration: 0.5, delay: 0.5 }}
                   className="flex items-center space-x-4"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-gray-800" />
                   </div>
                   <div>
-                    <h3 className="text-title font-mier text-gray-900">Response Time</h3>
-                    <p className="text-body font-mier text-gray-600">Within 24 hours</p>
+                    <h3 className="text-lg  text-gray-900">Response Time</h3>
+                    <p className="text-sm text-gray-600">Within 24 hours</p>
                   </div>
                 </motion.div>
 
@@ -148,14 +143,12 @@ const ContactUsPage = () => {
                   transition={{ duration: 0.5, delay: 0.6 }}
                   className="flex items-center space-x-4"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    <LifeBuoy className="w-6 h-6 text-gray-800" />
                   </div>
                   <div>
-                    <h3 className="text-title font-mier text-gray-900">Support</h3>
-                    <p className="text-body font-mier text-gray-600">24/7 customer support</p>
+                    <h3 className="text-lg  text-gray-900">Support</h3>
+                    <p className="text-sm text-gray-600">24/7 customer support</p>
                   </div>
                 </motion.div>
               </div>
@@ -165,23 +158,23 @@ const ContactUsPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
-                className="mt-12 bg-white rounded-2xl shadow-lg border border-gray-200/50 p-6"
+                className="mt-12 bg-beige border-accent border-accent-top border-accent-left border-accent-right p-6"
               >
-                <h3 className="text-headline font-mier text-gray-900 mb-4">
+                <h3 className="text-xl   text-gray-900 mb-4">
                   Quick Questions?
                 </h3>
                 <div className="space-y-3">
                   <div>
-                    <h4 className="text-body-large font-mier text-gray-800 font-semibold">How do I get started?</h4>
-                    <p className="text-body font-mier text-gray-600">Simply sign up for a free account and begin your journey with our AI companions.</p>
+                    <h4 className="text-base  text-gray-800">How do I get started?</h4>
+                    <p className="text-sm text-gray-600">Simply sign up for a free account and begin your journey with our AI companions.</p>
                   </div>
                   <div>
-                    <h4 className="text-body-large font-mier text-gray-800 font-semibold">Is my data secure?</h4>
-                    <p className="text-body font-mier text-gray-600">Yes, we use industry-standard encryption to protect your personal information.</p>
+                    <h4 className="text-base  text-gray-800">Is my data secure?</h4>
+                    <p className="text-sm text-gray-600">Yes, we use industry-standard encryption to protect your personal information.</p>
                   </div>
                   <div>
-                    <h4 className="text-body-large font-mier text-gray-800 font-semibold">Can I cancel anytime?</h4>
-                    <p className="text-body font-mier text-gray-600">Absolutely! You can cancel your subscription at any time with no hidden fees.</p>
+                    <h4 className="text-base  text-gray-800">Can I cancel anytime?</h4>
+                    <p className="text-sm text-gray-600">Absolutely! You can cancel your subscription at any time with no hidden fees.</p>
                   </div>
                 </div>
               </motion.div>
@@ -192,9 +185,9 @@ const ContactUsPage = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white rounded-2xl shadow-xl border border-gray-200/50 p-8 lg:p-10"
+              className="bg-beige border-accent border-accent-top border-accent-left border-accent-right p-8 lg:p-10"
             >
-              <h2 className="text-headline font-mier text-gray-900 mb-6">
+              <h2 className="text-2xl  text-gray-900 mb-6">
                 Send us a message
               </h2>
 
@@ -203,13 +196,11 @@ const ContactUsPage = () => {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg"
+                  className="mb-6 p-4 bg-green-50 border border-green-200"
                 >
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <p className="text-body font-mier text-green-800">
+                    <Check className="w-5 h-5 text-green-600 mr-2" />
+                    <p className="text-sm text-green-800">
                       Thank you! Your message has been sent successfully.
                     </p>
                   </div>
@@ -220,13 +211,11 @@ const ContactUsPage = () => {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg"
+                  className="mb-6 p-4 bg-red-50 border border-red-200"
                 >
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-red-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    <p className="text-body font-mier text-red-800">
+                    <X className="w-5 h-5 text-red-600 mr-2" />
+                    <p className="text-sm text-red-800">
                       Sorry, there was an error sending your message. Please try again.
                     </p>
                   </div>
@@ -236,7 +225,7 @@ const ContactUsPage = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-body-large font-mier text-gray-900 mb-2">
+                    <label htmlFor="name" className="block text-sm  text-gray-900 mb-2">
                       Name *
                     </label>
                     <input
@@ -251,7 +240,7 @@ const ContactUsPage = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-body-large font-mier text-gray-900 mb-2">
+                    <label htmlFor="email" className="block text-body-large  text-gray-900 mb-2">
                       Email *
                     </label>
                     <input
@@ -268,7 +257,7 @@ const ContactUsPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-body-large font-mier text-gray-900 mb-2">
+                  <label htmlFor="subject" className="block text-sm  text-gray-900 mb-2">
                     Subject *
                   </label>
                   <input
@@ -278,13 +267,13 @@ const ContactUsPage = () => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full text-body font-mier px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full text-sm px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-[#1F4D8F] focus:border-transparent transition-all"
                     placeholder="What's this about?"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-body-large font-mier text-gray-900 mb-2">
+                  <label htmlFor="message" className="block text-sm  text-gray-900 mb-2">
                     Message *
                   </label>
                   <textarea
@@ -294,7 +283,7 @@ const ContactUsPage = () => {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full text-body font-mier px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                    className="w-full text-sm px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-[#1F4D8F] focus:border-transparent transition-all resize-none"
                     placeholder="Tell us more about your question or how we can help..."
                   />
                 </div>
@@ -302,13 +291,11 @@ const ContactUsPage = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full text-button-large font-mier bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-8 py-4 rounded-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full text-sm font-semibold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-8 py-4 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center space-x-2">
-                      <svg className="animate-spin w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
+                      <Loader2 className="animate-spin w-5 h-5" />
                       <span>Sending...</span>
                     </div>
                   ) : (
@@ -325,3 +312,17 @@ const ContactUsPage = () => {
 };
 
 export default ContactUsPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

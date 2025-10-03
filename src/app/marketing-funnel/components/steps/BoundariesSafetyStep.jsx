@@ -5,8 +5,8 @@ import { useMarketingFunnel } from '../../context/MarketingFunnelContext';
 
 const options = [
   'No late-night pings',
-  'No calls, messages only',
-  'No voice in public',
+  'No sharing personal info',
+  'No messages in public',
   'No heavy topics without asking'
 ];
 

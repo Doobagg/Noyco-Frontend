@@ -57,11 +57,11 @@ const ProfileGrid = ({ profiles, onViewProfile, onEditProfile, onDeleteProfile }
 
   return (
     <div className="mt-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
         {profiles.map((profile) => (
           <div
             key={profile.id}
-            className="group bg-beige p-5 shadow-sm hover:shadow-lg border-accent border-accent-top border-accent-left border-accent-right hover:border-gray-300 transition-all duration-200 hover:scale-[1.02] cursor-pointer relative"
+            className="group bg-beige p-5 shadow-sm hover:shadow-lg border-accent border-accent-top border-accent-left border-accent-right hover:border-gray-300 transition-all duration-200 hover:scale-[1.02] cursor-pointer relative min-w-0"
             onClick={(e) => handleCardClick(profile, e)}
           >
             {/* Header */}
@@ -90,7 +90,7 @@ const ProfileGrid = ({ profiles, onViewProfile, onEditProfile, onDeleteProfile }
                 </button>
                 
                 {openMenuId === profile.id && (
-                  <div className="menu-dropdown absolute right-0 top-10 bg-beige shadow-lg border-accent border-accent-top border-accent-left border-accent-right py-1 z-10 min-w-[130px]">
+                  <div className="menu-dropdown absolute right-0 top-10 bg-beige shadow-lg border-accent border-accent-top border-accent-left border-accent-right py-1 z-10 min-w-[150px]">
                     <button
                       onClick={(e) => handleMenuAction('edit', profile, e)}
                       className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"

@@ -13,7 +13,8 @@ export default function Plan() {
   const [plans, setPlans] = useState([]);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [showPlans, setShowPlans] = useState(false);
-  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [pendingFinalize, setPendingFinalize] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState('Finalizing your subscription...');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -36,12 +37,62 @@ export default function Plan() {
             },
           });
           setShowPlans(false);
+          setPendingFinalize(false);
+        } else if (!current || current.status === 'pending') {
+          // Pending state either because plan doc isn't there yet (404) or is pending
+          setPendingFinalize(true);
+          setShowPlans(true);
+          // Start short polling loop for up to ~20s
+          const start = Date.now();
+          const poll = async () => {
+            try {
+              const res = await apiRequest('/billing/plan/current', { suppressError: true });
+              if (res && res.status === 'active') {
+                setCurrentPlan({
+                  plan_type: res.plan_type,
+                  details: { name: res.plan_type?.toUpperCase(), description: `${res.plan_type} subscription`, ...res },
+                });
+                setPendingFinalize(false);
+                setShowPlans(false);
+                return;
+              }
+            } catch {}
+            if (Date.now() - start < 20000) {
+              setTimeout(poll, 1500);
+            } else {
+              setPendingMessage('Still processing, please refresh later.');
+            }
+          };
+          setTimeout(poll, 1500);
         } else {
           setShowPlans(true);
         }
       } catch (_) {
         // treat as no plan
         setShowPlans(true);
+        setPendingFinalize(true);
+        // Start polling on first view if coming from success
+        const start = Date.now();
+        const poll = async () => {
+          try {
+            const res = await apiRequest('/billing/plan/current', { suppressError: true });
+            if (res && res.status === 'active') {
+              setCurrentPlan({
+                plan_type: res.plan_type,
+                details: { name: res.plan_type?.toUpperCase(), description: `${res.plan_type} subscription`, ...res },
+              });
+              setPendingFinalize(false);
+              setShowPlans(false);
+              return;
+            }
+          } catch {}
+          if (Date.now() - start < 20000) {
+            setTimeout(poll, 1500);
+          } else {
+            setPendingMessage('Still processing, please refresh later.');
+          }
+        };
+        setTimeout(poll, 1500);
       }
 
       // 2️⃣ Fetch available plans always
@@ -88,8 +139,6 @@ export default function Plan() {
   };
 
   const isActive = (type) => currentPlan?.plan_type === type;
-  const calcSave = (m, y) =>
-    Math.round(((m * 12 - y) / (m * 12)) * 100);
 
   // ------------------------------------------------------------------
   // Render subscription summary if already subscribed and not choosing new
@@ -177,8 +226,15 @@ export default function Plan() {
             Choose Your Plan
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Select the perfect plan for your needs. All plans include our core features with flexible scaling options.
+            Select the perfect plan for your needs. All plans include our core features with a phased subscription: intro month then recurring billing.
           </p>
+
+          {pendingFinalize && (
+            <div className="mt-4 inline-flex items-center px-4 py-2 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-full text-sm font-medium">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2 animate-pulse"></div>
+              {pendingMessage}
+            </div>
+          )}
           
           {currentPlan && (
             <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 font-semibold shadow-sm mt-4">
@@ -194,36 +250,26 @@ export default function Plan() {
           )}
         </div>
               
-        {/* Billing Toggle */}
-        <div className="flex justify-center mb-10 ">
-          <div className="bg-beige backdrop-blur-xl p-2 inline-flex  border-accent-right border-accent-left border-accent-top border-accent">
-            {['monthly', 'yearly'].map(cycle => (
-              <button
-                key={cycle}
-                onClick={() => setBillingCycle(cycle)}
-                className={`px-6 py-2  font-medium transition-all duration-300 ease-out ${
-                  billingCycle === cycle
-                    ? 'bg-gray-900 text-white shadow-lg transform scale-[1.02]'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                {cycle.charAt(0).toUpperCase() + cycle.slice(1)}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Plan Grid */}
-        <div className=" bg-beige grid gap-6 lg:grid-cols-2 max-w-5xl mx-auto">
+        <div className=" bg-beige grid gap-6 lg:grid-cols-3 max-w-6xl mx-auto">
           {plans.map(plan => {
-            // Price fields come from backend
-            const price =
-              billingCycle === 'monthly'
-                ? plan.price_monthly
-                : plan.price_yearly;
-            const save = calcSave(plan.price_monthly, plan.price_yearly);
+            // Leapply-style fields
+            const introPrice = plan.intro_price;
+            const recurringPrice = plan.recurring_price;
+            const intervalLabel = plan.recurring_interval_label;
+            const perDayText = plan.per_day_text;
+            const legal = plan.legal_disclaimer;
             const isCurrentPlan = isActive(plan.plan_type);
-            const isRecommended = plan.plan_type === 'pro';
+            const isRecommended = !!plan.is_most_popular;
+
+            // Compute intro period label based on plan type (server provides details
+            // for pricing; we only derive a human label here to avoid hardcoding).
+            const introLabelByType = {
+              one_month: 'first month',
+              three_months: 'first 3 months',
+              six_months: 'first 6 months',
+            };
+            const introPeriodLabel = introLabelByType[plan.plan_type] || 'first month';
 
             return (
               <div
@@ -266,19 +312,20 @@ export default function Plan() {
 
                 {/* Pricing */}
                 <div className="mb-6">
-                  <div className="flex items-baseline mb-2">
-                    <span className="text-4xl font-light text-gray-900 tracking-tight">
-                      ${price}
-                    </span>
-                    <span className="text-gray-500 ml-2">
-                      {billingCycle === 'monthly' ? '/month' : '/year'}
-                    </span>
-                  </div>
-                  {billingCycle === 'yearly' && save > 0 && (
-                    <div className="inline-flex items-center px-2 py-1 bg-green-50 border border-green-200 text-green-800 rounded-full text-xs font-medium">
-                      Save {save}% annually
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-baseline">
+                      <span className="text-4xl font-light text-gray-900 tracking-tight">
+                        ${introPrice}
+                      </span>
+                      <span className="text-gray-500 ml-2">{introPeriodLabel}</span>
                     </div>
-                  )}
+                    <div className="text-gray-600">
+                      then <span className="font-medium text-gray-900">${recurringPrice}</span> {intervalLabel}
+                    </div>
+                    {perDayText && (
+                      <div className="text-sm text-gray-500">{perDayText}</div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Features */}
@@ -307,7 +354,7 @@ export default function Plan() {
                   </div>
                 </div>
 
-                {/* CTA Button */}
+                {/* CTA + Legal */}
                 {isCurrentPlan ? (
                   <button
                     disabled
@@ -316,10 +363,13 @@ export default function Plan() {
                     Current Plan
                   </button>
                 ) : (
-                  <div className="w-full ">
-                    <CheckoutButton planType={plan.plan_type} billingCycle={billingCycle}>
+                  <div className="w-full space-y-3">
+                    <CheckoutButton planType={plan.plan_type}>
                       <span className="font-medium">Get Started</span>
                     </CheckoutButton>
+                    {legal && (
+                      <p className="text-xs text-gray-500 leading-relaxed">{legal}</p>
+                    )}
                   </div>
                 )}
               </div>

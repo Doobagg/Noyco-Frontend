@@ -100,7 +100,7 @@ export default function ConversationList({ selectedAgentType, onConversationSele
     <div className="space-y-6">
       {/* Analytics Stats */}
       {analytics && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           <div className="bg-beige p-4 border-accent border-accent-top border-accent-left border-accent-right">
             <div className="flex items-center justify-between">
               <div>
@@ -144,8 +144,8 @@ export default function ConversationList({ selectedAgentType, onConversationSele
       )}
 
       {/* Conversation Groups */}
-      <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right flex flex-col max-h-[70vh]">
-        <div className="p-6 border-b border-gray-200 flex-shrink-0">
+      <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right flex flex-col sm:max-h-[70vh]">
+        <div className="p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-gray-900">
@@ -174,7 +174,7 @@ export default function ConversationList({ selectedAgentType, onConversationSele
                     toggleGroup(group.agent_instance_id);
                   }
                 }}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-inset"
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-inset"
               >
                 <div className="flex items-center space-x-3">
                   {expandedGroups.has(group.agent_instance_id) ? (
@@ -211,7 +211,7 @@ export default function ConversationList({ selectedAgentType, onConversationSele
               {expandedGroups.has(group.agent_instance_id) && (
                 <div className="bg-gray-50 border-t border-gray-100">
                   {group.conversations.length > 8 && (
-                    <div className="px-8 py-2 bg-gray-100 border-b border-gray-200">
+                    <div className="px-4 sm:px-8 py-2 bg-gray-100 border-b border-gray-200">
                       <p className="text-xs text-gray-600">
                         {group.conversations.length} conversations in this group • Scroll to view all
                       </p>
@@ -228,7 +228,7 @@ export default function ConversationList({ selectedAgentType, onConversationSele
                           handleConversationSelect(conversation);
                         }
                       }}
-                      className={`w-full px-8 py-3 text-left hover:bg-beige transition-colors border-l-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-inset ${
+                      className={`w-full px-4 sm:px-8 py-3 text-left hover:bg-beige transition-colors border-l-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-inset ${
                         selectedConversation === conversation.conversation_id
                           ? 'border-gray-500 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC]'
                           : 'border-transparent'

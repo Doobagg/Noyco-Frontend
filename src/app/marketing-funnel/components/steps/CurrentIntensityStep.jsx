@@ -20,7 +20,7 @@ const CurrentIntensityStep = () => {
   return (
     <div className="text-center space-y-8">
       <div className="space-y-4">
-        <h2 className="text-xl font-medium text-gray-900">Right now, how intense is it?</h2>
+        <h2 className="text-xl font-medium text-gray-900"> How intense are you feeling?</h2>
         <p className="text-gray-500 leading-relaxed">Move the slider to show how you're feeling</p>
       </div>
 

@@ -112,7 +112,7 @@ export default function AgentMetrics() {
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-gray-100">
             {/* Step indicators */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4 overflow-x-auto no-scrollbar py-1">
               <div className="flex items-center space-x-2">
                 <div className={`w-8 h-8  flex items-center justify-center text-sm font-medium ${
                   selectedAgent ? 'bg-green-500 text-white' : 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC]  '
@@ -134,12 +134,12 @@ export default function AgentMetrics() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
               {/* Agent Type Selector */}
-              <div className="flex flex-col">
+              <div className="flex flex-col min-w-[200px]">
                 <label className="text-xs font-medium text-gray-600 mb-1 ">Agent Type</label>
                 <select 
-                  className="px-4 py-2 border border-gray-300  text-sm focus:ring-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC]   bg-beige border-accent border-accent-top border-accent-left border-accent-right"
+                  className="px-3 py-2 border border-gray-300 text-sm focus:ring-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] bg-beige border-accent border-accent-top border-accent-left border-accent-right"
                   value={selectedAgent}
                   onChange={handleAgentChange}
                 >
@@ -153,14 +153,14 @@ export default function AgentMetrics() {
               </div>
 
               {/* Timeframe Selector */}
-              <div className="flex flex-col">
+              <div className="flex flex-col min-w-[220px]">
                 <label className="text-xs font-medium text-gray-600 mb-1">Time Range</label>
-                <div className="flex bg-beige border-accent border-accent-top border-accent-left border-accent-right p-1">
+                <div className="flex bg-beige border-accent border-accent-top border-accent-left border-accent-right p-1 overflow-x-auto no-scrollbar rounded">
                   {timeframes.map((timeframe) => (
                     <button
                       key={timeframe.value}
                       onClick={() => handleTimeframeChange(timeframe.value)}
-                      className={`px-3 py-1 text-xs font-medium transition-colors ${
+                      className={`px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors ${
                         selectedTimeframe === timeframe.value
                           ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900'
                           : 'text-gray-600 hover:text-gray-900'
@@ -231,7 +231,7 @@ export default function AgentMetrics() {
         /* Agent Metrics Display */
         <div className="space-y-6">
           {/* Agent Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <MetricCard
               title="Total Goals"
               value={agentMetrics.summary.total_goals}
@@ -297,7 +297,7 @@ export default function AgentMetrics() {
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Goals List */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 min-w-0">
               <AgentGoalsList 
                 agentMetrics={agentMetrics}
                 selectedGoal={selectedGoal}
@@ -307,7 +307,7 @@ export default function AgentMetrics() {
             </div>
 
             {/* Charts and Progress */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 min-w-0">
               <AgentGoalCharts 
                 agentMetrics={agentMetrics}
                 selectedGoal={selectedGoal}

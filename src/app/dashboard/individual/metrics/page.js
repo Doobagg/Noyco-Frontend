@@ -88,7 +88,7 @@ export default function MetricsDashboardPage() {
 
           {/* Tab Navigation */}
           <div className="mt-6">
-            <nav className="flex space-x-8">
+            <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (

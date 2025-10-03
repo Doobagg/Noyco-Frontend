@@ -184,7 +184,9 @@ const agentProfileSlice = createSlice({
       })
       .addCase(createAgentProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.profiles.unshift(action.payload); // Add to beginning of array
+        // Backend returns { user_profile_id, role_entity_id, message, profile: {...} }
+        const created = action.payload?.profile || action.payload;
+        state.profiles.unshift(created); // Add created profile object to beginning of array
         state.totalCount += 1;
         state.lastUpdated = new Date().toISOString();
         state.error = null;
@@ -222,7 +224,7 @@ const agentProfileSlice = createSlice({
         
         // Update the profile in the profiles array if it exists
         const index = state.profiles.findIndex(
-          profile => profile.user_profile_id === action.payload.user_profile_id
+          profile => (profile.user_profile_id || profile?.profile?.user_profile_id) === action.payload.user_profile_id
         );
         if (index !== -1) {
           state.profiles[index] = action.payload;
@@ -242,18 +244,20 @@ const agentProfileSlice = createSlice({
       })
       .addCase(updateAgentProfile.fulfilled, (state, action) => {
         state.isLoading = false;
-        
+        // Backend returns { message, profile: updated_profile }
+        const updated = action.payload?.profile || action.payload;
+
         // Update the profile in the profiles array
         const index = state.profiles.findIndex(
-          profile => profile.user_profile_id === action.payload.user_profile_id
+          profile => (profile.user_profile_id || profile?.profile?.user_profile_id) === updated.user_profile_id
         );
         if (index !== -1) {
-          state.profiles[index] = action.payload;
+          state.profiles[index] = updated;
         }
-        
+
         // Update current profile if it's the same one
-        if (state.currentProfile?.user_profile_id === action.payload.user_profile_id) {
-          state.currentProfile = action.payload;
+        if (state.currentProfile?.user_profile_id === updated.user_profile_id) {
+          state.currentProfile = updated;
         }
         
         state.lastUpdated = new Date().toISOString();
@@ -274,7 +278,7 @@ const agentProfileSlice = createSlice({
         
         // Remove the profile from the profiles array
         state.profiles = state.profiles.filter(
-          profile => profile.user_profile_id !== action.payload.userProfileId
+          profile => (profile.user_profile_id || profile?.profile?.user_profile_id) !== action.payload.userProfileId
         );
         
         // Clear current profile if it was the deleted one

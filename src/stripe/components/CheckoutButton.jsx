@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { createCheckout } from '../services/checkoutService';
 import { showToast } from '@/lib/toast';
 
-export default function CheckoutButton({ planType, billingCycle = 'monthly', children }) {
+export default function CheckoutButton({ planType, children }) {
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
     if (loading) return;
     try {
-      setLoading(true);
-      await createCheckout(planType, billingCycle);
+  setLoading(true);
+  await createCheckout(planType);
     } catch (err) {
       console.error('Checkout error', err);
       showToast('Unable to start checkout', 'error');

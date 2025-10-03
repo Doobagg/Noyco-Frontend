@@ -7,10 +7,11 @@ import { checkAuthStatus, refreshToken, resetAuthState } from './slices/authSlic
 
 export function ReduxProvider({ children }) {
   const initialized = useRef(false);
-  const [isReady, setIsReady] = useState(false);
+  // Render immediately; initialize auth in the background to avoid blocking public pages
+  const [/* isReady */, /* setIsReady */] = useState(true);
 
   useEffect(() => {
-    // Only check auth status once when the app initializes
+    // Only check auth status once when the app initializes (non-blocking)
     const initializeAuth = async () => {
       // Use localStorage to prevent multiple initializations across remounts
       const lastInitTime = localStorage.getItem('auth_last_init_time');
@@ -19,7 +20,6 @@ export function ReduxProvider({ children }) {
       
       if (lastInitTime && (now - parseInt(lastInitTime)) < initCooldown) {
         console.log("Auth initialization attempted too soon, using existing state");
-        setIsReady(true);
         return;
       }
       
@@ -28,7 +28,6 @@ export function ReduxProvider({ children }) {
         if (localStorage.getItem('loggedOut') === 'true') {
           // Ensure store auth state is reset so loading=false
           store.dispatch(resetAuthState());
-          setIsReady(true);
           return;
         }
 
@@ -58,19 +57,13 @@ export function ReduxProvider({ children }) {
           // Auth check failed, but we still consider initialization complete
           console.log("Auth initialization completed with error");
         } finally {
-          // Mark as ready regardless of outcome
-          setIsReady(true);
+          // No-op: we don't block rendering on auth init
         }
       }
     };
 
     initializeAuth();
   }, []);
-
-  // Only render children after initialization
-  if (!isReady) {
-    return <div className="flex justify-center items-center h-screen">Initializing...</div>;
-  }
 
   return (
     <Provider store={store}>
