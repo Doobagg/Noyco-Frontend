@@ -3,10 +3,9 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Users, Award, Mic } from 'lucide-react';
+import { Star, Users, Award, Mic, ShieldCheck, Lock, Heart } from 'lucide-react';
 import AnimatedBlob from './AnimatedBlob';
 
-// Amoeba animation copied from VoiceDemo with isActive/isPlaying controls
 const Amoeba = ({ gradient, duration, delay, sizeClass, isActive = false, isPlaying = false }) => {
   const getAnimationProps = () => {
     if (isPlaying) {
@@ -78,6 +77,13 @@ const Amoeba = ({ gradient, duration, delay, sizeClass, isActive = false, isPlay
         background: gradient,
         filter: isPlaying ? 'blur(35px)' : isActive ? 'blur(42px)' : 'blur(50px)',
         opacity: isPlaying ? 0.8 : isActive ? 0.7 : 0.55,
+        willChange: 'transform, border-radius',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
+        WebkitPerspective: 1000,
+        perspective: 1000,
       }}
       animate={{
         borderRadius: animationProps.borderRadius,
@@ -94,14 +100,78 @@ const Amoeba = ({ gradient, duration, delay, sizeClass, isActive = false, isPlay
 const App = () => {
   const router = useRouter();
 
+  const avatars = [
+    {
+      name: 'Sydney',
+      label: 'Sydney - Early Member',
+      img: "/w1.jpg", 
+      gradient: 'linear-gradient(135deg,#d8e2ef 0%,#f5d9e3 100%)'
+    },
+    {
+      name: 'Cassie',
+      label: 'Cassie - Beta Tester',
+      img: "/w2.jpg",
+      gradient: 'linear-gradient(135deg,#e7d9f3 0%,#d8e8f5 100%)'
+    },
+    {
+      name: 'Lucy',
+      label: 'Lucy - Wellness Coach',
+      img: "/w3.jpg",
+      gradient: 'linear-gradient(135deg,#f6e4d4 0%,#e2e9f4 100%)'
+    }
+  ];
+
   return (
-    <div className="relative min-h-screen bg-beige flex items-center justify-center overflow-hidden" style={{ fontFamily: '"Mier A", sans-serif' }}>
+  <div className="hero-wrapper relative min-h-screen bg-beige flex items-center justify-center overflow-hidden" style={{ fontFamily: '"Mier A", sans-serif' }}>
 
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto gap-8 lg:gap-12">
-          {/* Left Column - Text Content */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0 px-2 sm:px-0">
+        <div className="flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto gap-10 lg:gap-12">
+          {/* Amoeba column first on mobile/tablet, second on large screens */}
+          <div className="order-1 lg:order-2 w-full lg:w-1/2 flex justify-center lg:justify-end mb-4 md:mb-6 lg:mb-0">
+            <motion.div
+              className="relative w-full max-w-[300px] sm:max-w-[360px] md:max-w-[420px] lg:max-w-[520px] aspect-square mx-auto lg:mx-0"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+            >
+              <Amoeba
+                gradient="linear-gradient(135deg, #facc15 0%, #f97316 100%)"
+                duration={24}
+                delay={0}
+                sizeClass="w-[clamp(160px,60%,440px)] aspect-square"
+                isActive
+                isPlaying={false}
+              />
+              <Amoeba
+                gradient="linear-gradient(135deg, #a855f7 0%, #ef4444 100%)"
+                duration={32}
+                delay={2}
+                sizeClass="w-[clamp(180px,68%,480px)] aspect-square"
+                isActive
+                isPlaying={false}
+              />
+              <Amoeba
+                gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"
+                duration={28}
+                delay={1}
+                sizeClass="w-[clamp(150px,55%,400px)] aspect-square"
+                isActive
+                isPlaying={false}
+              />
+              <Amoeba
+                gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"
+                duration={36}
+                delay={3}
+                sizeClass="w-[clamp(170px,63%,460px)] aspect-square"
+                isActive
+                isPlaying={false}
+              />
+            </motion.div>
+          </div>
+
+          {/* Text column second on mobile/tablet, first on large screens */}
+          <div className="order-2 lg:order-1 w-full lg:w-1/2 text-center lg:text-left px-2 sm:px-0">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -133,81 +203,63 @@ const App = () => {
                   className="bg-beige text-gray-800 px-4 sm:px-6 py-2.5 sm:py-3 text-base sm:text-lg border-accent border-accent-top border-accent-left border-accent-right hover:bg-gray-100 transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => router.push('/auth/login')}
                 >
                   Sign in
                 </motion.button>
               </div>
-              
-              
-            </motion.div>
-          </div>
+              <div className="mt-6 space-y-4">
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-[12px] sm:text-sm text-gray-600">
+                  <span className="inline-flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#5d83b8]" /> Privacy-first
+                  </span>
+                  <span className="hidden sm:inline text-gray-300">•</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-[#5d83b8]" /> Encrypted sessions
+                  </span>
+                  <span className="hidden sm:inline text-gray-300">•</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Heart className="w-3.5 h-3.5 text-[#5d83b8]" /> Designed with clinicians
+                  </span>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-start gap-3 sm:gap-5">
+                  {/* Avatar stack driven by data */}
+                  <div className="flex -space-x-3">
+                    {avatars.map((a, i) => (
+                      <div
+                        key={i}
+                        className="w-8 h-8 rounded-full border border-white ring-1 ring-black/5 flex items-center justify-center text-[10px] font-medium text-gray-700 overflow-hidden shadow-sm"
+                        style={{ background: a.gradient }}
+                        aria-label={a.label}
+                        title={a.label}
+                      >
+                        {a.img ? (
+                          <img src={a.img} alt={a.label} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="uppercase tracking-wide opacity-75">
+                            {a.name.slice(0,1)}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                    <div className="w-8 h-8 rounded-full bg-white/70 border border-white ring-1 ring-black/5 flex items-center justify-center text-[11px] font-medium text-gray-600 backdrop-blur-sm" aria-label="More members" title="More members">+12</div>
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-sm sm:text-sm font-medium text-gray-700 tracking-tight">
+                      Early members shaping calmer mental health routines
+                    </p>
+                    <p className="text-[12px] sm:text-[12px] text-gray-500 mb-8 sm:mb-0">
+                      Join a private beta focused on meaningful, sustainable change.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-          {/* Right Column - Amoeba with VoiceDemo colors/behavior + centered mic */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
-            <motion.div
-              className="relative w-full max-w-[280px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[520px] aspect-square mx-auto lg:mx-0"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            >
-              {/* VoiceDemo gradients and timings */}
-              <Amoeba
-                gradient="linear-gradient(135deg, #facc15 0%, #f97316 100%)"
-                duration={24}
-                delay={0}
-                sizeClass="w-[clamp(120px,55%,420px)] aspect-square"
-                isActive
-                isPlaying={false}
-              />
-              <Amoeba
-                gradient="linear-gradient(135deg, #a855f7 0%, #ef4444 100%)"
-                duration={32}
-                delay={2}
-                sizeClass="w-[clamp(140px,62%,460px)] aspect-square"
-                isActive
-                isPlaying={false}
-              />
-              <Amoeba
-                gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"
-                duration={28}
-                delay={1}
-                sizeClass="w-[clamp(100px,48%,380px)] aspect-square"
-                isActive
-                isPlaying={false}
-              />
-              <Amoeba
-                gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"
-                duration={36}
-                delay={3}
-                sizeClass="w-[clamp(120px,58%,440px)] aspect-square"
-                isActive
-                isPlaying={false}
-              />
 
-              {/* Center mic button (visual only) */}
-             
             </motion.div>
           </div>
         </div>
 
-        {/* Trust indicators */}
-        <motion.div
-          className="mt-12 sm:mt-16 text-center px-4 sm:px-0"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-6">
-            <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Trusted by leading healthcare organizations</p>
-            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 opacity-60">
-              <div className="text-sm sm:text-base lg:text-lg font-semibold text-gray-600">Mayo Clinic</div>
-              <div className="text-sm sm:text-base lg:text-lg font-semibold text-gray-600">Johns Hopkins</div>
-              <div className="text-sm sm:text-base lg:text-lg font-semibold text-gray-600">Stanford Health</div>
-              <div className="text-sm sm:text-base lg:text-lg font-semibold text-gray-600">Cleveland Clinic</div>
-            </div>
-          </div>
-
-        </motion.div>
       </div>
     </div>
   );

@@ -324,18 +324,14 @@ export default function IndividualLayout({ children }) {
             <div className="flex items-center">
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 mr-3"
+                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+                aria-label="Toggle sidebar navigation"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <div className="flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg mr-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">N</span>
-                </div>
-                <h1 className="text-xl font-semibold text-gray-900">Noyco</h1>
-              </div>
+              {/* Logo removed intentionally for cleaner mobile header */}
             </div>
             {/* Mobile user profile button and dropdown */}
             <div className="relative">

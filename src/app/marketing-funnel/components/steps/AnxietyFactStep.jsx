@@ -32,12 +32,7 @@ const AnxietyFactStep = () => {
         </p>
       </div>
 
-      {/* Breathing guide visual */}
-      <div className="flex justify-center">
-        <div className="w-16 h-16 bg-purple-100  flex items-center justify-center">
-          <span className="text-purple-600 text-xs font-medium">BREATHE</span>
-        </div>
-      </div>
+     
 
       {/* Navigation positioned at bottom */}
       <div className="flex items-center justify-between mt-1 pt-2">

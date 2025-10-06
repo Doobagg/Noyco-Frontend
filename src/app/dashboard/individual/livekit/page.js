@@ -157,7 +157,7 @@ const MicIconButton = ({ onClick, isActive, isConnecting, isListening }) => {
       )}
 
       <motion.button
-        className={`flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 transition-all duration-300 ${getButtonStyles()}`}
+        className={`mic-button-white flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 transition-all duration-300 ${getButtonStyles()}`}
         whileHover={{ scale: buttonState === 'idle' ? 1.1 : 1.05 }}
         whileTap={{ scale: 0.9 }}
         onClick={onClick}

@@ -235,7 +235,7 @@ const ContactUsPage = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full text-body font-mier px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full text-body font-mier px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="Your full name"
                     />
                   </div>
@@ -250,7 +250,7 @@ const ContactUsPage = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full text-body font-mier px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full text-body font-mier px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -291,7 +291,7 @@ const ContactUsPage = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full text-sm font-semibold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-8 py-4 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full text-sm font-normal bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-8 py-4 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center space-x-2">

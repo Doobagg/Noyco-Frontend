@@ -114,8 +114,23 @@ const InstantPlanPreviewStep = () => {
   };
   
 
+  const getPlanDisclaimer = (code) => {
+    switch (code) {
+      case 'IND_1M':
+        return "By clicking 'Get my plan', you agree to automatic renewal. First month $19.99, then $29.99 per month thereafter.";
+      case 'IND_3M':
+      case 'BNDL_3M':
+        return "By clicking 'Get my plan', you agree to automatic renewal. First 3 months $49.99 total, then $29.99 per month.";
+      case 'IND_6M':
+      case 'BNDL_6M':
+        return "By clicking 'Get my plan', you agree to automatic renewal. First 6 months $79.99 total, then $29.99 per month.";
+      default:
+        return "By clicking 'Get my plan', you agree to automatic renewal. Cancel anytime.";
+    }
+  };
+
   return (
-    <div className="space-y-8 max-w-2xl mx-auto">
+  <div className="space-y-8 max-w-2xl mx-auto instant-plan-wrapper">
      
       {/* Header */}
       <motion.div
@@ -134,43 +149,46 @@ const InstantPlanPreviewStep = () => {
 
       
 
-      {/* Before/After images (sad -> happy) */}
+      {/* Before / After emotional state illustration (responsive) */}
       <motion.div
-        className="flex justify-center"
+        className="w-full"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.25 }}
       >
-        <div className="grid grid-cols-2 gap-6 items-center">
-          {/* Before - Sad */}
-          <div className="text-center">
-            <div className="relative w-[270px] h-[250px]  bg-white">
-            
-                  <Image
-                 src="/sad.png"
-                 alt="Before - feeling better"
-                objectFit='contain'
-                height={300}
-                width={300}
-                priority={true}
-                />
+        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 items-start">
+          {/* Before */}
+          <div className="flex flex-col items-center text-center">
+            <div className="relative w-full max-w-[180px] xs:max-w-[200px] sm:max-w-[180px] md:max-w-[200px] aspect-square">
+              <Image
+                src="/sad.png"
+                alt="Before using plan: feeling low"
+                fill
+                sizes="(max-width: 640px) 180px, (max-width: 768px) 200px, 200px"
+                className="object-contain"
+                priority
+              />
             </div>
-            <div className="mt-20 text-lg font-medium text-gray-500">Before</div>
+            <div className="mt-4 text-sm font-medium text-gray-500 uppercase tracking-wide">Before</div>
           </div>
-
-          {/* After - Happy */}
-          <div className="text-center">
-            <div className="relative w-[270px] h-[250px] bg-white">
-              <Image src="/happy.png" 
-              alt="After - feeling better" 
-              objectFit="contain"
-              height={300}
-              width={300}
-              priority={true}
-               />
+          {/* After */}
+          <div className="flex flex-col items-center text-center">
+            <div className="relative w-full max-w-[180px] xs:max-w-[200px] sm:max-w-[180px] md:max-w-[200px] aspect-square">
+              <Image
+                src="/happy.png"
+                alt="After following plan: calmer and uplifted"
+                fill
+                sizes="(max-width: 640px) 180px, (max-width: 768px) 200px, 200px"
+                className="object-contain"
+                priority
+              />
             </div>
-            <div className="mt-20 text-lg font-medium text-gray-500">After</div>
+            <div className="mt-4 text-sm font-medium text-gray-500 uppercase tracking-wide">After</div>
           </div>
+        </div>
+        {/* Subtle connector for larger screens */}
+        <div className="hidden sm:flex justify-center mt-4 text-[11px] text-gray-400 tracking-wide">
+          Guided micro-habits over 30 days → gradual mood shift
         </div>
       </motion.div>
 
@@ -290,12 +308,31 @@ const InstantPlanPreviewStep = () => {
         </div>
       </motion.div>
 
-      {/* Guarantee */}
+      {/* CTA moved above guarantee */}
+      <motion.div
+        className="text-center instant-plan-cta"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.9 }}
+      >
+        <button
+          onClick={startCheckout}
+          disabled={creatingCheckout || loadingPlans}
+          className={`w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 py-4 px-8 rounded-none text-base font-semibold hover:shadow-lg transition-all duration-200 ${creatingCheckout || loadingPlans ? 'opacity-60 cursor-not-allowed' : ''}`}
+        >
+          {creatingCheckout ? 'Redirecting…' : 'Get my plan'}
+        </button>
+        <p className="text-[11px] text-gray-600 mt-3 leading-relaxed">
+          {getPlanDisclaimer(selectedPlan)}
+        </p>
+      </motion.div>
+
+      {/* Guarantee now below CTA */}
       <motion.div
         className="text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.85 }}
+        transition={{ duration: 0.6, delay: 1.0 }}
       >
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="text-xl">🛡️</span>
@@ -303,49 +340,48 @@ const InstantPlanPreviewStep = () => {
         </div>
       </motion.div>
 
-      {/* FAQ */}
+      {/* FAQ redesigned to resemble reference screenshot (static expanded list) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.95 }}
-        className="bg-white border border-gray-200 rounded-lg p-5"
+        transition={{ duration: 0.6, delay: 1.1 }}
+        className="bg-white   border-gray-200  p-6 md:p-7 space-y-6"
       >
-        <h3 className="text-base font-semibold text-gray-900 mb-3 text-center">Frequently asked questions</h3>
-        <div className="space-y-2">
+        <h3 className="text-center text-lg font-semibold text-gray-900 mb-2">People often ask</h3>
+        <div className="space-y-6">
           {[
-            { q: 'How quickly will I see results?', a: 'Most users notice small wins in the first week, with measurable improvements over 2–4 weeks when following daily steps.' },
-            { q: 'Can I cancel anytime?', a: 'Yes, you can cancel anytime from your account. No questions asked.' },
-            { q: 'What if my situation changes?', a: 'Your plan adapts. Update preferences anytime and your daily steps will adjust automatically.' },
-            { q: 'Do I need a lot of time?', a: 'No. The plan fits your time budget with micro‑steps you can do in minutes.' }
-          ].map((item, i) => (
-            <details key={i} className="border border-gray-100 rounded-md p-3">
-              <summary className="cursor-pointer list-none font-medium text-gray-800 flex items-center justify-between">
-                <span>{item.q}</span>
-                <span className="text-gray-400">+</span>
-              </summary>
-              <p className="text-sm text-gray-600 mt-2">{item.a}</p>
-            </details>
+            {
+              q: 'How quickly will I see results?',
+              a: 'Most users notice small wins in the first week, with measurable improvements over 2–4 weeks when following daily steps.'
+            },
+            {
+              q: 'Can I cancel anytime?',
+              a: 'Yes, you can cancel anytime from your account settings. Your access continues through the current billing period.'
+            },
+            {
+              q: 'What happens after the initial period?',
+              a: 'After your introductory plan period, billing continues at the standard monthly rate with the flexibility to cancel whenever you like.'
+            },
+            {
+              q: 'Do I need a lot of time each day?',
+              a: 'No. The plan adapts to your time budget with short, realistic daily steps designed to build consistency.'
+            },
+            {
+              q: 'Is this a replacement for therapy?',
+              a: 'No. It is a supportive companion that provides structure, accountability and evidence‑informed techniques between or alongside professional care.'
+            }
+          ].map((item, idx) => (
+            <div key={idx} className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#0d5d52]/10 text-[#0d5d52] font-semibold text-xs flex items-center justify-center mt-1">
+                {idx + 1}
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-gray-900 mb-1 leading-snug">{item.q}</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">{item.a}</p>
+              </div>
+            </div>
           ))}
         </div>
-      </motion.div>
-
-      {/* CTA */}
-      <motion.div
-        className="text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 1.05 }}
-      >
-        <button
-          onClick={startCheckout}
-          disabled={creatingCheckout || loadingPlans}
-          className={`w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 py-4 px-8 rounded-none text-base font-semibold hover:shadow-lg transition-all duration-200 ${creatingCheckout || loadingPlans ? 'opacity-60 cursor-not-allowed' : ''}`}
-        >
-          {creatingCheckout ? 'Redirecting…' : `Start my plan`}
-        </button>
-        <p className="text-xs text-gray-500 mt-3">
-          By continuing, you agree to automatic renewal. Cancel anytime.
-        </p>
       </motion.div>
     </div>
   );

@@ -218,18 +218,18 @@ export default function AgentProfilesPage() {
 
   return (
     <div className="min-h-screen bg-beige">
-      <div className="w-full mx-auto p-6">
+      <div className="w-full mx-auto p-3 sm:p-6">
         {currentView === "grid" && (
           <>
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 flex items-center justify-center text-gray-800">
-                  <Bot className="w-7 h-7 text-gray-700" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-gray-800">
+                  <Bot className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Agent Profiles</h2>
-                    <p className="text-gray-600">Create and manage AI agent personalities</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Agent Profiles</h2>
+                    <p className="text-sm sm:text-base text-gray-600">Create and manage AI agent personalities</p>
                   </div>
                 </div>
                 {/* <button
@@ -243,9 +243,9 @@ export default function AgentProfilesPage() {
             </div>
             
             {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mt-4 sm:mt-8">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-beige p-6 shadow-sm border border-accent animate-pulse">
+                  <div key={i} className="bg-beige p-4 sm:p-6 shadow-sm border border-accent animate-pulse">
                     <div className="w-16 h-16 bg-gray-200 mb-4"></div>
                     <div className="h-6 bg-gray-200 mb-2"></div>
                     <div className="h-4 bg-gray-200 mb-4"></div>

@@ -44,7 +44,7 @@ const Goal30Step = () => {
         
         {/* Animated fact box */}
         <div className="mx-auto max-w-md">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 shadow-sm">
+          <div className="bg-yellow-50 border border-yellow-200  p-4 shadow-sm">
             <p className="text-sm text-yellow-800 leading-relaxed">
               {displayedText}
               {currentIndex < factText.length && (
@@ -67,7 +67,7 @@ const Goal30Step = () => {
             <button
               key={opt}
               onClick={() => setSelected(opt)}
-              className={`w-full border border-gray-300 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg text-left ${
+              className={`w-full border border-gray-300 px-4 py-3 text-sm font-medium transition-all duration-200  text-left ${
                 selected === opt 
                   ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-transparent shadow-sm' 
                   : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-sm'

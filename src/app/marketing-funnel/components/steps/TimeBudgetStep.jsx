@@ -44,7 +44,7 @@ const TimeBudgetStep = () => {
             <button
               key={opt}
               onClick={() => setSelected(opt)}
-              className={`border border-gray-300 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
+              className={`border border-gray-300 px-4 py-3 text-sm font-medium transition-all duration-200  ${
                 selected === opt 
                   ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-transparent shadow-sm' 
                   : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-sm'

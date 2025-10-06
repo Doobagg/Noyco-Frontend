@@ -22,7 +22,6 @@ import TimeBudgetStep from './steps/TimeBudgetStep';
 import BoundariesSafetyStep from './steps/BoundariesSafetyStep';
 import AccountabilityStyleStep from './steps/AccountabilityStyleStep';
 import Goal30Step from './steps/Goal30Step';
-import ProgressReductionStep from './steps/ProgressReductionStep';
 import PersonalizedPlanCreationStep from './steps/PersonalizedPlanCreationStep';
 import EmailCollectionStep from './steps/EmailCollectionStep';
 import WellbeingProgressStep from './steps/WellbeingProgressStep';
@@ -47,11 +46,10 @@ const stepComponents = {
   15: AccountabilityStyleStep,
   16: Goal30Step,
   17: MeetAgentsStep,
-  18: ProgressReductionStep, // New progress reduction chart step
-  19: PersonalizedPlanCreationStep, // New plan creation step with reviews
-  20: EmailCollectionStep, // Email collection before plan preview
-  21: WellbeingProgressStep, // 4-week progress visualization
-  22: InstantPlanPreviewStep,
+  18: PersonalizedPlanCreationStep, // New plan creation step with reviews
+  19: EmailCollectionStep, // Email collection before plan preview
+  20: WellbeingProgressStep, // 4-week progress visualization
+  21: InstantPlanPreviewStep,
 };
 
 const MarketingFunnelFlow = () => {
@@ -96,7 +94,7 @@ const MarketingFunnelFlow = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+  <div className="marketing-funnel-scroll-fix min-h-full bg-white pb-10">
       {/* Main content - positioned at top like onboarding */}
       <div className="flex justify-center pt-6 px-4">
         <div className="w-full max-w-md">
@@ -164,8 +162,8 @@ const MarketingFunnelFlow = () => {
           </div>
         </div>
       </div>
-      
-      
+    {/* Bottom scroll sentinel for tablet Safari & iPad Pro to ensure scrollable area */}
+  <div className="h-12 md:h-28 lg:h-32 xl:h-24 marketing-funnel-pro-sentinel" aria-hidden="true" />
     </div>
   );
 };
