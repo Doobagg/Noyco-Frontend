@@ -263,6 +263,11 @@ const ImprovedVoiceAssistant = () => {
   const startVoiceSession = async () => {
     try {
       setIsConnecting(true);
+      setDebugStatus('Waking up assistant...');
+
+      fetch(`${process.env.NEXT_PUBLIC_AGENT_URL}/warmup`).catch(err => console.warn("Warmup call failed but proceeding anyway:", err));
+
+      setDebugStatus('Creating session...');
       setDebugStatus('Creating session...');
       
       const sessionConfig = getSessionConfig();
