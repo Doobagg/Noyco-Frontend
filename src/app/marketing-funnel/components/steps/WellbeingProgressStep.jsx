@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 
 import { useRef, useEffect, useState } from "react";
@@ -29,11 +42,54 @@ ChartJS.register(
 
 const WellbeingProgressStep = () => {
   const { data, actions } = useMarketingFunnel();
-  const [lineData, setLineData] = useState([25, null, null, null, null]);
+  const [drawProgress, setDrawProgress] = useState(0); // 0 to 4 (smooth progress)
   const [animationComplete, setAnimationComplete] = useState(false);
   const chartRef = useRef();
+  const animationFrameRef = useRef();
 
-  // Custom plugin for enhanced visuals
+  // Full target path
+  const fullPath = [
+    { x: 0, y: 25 },   // Now
+    { x: 1, y: 45 },   // Week 1
+    { x: 2, y: 65 },   // Week 2
+    { x: 3, y: 80 },   // Week 3
+    { x: 4, y: 90 }    // Week 4
+  ];
+
+  // Calculate smooth interpolated data based on draw progress
+  const getInterpolatedData = () => {
+    const progress = drawProgress;
+    
+    // Always show first point
+    if (progress <= 0) {
+      return [25, null, null, null, null];
+    }
+    
+    // Determine which segment we're drawing
+    const segmentIndex = Math.floor(progress);
+    const segmentProgress = progress - segmentIndex;
+    
+    const result = [null, null, null, null, null];
+    
+    // Fill completed segments
+    for (let i = 0; i <= segmentIndex && i < fullPath.length; i++) {
+      result[i] = fullPath[i].y;
+    }
+    
+    // Interpolate current segment
+    if (segmentIndex < fullPath.length - 1 && segmentProgress > 0) {
+      const currentPoint = fullPath[segmentIndex];
+      const nextPoint = fullPath[segmentIndex + 1];
+      
+      // Linear interpolation for smooth line drawing
+      const interpolatedY = currentPoint.y + (nextPoint.y - currentPoint.y) * segmentProgress;
+      result[segmentIndex + 1] = interpolatedY;
+    }
+    
+    return result;
+  };
+
+  // Custom plugin for drawing effect with moving dot
   const wellbeingProgressPlugin = {
     id: 'wellbeing-progress',
     beforeDatasetsDraw(chart) {
@@ -64,60 +120,138 @@ const WellbeingProgressStep = () => {
       meta.dataset.draw(ctx);
       ctx.restore();
 
-      // Pulsing markers on visible points
+      // Draw points
       const points = meta.data || [];
-      const visible = points.filter(p => !p.skip);
-      if (visible.length === 0) return;
-
       const time = Date.now();
-      const pulse = 1 + 0.1 * Math.sin(time / 300);
-
-      visible.forEach((pt, index) => {
+      
+      points.forEach((pt, index) => {
+        if (!pt || pt.skip || pt.x === null || pt.y === null) return;
+        
         ctx.save();
-        ctx.fillStyle = '#22C55E';
-        ctx.strokeStyle = 'rgba(34, 197, 94, 0.3)';
-        ctx.lineWidth = 2;
         
-        // Solid core
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 6, 0, Math.PI * 2);
-        ctx.fill();
+        const isLastVisiblePoint = (index === points.filter(p => p && !p.skip && p.x !== null && p.y !== null).length - 1);
+        const isAnimating = !animationComplete;
         
-        // Pulse ring
-        if (index === 0 || index === visible.length - 1) {
+        if (isLastVisiblePoint && isAnimating && drawProgress < 4) {
+          // Moving dot at the leading edge while drawing
+          const pulse = 1 + 0.18 * Math.sin(time / 200);
+          
+          // Outer glow
+          ctx.shadowColor = 'rgba(34, 197, 94, 0.7)';
+          ctx.shadowBlur = 18;
+          ctx.strokeStyle = 'rgba(34, 197, 94, 0.35)';
+          ctx.lineWidth = 2.5;
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, 6 * pulse + 3, 0, Math.PI * 2);
+          ctx.arc(pt.x, pt.y, 13 * pulse, 0, Math.PI * 2);
+          ctx.stroke();
+          
+          // Middle glow
+          ctx.strokeStyle = 'rgba(34, 197, 94, 0.55)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 9 * pulse, 0, Math.PI * 2);
+          ctx.stroke();
+          
+          // Core dot
+          ctx.shadowColor = 'rgba(34, 197, 94, 0.9)';
+          ctx.shadowBlur = 12;
+          ctx.fillStyle = '#22C55E';
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Bright center
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+          
+        } else if (animationComplete && index === 4) {
+          // Final static dot at 90%
+          ctx.shadowColor = 'rgba(34, 197, 94, 0.5)';
+          ctx.shadowBlur = 14;
+          
+          // Outer ring
+          ctx.strokeStyle = 'rgba(34, 197, 94, 0.3)';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 14, 0, Math.PI * 2);
+          ctx.stroke();
+          
+          // Main dot
+          ctx.fillStyle = '#22C55E';
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // White border
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
+          ctx.stroke();
+          
+          // Highlight
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+          ctx.fill();
+          
+        } else if (index < Math.floor(drawProgress)) {
+          // Completed points along the path
+          ctx.fillStyle = '#22C55E';
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 6, 0, Math.PI * 2);
+          ctx.fill();
           ctx.stroke();
         }
+        
         ctx.restore();
       });
     }
   };
 
-  // Progressive line animation from bottom to top
+  // Smooth drawing animation - like filling a path
   useEffect(() => {
-    const target = [25, 45, 65, 80, 90]; // Progress from 25% to 90% over 4 weeks
-    let i = 1;
+    const totalDuration = 4000; // 4 seconds to draw the entire line
     const startDelay = 800;
-    const stepDelay = 600;
+    const totalSegments = 4; // 0 to 4
+    
+    let startTime = null;
 
-    const timers = [];
-    timers.push(setTimeout(function step() {
-      setLineData(prev => {
-        const next = [...prev];
-        next[i] = target[i];
-        return next;
-      });
-      i += 1;
-      if (i < target.length) {
-        timers.push(setTimeout(step, stepDelay));
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / totalDuration, 1);
+      
+      // Ease out for smooth deceleration
+      const eased = 1 - Math.pow(1 - progress, 3);
+      
+      // Map to segment progress (0 to 4)
+      const currentProgress = eased * totalSegments;
+      setDrawProgress(currentProgress);
+
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(animate);
       } else {
-        timers.push(setTimeout(() => setAnimationComplete(true), 800));
+        setDrawProgress(4);
+        setAnimationComplete(true);
       }
-    }, startDelay));
+    };
+
+    const timeout = setTimeout(() => {
+      animationFrameRef.current = requestAnimationFrame(animate);
+    }, startDelay);
 
     return () => {
-      timers.forEach(t => clearTimeout(t));
+      clearTimeout(timeout);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
   }, []);
 
@@ -139,7 +273,7 @@ const WellbeingProgressStep = () => {
     datasets: [
       {
         label: 'Well-being Level',
-        data: lineData,
+        data: getInterpolatedData(),
         borderColor: '#22C55E',
         backgroundColor: 'rgba(34, 197, 94, 0.1)',
         borderWidth: 4,
@@ -151,7 +285,7 @@ const WellbeingProgressStep = () => {
         pointRadius: 8,
         pointHoverRadius: 10,
         pointHitRadius: 15,
-        spanGaps: true,
+        spanGaps: false,
       }
     ]
   });
@@ -159,6 +293,7 @@ const WellbeingProgressStep = () => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false,
     plugins: {
       legend: {
         display: false
@@ -171,7 +306,7 @@ const WellbeingProgressStep = () => {
         displayColors: false,
         callbacks: {
           label: function(context) {
-            return `Well-being: ${context.parsed.y}%`;
+            return `Well-being: ${Math.round(context.parsed.y)}%`;
           }
         }
       }
@@ -212,13 +347,6 @@ const WellbeingProgressStep = () => {
           }
         }
       }
-    },
-    animations: {
-      y: {
-        duration: 1000,
-        easing: 'easeOutQuart'
-      },
-      x: { duration: 0 }
     }
   };
 
@@ -258,9 +386,6 @@ const WellbeingProgressStep = () => {
           * Chart is for illustrational purposes only. Individual results may vary.
         </p>
       </motion.div>
-
-    
-     
 
       {/* Continue button */}
       <motion.div 

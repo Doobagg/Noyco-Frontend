@@ -195,21 +195,21 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
   const isFirstStep = currentStep === 1;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-0">
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-0">
       {/* Header */}
-      <div className="mb-6 sm:mb-8">
+      <div className="mb-4 sm:mb-6 lg:mb-8">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
+          className="flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-900 mb-3 sm:mb-4 transition-colors text-sm sm:text-base"
         >
-          <ArrowLeftIcon className="w-5 h-5" />
+          <ArrowLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>Back to Profiles</span>
         </button>
         
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
           {isEdit ? "Edit Agent Profile" : "Create New Agent Profile"}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600">
           {isEdit ? "Update your agent's personality and preferences" : "Design a personalized AI agent for your health journey"}
         </p>
       </div>
@@ -257,7 +257,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
       </div> */}
 
       {/* Form Content */}
-      <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-4 sm:p-8 mb-6 sm:mb-8">
+      <div className="bg-beige shadow-sm border-accent border-accent-top border-accent-left border-accent-right p-3 sm:p-6 lg:p-8 mb-4 sm:mb-6 lg:mb-8">
         {CurrentStepComponent && (
           <CurrentStepComponent
             data={profileData}
@@ -270,30 +270,31 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
 
       {/* Navigation */}
       {!isLastStep && (
-        <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center justify-between gap-2 sm:gap-3 flex-wrap">
           <button
             onClick={handlePrevious}
             disabled={isFirstStep}
-            className={`flex items-center gap-2 px-6 py-3 font-medium transition-all duration-200 ${
+            className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 ${
               isFirstStep
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
-            <ArrowLeftIcon className="w-5 h-5" />
-            <span>Previous</span>
+            <ArrowLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden xs:inline">Previous</span>
+            <span className="xs:hidden">Prev</span>
           </button>
 
-          <div className="text-sm text-gray-500">
-            {currentStep} of {steps.length} steps
+          <div className="text-xs sm:text-sm text-gray-500">
+            {currentStep} of {steps.length}
           </div>
 
           <button
             onClick={handleNext}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+            className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
           >
             <span>Next</span>
-            <ArrowRightIcon className="w-5 h-5" />
+            <ArrowRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       )}
@@ -303,17 +304,18 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
         <div className="flex items-center justify-between">
           <button
             onClick={handlePrevious}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium transition-all duration-200"
+            className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium transition-all duration-200"
           >
-            <ArrowLeftIcon className="w-5 h-5" />
-            <span>Previous</span>
+            <ArrowLeftIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden xs:inline">Previous</span>
+            <span className="xs:hidden">Prev</span>
           </button>
 
-          <div className="text-sm text-gray-500">
-            {currentStep} of {steps.length} steps
+          <div className="text-xs sm:text-sm text-gray-500">
+            {currentStep} of {steps.length}
           </div>
 
-          <div className="w-32"></div> {/* Spacer */}
+          <div className="w-16 sm:w-32"></div> {/* Spacer */}
         </div>
       )}
     </div>

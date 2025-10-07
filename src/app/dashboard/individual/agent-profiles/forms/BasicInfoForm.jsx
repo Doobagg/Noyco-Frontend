@@ -74,11 +74,11 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="border-b border-gray-200 pb-4">
-        <h2 className="text-xl font-semibold text-gray-900">Basic Information</h2>
-        <p className="text-sm text-gray-600 mt-1">Configure your AI agent's core settings</p>
+      <div className="border-b border-gray-200 pb-3 sm:pb-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Basic Information</h2>
+        <p className="text-xs sm:text-sm text-gray-600 mt-1">Configure your AI agent's core settings</p>
       </div>
 
       {/* Avatar Selection */}
@@ -104,9 +104,9 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
       </div> */}
 
       {/* Profile Name and Agent Name */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
             Profile Name *
           </label>
           <input
@@ -114,7 +114,7 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
             value={data.profile_name || ""}
             onChange={(e) => handleRequiredFieldChange("profile_name", e.target.value)}
             placeholder="e.g., Health Assistant, Emergency Contact"
-            className={`w-full px-3 py-2 focus:ring-2 focus:ring-gray-400 focus:border-gray-400 ${
+            className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 ${
               errors.profile_name ? "border-red-500" : "border-accent border-accent-top border-accent-left border-accent-right"
             }`}
             required
@@ -125,7 +125,7 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
             Agent Name *
           </label>
           <input
@@ -133,7 +133,7 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
             value={data.name || ""}
             onChange={(e) => handleRequiredFieldChange("name", e.target.value)}
             placeholder="e.g., Dr. Sarah, Alex"
-            className={`w-full px-3 py-2 focus:ring-2 focus:ring-gray-400 focus:border-gray-400 ${
+            className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 ${
               errors.name ? "border-red-500" : "border-accent border-accent-top border-accent-left border-accent-right"
             }`}
             required
@@ -145,10 +145,10 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
       </div>
 
       {/* Settings Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Age */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Age</label>
           <input
             type="number"
             value={data.age || ""}
@@ -156,13 +156,13 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
             placeholder="e.g., 35"
             min="1"
             max="120"
-            className="w-full px-3 py-2 border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
+            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
           />
         </div>
 
         {/* Phone */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
             Phone Number *
           </label>
           <input
@@ -170,7 +170,7 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
             value={data.phone || ""}
             onChange={(e) => handleRequiredFieldChange("phone", e.target.value)}
             placeholder="e.g., +1 234 567 8900"
-            className={`w-full px-3 py-2 focus:ring-2 focus:ring-gray-400 focus:border-gray-400 ${
+            className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base focus:ring-2 focus:ring-gray-400 focus:border-gray-400 ${
               errors.phone ? "border-red-500" : "border-accent border-accent-top border-accent-left border-accent-right"
             }`}
             required
@@ -182,11 +182,11 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
 
         {/* Gender */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Gender</label>
           <select
             value={data.gender || ""}
             onChange={(e) => handleInputChange("gender", e.target.value)}
-            className="w-full px-3 py-2 border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
+            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
           >
             {genderOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -198,11 +198,11 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
 
         {/* Language */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Language</label>
           <select
             value={data.language || "English"}
             onChange={(e) => handleInputChange("language", e.target.value)}
-            className="w-full px-3 py-2 border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
+            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
           >
             {languageOptions.map((lang) => (
               <option key={lang} value={lang}>
@@ -214,24 +214,24 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
       </div>
 
       {/* Location and Emotional Baseline */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Location</label>
           <input
             type="text"
             value={data.location || ""}
             onChange={(e) => handleInputChange("location", e.target.value)}
             placeholder="e.g., New York, London"
-            className="w-full px-3 py-2 border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
+            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Emotional Baseline</label>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Emotional Baseline</label>
           <select
             value={data.emotional_baseline || ""}
             onChange={(e) => handleInputChange("emotional_baseline", e.target.value)}
-            className="w-full px-3 py-2 border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-beige hover:bg-gradient-to-r hover:from-[#E6D3E7] hover:via-[#F6D9D5] hover:to-[#D6E3EC]"
+            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-beige hover:bg-gradient-to-r hover:from-[#E6D3E7] hover:via-[#F6D9D5] hover:to-[#D6E3EC]"
           >
             <option value="">Select baseline mood</option>
             {emotionalBaselines.map((baseline) => (
@@ -245,13 +245,13 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Description</label>
         <textarea
           value={data.description || ""}
           onChange={(e) => handleInputChange("description", e.target.value)}
           placeholder="Describe the purpose and personality of this AI agent..."
           rows={3}
-        className="w-full px-3 py-2 border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400 resize-none"
+        className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-sm sm:text-base border-accent border-accent-top border-accent-left border-accent-right focus:ring-2 focus:ring-gray-400 focus:border-gray-400 resize-none"
         />
       </div>
     </div>

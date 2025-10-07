@@ -402,6 +402,100 @@ select:focus-visible {
   background: #94a3b8;
 }
 
+/* --------------------------------------------------
+   FORCED LIGHT / BEIGE THEME OVERRIDE
+   We intentionally ignore the user's OS dark mode.
+   Any dark: Tailwind media-query variants will be neutralized
+   by re-applying our light palette with higher specificity
+   and !important flags where necessary.
+--------------------------------------------------- */
+html {
+  color-scheme: light; /* Ensures form controls, etc. use light styling */
+}
+
+/* Reassert base design tokens */
+:root {
+  --background: #F7F6F1;
+  --foreground: #171717;
+}
+
+/* When the OS is dark, keep our light palette */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #F7F6F1 !important;
+    --foreground: #171717 !important;
+  }
+  body, html, main, #__next, #root, .app-shell, .dashboard-root {
+    background: #F7F6F1 !important;
+    color: #171717 !important;
+  }
+  /* Common Tailwind dark background utility overrides */
+  [class*="bg-gray-900"],
+  [class*="bg-neutral-900"],
+  [class*="bg-slate-900"],
+  .dark\:bg-gray-900,
+  .dark\:bg-neutral-900,
+  .dark\:bg-slate-900 {
+    background-color: #F7F6F1 !important;
+  }
+  .dark\:text-white, [class*="text-white"] {
+    color: #171717 !important;
+  }
+  /* Keep light scrollbar styling */
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+  }
+}
+
+/* Utility class to explicitly force beige background if needed */
+.force-beige-bg {
+  background-color: #F7F6F1 !important;
+  color: #171717 !important;
+}
+
+/* iPad Pro (1024 x 1366) specific vertical spacing tweaks */
+@media (min-width: 1024px) and (max-width: 1040px) and (min-height: 1320px) {
+  .hero-wrapper {
+    padding-top: 2.5rem !important; /* reduce large vertical gap */
+    padding-bottom: 2.5rem !important;
+    min-height: auto !important;
+  }
+  .login-page-wrapper {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    min-height: auto !important;
+  }
+}
+
+/* General large portrait tablet fallback (covers 1024x1366 orientation variants) */
+@media (min-width: 1000px) and (max-width: 1080px) and (min-height: 1180px) {
+  .hero-wrapper {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .login-page-wrapper {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+/* Mic button white force (dashboard individual plan / voice areas) */
+.mic-button-white svg, .mic-button-white { 
+  color: #ffffff !important; 
+  stroke: #ffffff !important;
+  fill: none;
+}
+
+.conversation-list-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 .conversation-expanded-scroll::-webkit-scrollbar {
   width: 4px;
 }

@@ -87,3 +87,61 @@
 .scrollbar-hide::-webkit-scrollbar { 
   display: none;  /* Safari and Chrome */
 }
+
+/* ----- Tablet Scroll Fix (iPad Mini / Air / Pro portrait & landscape) ----- */
+/* We avoid locking height to viewport on these widths due to Safari dynamic toolbar issues */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .marketing-funnel-root {
+    min-height: auto !important;
+    height: auto !important;
+    overflow-y: visible;
+  }
+  .marketing-funnel-scroll-fix {
+    padding-bottom: 6rem; /* extra space so FAQ & CTA are reachable */
+  }
+}
+
+/* Base root fallback */
+.marketing-funnel-root {
+  min-height: 100%;
+  overflow-y: auto; /* ensure root always scrollable */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@supports (height: 100dvh) {
+  .marketing-funnel-root { min-height: 100dvh; }
+}
+
+/* Unified iPad Pro handling (portrait & landscape typical ranges) */
+@media (min-width: 1024px) and (max-width: 1380px) and (min-height: 1000px) and (max-height: 1500px) {
+  .marketing-funnel-root {
+    min-height: auto !important;
+    height: auto !important;
+  }
+  .marketing-funnel-scroll-fix { padding-bottom: 11rem !important; }
+  .marketing-funnel-pro-sentinel { height: 12rem !important; }
+}
+
+/* Instant Plan Preview specific spacing adjustments */
+.instant-plan-wrapper { padding-bottom: 5.5rem; }
+@media (min-width: 640px) { .instant-plan-wrapper { padding-bottom: 6rem; } }
+@media (min-width: 768px) { .instant-plan-wrapper { padding-bottom: 6.5rem; } }
+/* iPad Pro range keeps extra padding (overridden above if in unified block) */
+@media (min-width: 1024px) and (max-width: 1380px) { .instant-plan-wrapper { padding-bottom: 7.5rem; } }
+/* Large desktop reduce gap */
+@media (min-width: 1280px) { .instant-plan-wrapper { padding-bottom: 4rem; } }
+@media (min-width: 1440px) { .instant-plan-wrapper { padding-bottom: 3rem; } }
+@media (min-width: 1680px) { .instant-plan-wrapper { padding-bottom: 2.5rem; } }
+
+/* CTA safe-area consideration for devices with home indicator */
+.instant-plan-cta { margin-bottom: env(safe-area-inset-bottom, 0); }
+@media (min-width: 1440px) { .marketing-funnel-pro-sentinel { height: 3rem !important; } }
+
+/* Personalized Plan Creation Step scroll fix */
+.personalized-plan-step { padding-bottom: 4.5rem; }
+@media (min-width: 640px) { .personalized-plan-step { padding-bottom: 5rem; } }
+@media (min-width: 768px) and (max-width: 1100px) { .personalized-plan-step { padding-bottom: 7rem; } }
+@media (min-width: 1024px) and (max-width: 1380px) and (min-height: 1000px) { .personalized-plan-step { padding-bottom: 8.5rem; } }
+
+/* Allow vertical panning even when dragging horizontally */
+.reviews-scroll { -webkit-overflow-scrolling: touch; touch-action: pan-y pan-x; overscroll-behavior-x: contain; }

@@ -23,7 +23,7 @@ const WelcomeStep = () => {
       </div>
 
       {/* Navigation positioned at bottom */}
-      <div className="flex items-center justify-between mt-12 pt-8">
+      <div className="flex items-center justify-center mt-12 pt-8">
         <div></div> {/* Empty space for alignment */}
         
         <button

@@ -41,7 +41,7 @@ export default function LandingFooter() {
             {/* Brand Section - Takes up more space on large screens */}
             <div className="lg:col-span-5">
               <div className="mb-6">
-                <span className="text-2xl font-bold text-gray-900" style={{ fontFamily: '"Mier A", sans-serif' }}>
+                <span className="text-2xl  text-gray-900" style={{ fontFamily: '"Mier A", sans-serif' }}>
                   Noyco
                 </span>
               </div>

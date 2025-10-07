@@ -7,7 +7,7 @@ const MarketingFunnelContext = createContext();
 const initialState = {
   currentStep: 1,
   // Keep in sync with stepComponents length in MarketingFunnelFlow
-  totalSteps: 22,
+  totalSteps: 21,
   data: {
     // Existing
     ageGroup: null,

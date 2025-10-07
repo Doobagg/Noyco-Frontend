@@ -71,7 +71,7 @@ export default function Navbar() {
               className="flex items-center space-x-2 group"
             >
               
-              <span className="text-xl font-bold text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
+              <span className="text-3xl  text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
                 Noyco
               </span>
             </Link>

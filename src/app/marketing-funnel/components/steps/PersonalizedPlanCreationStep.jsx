@@ -181,7 +181,7 @@ const PersonalizedPlanCreationStep = () => {
   };
 
   return (
-    <div className="text-center space-y-8">
+    <div className="text-center space-y-8 personalized-plan-step">
       {/* Header */}
       <div className="space-y-4">
         <motion.h2 
@@ -282,13 +282,29 @@ const PersonalizedPlanCreationStep = () => {
               {data.timeBudget || '5 min'}
             </div>
           </div>
+          
         </div>
+       
         
         {/* Additional user preferences */}
-        <div className="text-xs text-gray-500 mb-4">
+        <div className="text-xs text-gray-500 mb-1">
           Personalizing based on your responses from {Object.keys(data || {}).length} assessment questions
+          {currentPhase !== 'complete' && (
+        <motion.div 
+          className="mt-1"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        >
+          <p className="text-sm text-gray-500">
+            This usually takes 10-15 seconds...
+          </p>
+        </motion.div>
+      )}
         </div>
       </motion.div>
+
+       
 
       {/* Horizontal scrolling reviews */}
       <motion.div 
@@ -303,7 +319,7 @@ const PersonalizedPlanCreationStep = () => {
         
         <div 
           ref={reviewContainerRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 cursor-grab select-none"
+          className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 cursor-grab select-none reviews-scroll"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -357,19 +373,9 @@ const PersonalizedPlanCreationStep = () => {
         </div>
       </motion.div>
 
-      {/* Additional loading indicators */}
-      {currentPhase !== 'complete' && (
-        <motion.div 
-          className="text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <p className="text-sm text-gray-500">
-            This usually takes 10-15 seconds...
-          </p>
-        </motion.div>
-      )}
+      {/* Bottom spacer to ensure scrollable area on iPad */}
+      <div className="h-12 md:h-16" aria-hidden="true" />
+      
     </div>
   );
 };

@@ -6,7 +6,7 @@ import './styles.css';
 
 export default function MarketingFunnelPage() {
   return (
-    <div className="min-h-screen bg-white font-mier">
+    <div className="marketing-funnel-root relative bg-white font-mier">
       <MarketingFunnelProvider>
         <MarketingFunnelFlow />
       </MarketingFunnelProvider>

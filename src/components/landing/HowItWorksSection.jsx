@@ -62,13 +62,8 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section className="relative py-20 bg-beige overflow-hidden" style={{ fontFamily: '"Mier A", sans-serif' }}>
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-r from-[#E6D3E7] to-[#F6D9D5] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse"></div>
-        <div className="absolute top-40 right-10 w-56 h-56 bg-gradient-to-r from-[#F6D9D5] to-[#D6E3EC] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-52 h-52 bg-gradient-to-r from-[#D6E3EC] to-[#E6D3E7] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse animation-delay-4000"></div>
-      </div>
+    <section className="relative py-20 bg-beige" style={{ fontFamily: '"Mier A", sans-serif' }}>
+      {/* Removed blurred animated background blobs */}
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}

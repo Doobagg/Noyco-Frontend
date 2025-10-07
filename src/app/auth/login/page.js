@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../../store/hooks';
 import { useRouter } from 'next/navigation';
-import { Shield, Clock, Brain } from 'lucide-react';
+import { Shield, Clock, Brain, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -134,7 +134,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen relative bg-beige flex items-center justify-center p-4" style={{ fontFamily: '"Mier A", sans-serif' }}>
+  <div className="login-page-wrapper min-h-screen relative bg-beige flex items-center justify-center p-4" style={{ fontFamily: '"Mier A", sans-serif' }}>
       {/* Soft background blobs (match landing palette) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-r from-[#E6D3E7] to-[#F6D9D5] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse"></div>
@@ -214,48 +214,42 @@ export default function LoginPage() {
               </div>
 
               {/* Password Field */}
-              <div className="relative">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Password<span className="text-red-500 ml-1">*</span>
                 </label>
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="w-full px-3 py-2 bg-beige text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:shadow-none focus:border-blue-500 transition-all duration-200 text-sm rounded-none border-accent border-accent-top border-accent-left border-accent-right"
-                  placeholder="Enter your password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    className="w-full pr-10 px-3 py-2 bg-beige text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:shadow-none focus:border-blue-500 transition-all duration-200 text-sm rounded-none border-accent border-accent-top border-accent-left border-accent-right"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
               </div>
 
-              {/* Sign In Button */}
+              {/* Sign In Button (updated styling) */}
               <button
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading || isSubmitting}
-                className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-none transition-colors disabled:cursor-not-allowed border-accent border-accent-bottom"
+                className="w-full inline-flex items-center justify-center bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 font-normal py-3 px-4  disabled:opacity-60 disabled:cursor-not-allowed transition-all"
               >
                 {loading || isSubmitting ? (
                   <div className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-900" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>

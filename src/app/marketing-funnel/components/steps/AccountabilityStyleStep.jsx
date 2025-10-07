@@ -37,7 +37,7 @@ const AccountabilityStyleStep = () => {
             <button
               key={opt}
               onClick={() => setSelected(opt)}
-              className={`w-full border border-gray-300 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg text-left ${
+              className={`w-full border border-gray-300 px-4 py-3 text-sm font-medium transition-all duration-200  text-left ${
                 selected === opt 
                   ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-transparent shadow-sm' 
                   : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-sm'
@@ -56,7 +56,7 @@ const AccountabilityStyleStep = () => {
         <button
           onClick={onContinue}
           disabled={!selected}
-          className={`px-8 py-3 text-sm font-semibold transition-all duration-200 rounded-none ${
+          className={`px-8 py-3 relative -top-2 text-sm font-semibold transition-all duration-200 rounded-none ${
             selected 
               ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 hover:shadow-lg' 
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'

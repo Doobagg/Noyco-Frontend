@@ -61,12 +61,8 @@ export default function TestimonialsSection() {
   ];
 
   return (
-    <section className="py-12 bg-beige relative overflow-hidden" style={{ fontFamily: '"Mier A", sans-serif' }}>
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-[#E6D3E7] to-[#F6D9D5] mix-blend-multiply filter blur-xl opacity-10 animate-pulse"></div>
-        <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-r from-[#F6D9D5] to-[#D6E3EC] mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-2000"></div>
-      </div>
+    <section className="py-12 bg-beige relative" style={{ fontFamily: '"Mier A", sans-serif' }}>
+      {/* Removed blurred animated background elements */}
       
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -124,7 +120,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* CTA */}
-        <div className="relative bg-white p-8 mt-20 text-center text-black border-accent border-accent-top border-accent-left border-accent-right">
+        <div className="relative bg-beige p-8 mt-20 text-center text-black border-accent border-accent-top border-accent-left border-accent-right">
           <div className="relative">
             <h3 className="text-lg  mb-3">
               Ready to start your healing journey?
