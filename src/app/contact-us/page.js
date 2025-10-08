@@ -6,6 +6,7 @@ import emailjs from '@emailjs/browser';
 import Link from 'next/link';
 import { Mail, MapPin, Clock, LifeBuoy, Check, X, Loader2 } from 'lucide-react';
 
+// Note: For client components, metadata is set in the layout or via next/head
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
     name: '',
