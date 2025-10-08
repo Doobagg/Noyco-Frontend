@@ -146,12 +146,11 @@ const MicIconButton = ({ onClick, isActive, isConnecting, isListening }) => {
         />
       )}
       
-      {buttonState !== 'idle' && (
+      {(buttonState === 'connecting' || buttonState === 'listening') && (
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-center">
           <div className="text-xs font-medium px-3 py-1.5 rounded-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 backdrop-blur-sm shadow-md">
             {buttonState === 'connecting' && 'Connecting...'}
             {buttonState === 'listening' && '🎤 Listening'}
-            {buttonState === 'active' && 'Ready to talk'}
           </div>
         </div>
       )}
@@ -300,12 +299,17 @@ const ImprovedVoiceAssistant = () => {
       // Setup event handlers
       room.on(RoomEvent.TrackSubscribed, (track, publication, participant) => {
         console.log('Track subscribed:', track.kind, participant.identity);
-        
         if (track.kind === Track.Kind.Audio) {
           const audioElement = track.attach();
+          audioElement.autoplay = true;
+          audioElement.playsInline = true;
+          audioElement.muted = false;
+          audioElement.style.display = 'none';
           document.body.appendChild(audioElement);
-          audioElement.play();
-          
+          const attempt = audioElement.play();
+          if (attempt && attempt.catch) {
+            attempt.catch(err => console.warn('Autoplay blocked, waiting for user gesture:', err));
+          }
           setIsBotSpeaking(true);
           setDebugStatus('Agent speaking');
         }
@@ -471,27 +475,23 @@ const ImprovedVoiceAssistant = () => {
 
   // Conversation Display
   const messagesEndRef = useRef(null);
-  
-  // Auto-scroll to latest message
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [conversationMessages]);
+  const scrollContainerRef = useRef(null); // container for all logs scroll
 
   const ConversationDisplay = () => {
     if (conversationMessages.length > 0) {
       return (
-        <div className="space-y-3 max-h-96 overflow-y-auto px-2 py-2 scroll-smooth">
+        <div className="space-y-3 px-2 py-2">
           {conversationMessages.map((msg, idx) => (
             <div 
               key={idx}
               className={`flex ${msg.sender === 'agent' ? 'justify-start' : 'justify-end'}`}
               style={{ animation: 'fadeIn 0.3s ease-in' }}
             >
-              <div className={`max-w-[85%] px-4 py-3 rounded-2xl ${
-                msg.sender === 'agent' 
-                  ? 'bg-white text-gray-800 border border-gray-200'
+              <div className={`max-w-[85%] px-4 py-3 rounded-2xl shadow-lg ${
+                msg.sender === 'agent'
+                  ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border border-white/40'
                   : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-              } shadow-lg`}>
+              }`}>
                 <div className="text-xs font-semibold mb-1.5 opacity-80">
                   {msg.sender === 'agent' ? '🤖 Noyco' : '👤 You'}
                 </div>
@@ -524,9 +524,98 @@ const ImprovedVoiceAssistant = () => {
     return null;
   };
 
+  /* ---------------- Sequential (cycle) display state ---------------- */
+  const [showAllLogs, setShowAllLogs] = useState(false);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const DISPLAY_INTERVAL_MS = 5000; // 5s per message
+
+  // Auto-scroll only the internal logs container (prevents entire page jump)
+  useEffect(() => {
+    if (showAllLogs && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+    }
+  }, [conversationMessages, showAllLogs]);
+
+  // Advance index over time only when NOT showing all logs
+  useEffect(() => {
+    if (showAllLogs) return; // paused while in full log view
+    if (conversationMessages.length === 0) return;
+    // Ensure index within bounds
+    if (displayIndex > conversationMessages.length - 1) {
+      setDisplayIndex(conversationMessages.length - 1);
+      return;
+    }
+    // Stop advancing after last message (do not loop)
+    if (displayIndex === conversationMessages.length - 1) return;
+    const id = setTimeout(() => {
+      setDisplayIndex(i => Math.min(i + 1, conversationMessages.length - 1));
+    }, DISPLAY_INTERVAL_MS);
+    return () => clearTimeout(id);
+  }, [conversationMessages, displayIndex, showAllLogs]);
+
+  // When new messages arrive while at last index, auto-follow to show them next
+  const prevLengthRef = useRef(0);
+  useEffect(() => {
+    if (conversationMessages.length > prevLengthRef.current) {
+      // If new message arrives, immediately show it (live catch-up)
+      if (!showAllLogs) {
+        setDisplayIndex(conversationMessages.length - 1);
+      }
+    }
+    prevLengthRef.current = conversationMessages.length;
+  }, [conversationMessages, displayIndex, showAllLogs]);
+
+  const SequentialMessage = () => {
+    if (conversationMessages.length === 0) {
+      if (currentMessage) {
+        return (
+          <motion.div
+            key="current-msg"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+            className="text-center text-sm text-gray-700"
+          >
+            {currentMessage}
+          </motion.div>
+        );
+      }
+      if (isRecording) {
+        return <div className="text-center text-xs text-gray-500">Start speaking to begin the conversation...</div>;
+      }
+      return null;
+    }
+    const msg = conversationMessages[displayIndex];
+    const isAgent = msg.sender === 'agent';
+    return (
+      <motion.div
+        key={msg.timestamp + '_' + displayIndex}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -12 }}
+        transition={{ duration: 0.55, ease: 'easeOut' }}
+        className={`w-full flex ${isAgent ? 'justify-start' : 'justify-end'}`}
+      >
+        <div className={`max-w-[90%] md:max-w-[75%] px-5 py-4 rounded-2xl shadow-lg backdrop-blur-sm ${
+          isAgent
+            ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border border-white/40'
+            : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+        }`}
+        >
+          <div className="text-[10px] font-semibold uppercase tracking-wide opacity-70 mb-1">
+            {isAgent ? 'Noyco' : 'You'}
+          </div>
+          <div className="text-sm leading-relaxed whitespace-pre-line">{msg.text}</div>
+        </div>
+      </motion.div>
+    );
+  };
+
   const activeProfile = currentProfile || (profiles && profiles.length > 0 ? profiles[0] : null);
   const isProfileReady = !profilesLoading;
   const canStartSession = isAuthenticated && user && isProfileReady;
+  const hasConversation = conversationMessages.length > 0; // for conditional UI
 
   return (
     <>
@@ -542,8 +631,9 @@ const ImprovedVoiceAssistant = () => {
           }
         }
       `}</style>
-      <div className="min-h-screen bg-[#f8f7f1] flex flex-col items-center justify-center p-3 sm:p-4 lg:p-6">
-        <div className="w-full max-w-2xl mx-auto">
+      <div className="h-screen bg-[#f8f7f1] flex flex-col overflow-hidden">
+        <div className="flex-shrink-0 px-4 sm:px-6 lg:px-10 pt-4 pb-2 bg-[#f8f7f1] sticky top-0 z-30 border-b border-gray-200/40">
+          <div className="w-full max-w-2xl mx-auto">
         
         {/* Profile Loading State */}
         {profilesLoading && (
@@ -634,25 +724,8 @@ const ImprovedVoiceAssistant = () => {
               <div className="text-[#15345fff] text-lg sm:text-xl font-medium">
                 Please login to start
               </div>
-            ) : !isRecording ? null : (
+            ) : (
               <>
-                {(isRecording && !isListening && !isBotSpeaking && !isConnecting) && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3 }}
-                    className="mb-1"
-                  >
-                    <div className="text-xs font-medium text-gray-800 mb-0.5">
-                      Ready to talk
-                    </div>
-                    <div className="text-xs text-gray-600">
-                      Start speaking now...
-                    </div>
-                  </motion.div>
-                )}
-
                 {isListening && (
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -669,7 +742,6 @@ const ImprovedVoiceAssistant = () => {
                     </div>
                   </motion.div>
                 )}
-
                 {isRecording && (isConnecting || isBotSpeaking) && (
                   <div className="text-[#15345fff] text-sm font-medium">
                     Voice Assistant Active
@@ -710,23 +782,38 @@ const ImprovedVoiceAssistant = () => {
         </div>
 
         {/* Waveform Visualizer */}
-        {isRecording && (
-          <div className="mb-3 lg:mb-4">
-            <WaveformVisualizer isActive={isListening || isBotSpeaking} />
-          </div>
-        )}
+        {/** Waveform visualizer removed as requested */}
 
-        {/* Conversation Display */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-8 min-h-60 sm:min-h-72 lg:min-h-80 border border-gray-200 w-full max-w-4xl mx-auto shadow-xl">
-          <ConversationDisplay />
+          </div>
         </div>
-
-        {/* Instructions */}
-        {isRecording && (
-          <div className="mt-3 lg:mt-4 text-center text-gray-300">
-            <div className="text-sm sm:text-base font-light">Speak naturally • Assistant responds in real-time</div>
+        <div className="flex-1 flex flex-col px-4 sm:px-6 lg:px-10 pb-4 overflow-hidden">
+          <div className="w-full max-w-6xl mx-auto flex flex-col h-full">
+            {hasConversation && (
+              <div className="flex items-center justify-end mb-2">
+                <button
+                  onClick={() => setShowAllLogs(s => !s)}
+                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-300/60 bg-white/70 hover:bg-white shadow-sm transition-colors duration-200 backdrop-blur-sm"
+                >
+                  {showAllLogs ? 'Show Stream' : 'Show All Logs'}
+                </button>
+              </div>
+            )}
+            {showAllLogs ? (
+              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overscroll-contain pr-1">
+                <ConversationDisplay />
+                <div ref={messagesEndRef} />
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col">
+                <div className="flex-1 w-full">
+                  <SequentialMessage />
+                </div>
+                {isRecording && (
+                  <div className="mt-2 text-center text-gray-400 text-xs font-light">Speak naturally • Assistant responds in real-time</div>
+                )}
+              </div>
+            )}
           </div>
-        )}
         </div>
       </div>
     </>

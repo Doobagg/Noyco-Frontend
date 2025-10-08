@@ -7,6 +7,8 @@ import { useAuth } from '../../../../store/hooks';
 import { apiRequest } from '../../../../lib/api';
 import CheckoutButton from '@/stripe/components/CheckoutButton';
 import SubscriptionManager from '@/stripe/components/SubscriptionManager';
+import CancelSubscriptionButton from '@/stripe/components/CancelSubscriptionButton';
+import { getCurrentSubscription } from '@/stripe/services/subscriptionService';
 
 export default function Plan() {
   const { user } = useAuth();
@@ -17,6 +19,8 @@ export default function Plan() {
   const [pendingMessage, setPendingMessage] = useState('Finalizing your subscription...');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [subSummary, setSubSummary] = useState(null);
+  const [triedRefreshSub, setTriedRefreshSub] = useState(false);
 
   // Load plans + current plan from /billing/plan
   useEffect(() => {
@@ -24,7 +28,12 @@ export default function Plan() {
       setLoading(true);
       let current = null;
 
-      // 1️⃣ Fetch current subscription, ignore 404
+      // 1️⃣ Fetch subscription summary (Stripe + plan doc)
+      try {
+        const sub = await getCurrentSubscription();
+        setSubSummary(sub);
+      } catch {}
+
       try {
         current = await apiRequest('/billing/plan/current', { suppressError: true });
         if (current && current.status === 'active') {
@@ -116,6 +125,20 @@ export default function Plan() {
     loadData();
   }, []);
 
+  // After currentPlan becomes active, if we lack subscription_id try a one-time refresh
+  useEffect(() => {
+    if (currentPlan && !subSummary?.subscription_id && !triedRefreshSub) {
+      (async () => {
+        try {
+          const refreshed = await getCurrentSubscription();
+          setSubSummary(refreshed);
+        } finally {
+          setTriedRefreshSub(true);
+        }
+      })();
+    }
+  }, [currentPlan, subSummary, triedRefreshSub]);
+
   // POST to select an individual plan
   const selectPlan = async (planType) => {
     if (!user?.role_entity_id) return;
@@ -144,7 +167,10 @@ export default function Plan() {
   // Render subscription summary if already subscribed and not choosing new
   // ------------------------------------------------------------------
   if (currentPlan && !showPlans) {
-    const { details } = currentPlan;
+  const { details } = currentPlan;
+  const subId = subSummary?.subscription_id || null;
+  const cancelAtPeriodEnd = subSummary?.cancel_at_period_end || false;
+  const periodEnd = subSummary?.current_period_end || null;
     return (
       <div className="bg-beige min-h-screen">
         <div className="max-w-2xl mx-auto px-6 py-12">
@@ -190,15 +216,27 @@ export default function Plan() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-1">
-                <SubscriptionManager className="w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] hover:shadow-lg text-gray-800 font-semibold py-3 px-6 transition-all duration-200" />
+              {/** SubscriptionManager (Manage subscription) temporarily disabled per request */}
+              {false && (
+                <SubscriptionManager className="flex-1 w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] hover:shadow-lg text-gray-800 font-semibold py-3 px-6 transition-all duration-200" />
+              )}
+              <div className="flex-1 flex flex-col">
+                <CancelSubscriptionButton
+                  subscriptionId={subId}
+                  cancelAtPeriodEnd={cancelAtPeriodEnd}
+                  currentPeriodEnd={periodEnd}
+                  onStatusChange={(u) => setSubSummary(prev => ({ ...(prev||{}), ...u }))}
+                />
               </div>
-              <button
-                onClick={() => setShowPlans(true)}
-                className="flex-1 px-6 py-3 bg-beige border-accent-right border-accent-left border-accent-top border-accent text-gray-700 font-medium transition-all duration-200 hover:bg-gray-50 hover:shadow-md"
-              >
-                Change Plan
-              </button>
+              {/** Change Plan button temporarily disabled per request */}
+              {false && (
+                <button
+                  onClick={() => setShowPlans(true)}
+                  className="flex-1 px-6 py-3 bg-beige border-accent-right border-accent-left border-accent-top border-accent text-gray-700 font-medium transition-all duration-200 hover:bg-gray-50 hover:shadow-md"
+                >
+                  Change Plan
+                </button>
+              )}
             </div>
           </div>
         </div>

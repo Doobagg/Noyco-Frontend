@@ -1,3 +1,0 @@
-I am using windows so use Powershell command
-Use ; operator instead of && operator. 
-Focus on quality

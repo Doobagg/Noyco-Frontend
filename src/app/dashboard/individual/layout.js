@@ -76,9 +76,9 @@ const icons = {
 const navItems = [
   { 
     name: "Metrics", 
-    href: "/dashboard/individual/metrics", 
+    href: "/dashboard/individual/metrics", // underlying route unchanged
     icon: icons.metrics, 
-    tooltip: "View Analytics & Metrics",
+    tooltip: "Analytics and Metrics",
     subItems: [] 
   },
   // { 
@@ -89,17 +89,17 @@ const navItems = [
   //   subItems: [] 
   // },
   { 
-    name: "Plan", 
+    name: "Subscription", 
     href: "/dashboard/individual/plan", 
     icon: icons.plan, 
-    tooltip: "Health & Treatment Plans",
+    tooltip: "Subscription",
     subItems: [] 
   },
   { 
     name: "Agent profile", 
     href: "/dashboard/individual/agent-profiles", 
     icon: icons.agentProfile, 
-    tooltip: "AI Agent Configuration",
+    tooltip: "User Configuration",
     subItems: [] 
   },
   // {
@@ -370,7 +370,7 @@ export default function IndividualLayout({ children }) {
           <aside className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:relative z-50 w-[70%] lg:w-20 bg-beige/95  flex flex-col shadow-lg border-accent-right transition-transform duration-300 ease-in-out h-full`}>
             {/* Home Icon at the top */}
             <div className="py-4 px-3">
-              <Tooltip content="Home - Dashboard">
+              <Tooltip content="Home">
                 <div className="relative">
                   <Link
                     href="/dashboard/individual"

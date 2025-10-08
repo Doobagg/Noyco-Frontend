@@ -122,9 +122,21 @@ export const apiRequest = async (url, options = {}) => {
       }
     }
 
+    // Prepare body: if JSON content-type and body is a plain object, stringify it
+    let preparedBody = requestOpts.body;
+    const isPlainObject = preparedBody && typeof preparedBody === 'object' && !isFormData && !(preparedBody instanceof ArrayBuffer) && !(preparedBody instanceof Blob);
+    if (isPlainObject && headers['Content-Type'] === 'application/json') {
+      try {
+        preparedBody = JSON.stringify(preparedBody);
+      } catch (e) {
+        console.error('Failed to stringify request body', e);
+      }
+    }
+
     // Ensure credentials are included for cookies
     const requestOptions = {
       ...requestOpts,
+      body: preparedBody,
       credentials: 'include', // Always include credentials for cookie auth
       headers,
       retryCount, // Pass the retry counter
