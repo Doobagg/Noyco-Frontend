@@ -4,6 +4,7 @@ import { useAuth } from '../../../store/hooks';
 import { useRouter } from 'next/navigation';
 import { Shield, Clock, Brain, Eye, EyeOff } from 'lucide-react';
 
+// Note: For client components, metadata is handled in parent layout or via next/head
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
