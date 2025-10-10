@@ -128,7 +128,7 @@ export default function TestimonialsSection() {
             <p className="mb-6 text-base text-gray-700">
               Join thousands who have found peace, support, and growth through AI-powered mental health care.
             </p>
-            <Link href="/marketing-funnel" className="inline-block">
+            <Link href="/getting-started" className="inline-block">
               <span className="bg-beige text-gray-800 px-6 py-3 border-accent border-accent-top border-accent-left border-accent-right hover:scale-105 transition-all duration-300 text-sm inline-block">
                 Get Started Today
               </span>

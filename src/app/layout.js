@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Suspense } from "react";
 import { ReduxProvider } from "@/store/provider";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -28,10 +29,12 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" href="/favicon.ico.ico" />
         <meta name="theme-color" content="#5d83b8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        {gaId && <GoogleAnalytics measurementId={gaId} />}
       </head>
       <body>
         <ReduxProvider>
+          <Suspense fallback={null}>
+            {gaId && <GoogleAnalytics measurementId={gaId} />}
+          </Suspense>
           <ClientLayoutWrapper>
             {children}
           </ClientLayoutWrapper>

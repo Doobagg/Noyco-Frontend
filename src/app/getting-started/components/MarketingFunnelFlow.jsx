@@ -94,7 +94,7 @@ const MarketingFunnelFlow = () => {
   };
 
   return (
-  <div className="marketing-funnel-scroll-fix min-h-full bg-white pb-10">
+  <div className="getting-started-scroll-fix min-h-full bg-white pb-10">
       {/* Main content - positioned at top like onboarding */}
       <div className="flex justify-center pt-6 px-4">
         <div className="w-full max-w-md">
@@ -163,7 +163,7 @@ const MarketingFunnelFlow = () => {
         </div>
       </div>
     {/* Bottom scroll sentinel for tablet Safari & iPad Pro to ensure scrollable area */}
-  <div className="h-12 md:h-28 lg:h-32 xl:h-24 marketing-funnel-pro-sentinel" aria-hidden="true" />
+  <div className="h-12 md:h-28 lg:h-32 xl:h-24 getting-started-pro-sentinel" aria-hidden="true" />
     </div>
   );
 };

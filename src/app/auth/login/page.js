@@ -307,7 +307,7 @@ export default function LoginPage() {
                   Forgot password?
                 </button>
                 <button
-                  onClick={() => router.push('/marketing-funnel')}
+                  onClick={() => router.push('/getting-started')}
                   className="text-gray-600 hover:text-gray-800 text-sm font-medium underline underline-offset-2"
                 >
                   Create Your Account
