@@ -150,7 +150,7 @@ export default function Navbar() {
                   Sign In
                 </Link>
                 <Link
-                  href="/marketing-funnel"
+                  href="/getting-started"
                   className="inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   Get Started
@@ -264,7 +264,7 @@ export default function Navbar() {
                     Sign In
                   </Link>
                   <Link
-                    href="/marketing-funnel"
+                    href="/getting-started"
                     className="block w-full text-center text-sm font-semibold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-4 py-3 hover:shadow-md transition-all duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                   >

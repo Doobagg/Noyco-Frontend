@@ -7,7 +7,7 @@ import { LandingFooter } from './landing';
 export default function ClientLayoutWrapper({ children }) {
   const pathname = usePathname();
   const isDashboardPath = pathname?.startsWith('/dashboard');
-  const isMarketingFunnelPath = pathname?.startsWith('/marketing-funnel');
+  const isMarketingFunnelPath = pathname?.startsWith('/getting-started');
   
   return (
     <>

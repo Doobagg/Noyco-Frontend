@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 export default function SignUpPageRedirect() {
   const router = useRouter();
   useEffect(() => {
-    router.replace('/marketing-funnel');
+    router.replace('/getting-started');
   }, [router]);
   return null;
 }

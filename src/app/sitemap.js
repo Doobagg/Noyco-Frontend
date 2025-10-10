@@ -29,7 +29,7 @@ export default function sitemap() {
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/marketing-funnel`,
+      url: `${baseUrl}/getting-started`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
