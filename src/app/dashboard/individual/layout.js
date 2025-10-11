@@ -89,13 +89,6 @@ const navItems = [
   //   subItems: [] 
   // },
   { 
-    name: "Subscription", 
-    href: "/dashboard/individual/plan", 
-    icon: icons.plan, 
-    tooltip: "Subscription",
-    subItems: [] 
-  },
-  { 
     name: "Agent profile", 
     href: "/dashboard/individual/agent-profiles", 
     icon: icons.agentProfile, 
@@ -137,6 +130,7 @@ const UserProfileDropdown = ({ isOpen, onClose, user, onLogout, placement = 'sid
 
   return (
     <div className={`user-profile-dropdown absolute ${positionClass} w-64 bg-beige rounded-none shadow-xl border border-gray-200 py-2 z-50 `}>
+       
       {/* User Info */}
       <div className="px-4 py-3 border-b border-gray-100 bg-beige">
         <div className="flex items-center space-x-3">
@@ -164,6 +158,13 @@ const UserProfileDropdown = ({ isOpen, onClose, user, onLogout, placement = 'sid
         >
           {icons.settings}
           <span className="ml-3">Settings</span>
+        </Link>
+         <Link
+          href="/dashboard/individual/plan"
+          className="w-full flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-[#E6D3E7] hover:via-[#F6D9D5] hover:to-[#D6E3EC] rounded-md transition-all duration-200 mt-1"
+        >
+          {icons.plan}
+          <span className="ml-3">Subscription</span>
         </Link>
         <button
           onClick={onLogout}

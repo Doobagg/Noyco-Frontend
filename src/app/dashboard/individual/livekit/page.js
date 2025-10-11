@@ -78,6 +78,13 @@ const Amoeba = ({ gradient, duration, delay, sizeClass, isActive = false, isList
         background: gradient,
         filter: isListening ? 'blur(35px)' : isActive ? 'blur(42px)' : 'blur(50px)',
         opacity: isListening ? 0.8 : isActive ? 0.7 : 0.55,
+        willChange: 'transform, border-radius',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
+        WebkitPerspective: 1000,
+        perspective: 1000,
       }}
       animate={{
         borderRadius: animationProps.borderRadius,
@@ -490,7 +497,7 @@ const ImprovedVoiceAssistant = () => {
               <div className={`max-w-[85%] px-4 py-3 rounded-2xl shadow-lg ${
                 msg.sender === 'agent'
                   ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border border-white/40'
-                  : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+                  : 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-white'
               }`}>
                 <div className="text-xs font-semibold mb-1.5 opacity-80">
                   {msg.sender === 'agent' ? '🤖 Noyco' : '👤 You'}
@@ -600,7 +607,7 @@ const ImprovedVoiceAssistant = () => {
         <div className={`max-w-[90%] md:max-w-[75%] px-5 py-4 rounded-2xl shadow-lg backdrop-blur-sm ${
           isAgent
             ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border border-white/40'
-            : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
+            : 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-white'
         }`}
         >
           <div className="text-[10px] font-semibold uppercase tracking-wide opacity-70 mb-1">

@@ -87,10 +87,7 @@ const HowItWorksSection = () => {
               className="group relative"
               style={{ animationDelay: step.delay }}
             >
-              {/* Connection Line for desktop */}
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-6 left-full w-8 h-px bg-gradient-to-r from-gray-300 to-transparent z-10 transform translate-x-4"></div>
-              )}
+              {/* Removed decorative connection line */}
 
               {/* Card */}
               <div className="relative bg-beige p-6 border-accent border-accent-top border-accent-left border-accent-right hover:border-gray-300 transition-all duration-700 group-hover:shadow-xl group-hover:-translate-y-2 h-full">

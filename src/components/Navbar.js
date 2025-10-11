@@ -115,7 +115,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-3">
             {mounted && isAuthenticated && !loading && !pathname?.startsWith('/auth') ? (
               <div className="hidden lg:flex items-center space-x-4">
-                <div className="flex items-center space-x-3 px-3 py-2 bg-white/50 border border-gray-200 hover:bg-white/70 transition-colors duration-200">
+                <div className="flex items-center space-x-3 h-10 px-3 bg-white/50 border border-gray-200 hover:bg-white/70 transition-colors duration-200">
                   <div className="w-8 h-8 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -125,7 +125,7 @@ export default function Navbar() {
                 </div>
                 <Link
                   href={getDashboardLink()}
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className="inline-flex items-center justify-center h-10 px-4 text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                   Dashboard
                 </Link>

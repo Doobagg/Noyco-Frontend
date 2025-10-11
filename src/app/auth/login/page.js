@@ -137,7 +137,7 @@ export default function LoginPage() {
   return (
   <div className="login-page-wrapper min-h-screen relative bg-beige flex items-center justify-center p-4" style={{ fontFamily: '"Mier A", sans-serif' }}>
       {/* Soft background blobs (match landing palette) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block">
         <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-r from-[#E6D3E7] to-[#F6D9D5] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse"></div>
         <div className="absolute top-40 right-10 w-56 h-56 bg-gradient-to-r from-[#F6D9D5] to-[#D6E3EC] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse animation-delay-2000"></div>
         <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-52 h-52 bg-gradient-to-r from-[#D6E3EC] to-[#E6D3E7] mix-blend-multiply filter blur-2xl opacity-15 animate-pulse animation-delay-4000"></div>

@@ -127,7 +127,7 @@ const FeaturesSection = () => {
               <div className="relative bg-beige p-6 border-accent border-accent-top border-accent-left border-accent-right hover:border-gray-300 transition-all duration-700 group-hover:shadow-xl group-hover:-translate-y-1 h-full flex flex-col">
                 
                 {/* Floating Icon */}
-                <div className="relative mb-5">
+                <div className="relative mb-5 flex justify-center">
                   <div className="w-12 h-12 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] p-3 text-gray-700 group-hover:scale-105 group-hover:rotate-3 transition-all duration-500 border border-gray-200">
                     {feature.icon}
                   </div>
