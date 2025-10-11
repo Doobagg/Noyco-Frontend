@@ -102,17 +102,17 @@ const AgeRangeStep = () => {
                   priority={true}
                 />
                 {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-beige/60 via-black/0 to-transparent" />
               </div>
               
               {/* Text overlay at bottom */}
               <div className="absolute bottom-0 left-0 right-0">
                 <div className={`
-                  w-full py-3 px-4 text-white font-semibold text-sm sm:text-base text-center
+                  w-full py-3 px-4 text-black font-semibold text-sm sm:text-base text-center
                   transition-all duration-300
                   ${data.ageGroup === group.value
                     ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800' 
-                    : 'bg-gray/60 backdrop-blur-sm group-hover:bg-gray/70'
+                    : 'bg-gray/60 backdrop-blur-sm group-hover:bg-beige'
                   }
                 `}>
                   Age: {group.label}

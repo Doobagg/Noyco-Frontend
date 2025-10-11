@@ -171,26 +171,26 @@ const App = () => {
           </div>
 
           {/* Text column second on mobile/tablet, first on large screens */}
-          <div className="order-2 lg:order-1 w-full lg:w-1/2 text-center lg:text-left px-2 sm:px-0">
+          <div className="order-2 lg:order-1 w-full lg:w-1/2 text-left px-2 sm:px-0">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center bg-beige text-gray-800 px-4 py-2 b text-sm font-medium mb-4">
+              <div className="inline-flex items-center bg-beige text-gray-800 px-4 py-2  text-sm font-medium mb-4   ml-[-12px]">
                 AI-Powered Mental Health Platform
               </div>
               
               <h1 className="text-3xl md:text-5xl text-gray-900 mb-4 leading-tight">
                 Your Personal 
-                <span className="text-[#5d83b8]"> AI Wellness</span> Companion
+                <span className="text-[#5d83b8]"> Emotional Coach</span> 
               </h1>
               
               <p className="text-lg md:text-xl text-gray-600 mb-6 leading-relaxed max-w-xl">
                 Experience personalized mental health support with our advanced AI agents. Get instant guidance, track your progress, and build lasting wellness habits.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-start">
                 <motion.button
                   className="bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 px-4 sm:px-6 py-2.5 sm:py-3 text-base sm:text-lg border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
@@ -209,7 +209,7 @@ const App = () => {
                 </motion.button>
               </div>
               <div className="mt-6 space-y-4">
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-[12px] sm:text-sm text-gray-600">
+                <div className="flex flex-wrap items-center justify-start gap-x-5 gap-y-2 text-[12px] sm:text-sm text-gray-600">
                   <span className="inline-flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-[#5d83b8]" /> Privacy-first
                   </span>
@@ -222,7 +222,7 @@ const App = () => {
                     <Heart className="w-3.5 h-3.5 text-[#5d83b8]" /> Designed with clinicians
                   </span>
                 </div>
-                <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-start gap-3 sm:gap-5">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start sm:justify-start gap-3 sm:gap-5">
                   {/* Avatar stack driven by data */}
                   <div className="flex -space-x-3">
                     {avatars.map((a, i) => (
