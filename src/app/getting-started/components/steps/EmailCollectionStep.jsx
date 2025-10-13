@@ -42,6 +42,24 @@ const EmailCollectionStep = () => {
     
     // Save email to funnel data
     actions.updateData({ email });
+    // Persist email for cross-route access (used by complete-signup page)
+    try {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('funnelEmail', email);
+        // Also update the saved funnelProgress if it exists
+        const saved = sessionStorage.getItem('funnelProgress');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          const updated = {
+            ...parsed,
+            data: { ...(parsed?.data || {}), email }
+          };
+          sessionStorage.setItem('funnelProgress', JSON.stringify(updated));
+        }
+      }
+    } catch (e) {
+      // no-op: best-effort caching
+    }
     
     // Simulate a brief loading state
     setTimeout(() => {

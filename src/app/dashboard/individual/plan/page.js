@@ -6,6 +6,7 @@ import { Check } from 'lucide-react';
 import { useAuth } from '../../../../store/hooks';
 import { apiRequest } from '../../../../lib/api';
 import CheckoutButton from '@/stripe/components/CheckoutButton';
+import Link from 'next/link';
 import SubscriptionManager from '@/stripe/components/SubscriptionManager';
 import CancelSubscriptionButton from '@/stripe/components/CancelSubscriptionButton';
 import { getCurrentSubscription } from '@/stripe/services/subscriptionService';
@@ -402,9 +403,15 @@ export default function Plan() {
                   </button>
                 ) : (
                   <div className="w-full space-y-3">
-                    <CheckoutButton planType={plan.plan_type}>
-                      <span className="font-medium">Get Started</span>
-                    </CheckoutButton>
+                    {process.env.NEXT_PUBLIC_USE_CUSTOM_CHECKOUT === 'true' ? (
+                      <Link href="/dashboard/individual/plan/custom-checkout" className="flex items-center justify-center w-full py-3 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 font-semibold">
+                        <span className="font-medium">Get Started</span>
+                      </Link>
+                    ) : (
+                      <CheckoutButton planType={plan.plan_type}>
+                        <span className="font-medium">Get Started</span>
+                      </CheckoutButton>
+                    )}
                     {legal && (
                       <p className="text-xs text-gray-500 leading-relaxed">{legal}</p>
                     )}

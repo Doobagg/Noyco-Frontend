@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createCheckout } from '../services/checkoutService';
 import { showToast } from '@/lib/toast';
 
 export default function CheckoutButton({ planType, children }) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleClick = async () => {
     if (loading) return;
     try {
-  setLoading(true);
-  await createCheckout(planType);
+      setLoading(true);
+      // Always navigate to custom checkout route and pass plan selection
+      const url = `/dashboard/individual/plan/custom-checkout?plan=${encodeURIComponent(planType)}`;
+      router.push(url);
     } catch (err) {
       console.error('Checkout error', err);
       showToast('Unable to start checkout', 'error');

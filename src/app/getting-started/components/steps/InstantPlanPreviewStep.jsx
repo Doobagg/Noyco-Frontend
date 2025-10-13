@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Target, Clock, Zap, Smartphone, Heart, BookOpen } from 'lucide-react';
 import { apiRequest } from '@/lib/api';
-import { getStripe } from '@/stripe/utils/stripeLoader';
+import { createPublicSubscription } from '@/stripe/services/checkoutService';
 
 const InstantPlanPreviewStep = () => {
   const { data } = useMarketingFunnel();
@@ -54,17 +54,19 @@ const InstantPlanPreviewStep = () => {
     }
     try {
       setCreatingCheckout(true);
-      const payload = { email, plan_code: selectedPlan };
-      const { sessionId } = await apiRequest('/public/billing/checkout-session', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
-      const stripe = await getStripe();
-      const { error } = await stripe.redirectToCheckout({ sessionId });
-      if (error) {
-        console.error('Stripe redirect error', error);
-        alert(error.message || 'Unable to redirect to checkout');
+      // Pre-create the public subscription so the subscribe page can render Payment Element immediately
+      const res = await createPublicSubscription(email, selectedPlan);
+      if (res?.client_secret && res?.subscription_id) {
+        try {
+          sessionStorage.setItem(
+            'pre_checkout',
+            JSON.stringify({ cs: res.client_secret, sid: res.subscription_id })
+          );
+        } catch {}
       }
+      // Navigate to subscribe with params (no autostart needed; page will consume pre_checkout)
+      const params = new URLSearchParams({ email, plan: selectedPlan });
+      router.push(`/billing/subscribe?${params.toString()}`);
     } catch (e) {
       console.error('Checkout creation failed', e);
       alert(e.message || 'Unable to start checkout');

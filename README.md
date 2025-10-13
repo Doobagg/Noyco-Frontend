@@ -58,6 +58,8 @@ Create a `.env.local` file in the root directory and add the following environme
 ```bash
 # Stripe Configuration
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+# Feature flags (migration)
+NEXT_PUBLIC_USE_CUSTOM_CHECKOUT=false
 
 # API Configuration
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000

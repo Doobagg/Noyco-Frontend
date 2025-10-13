@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.10.37",
+    "@stripe/react-stripe-js": "^2.9.0",
     "@stripe/stripe-js": "^7.5.0",
     "animejs": "^4.1.2",
     "axios": "^1.11.0",

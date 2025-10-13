@@ -1,18 +1,21 @@
 import { apiRequest } from '@/lib/api';
-import { getStripe } from '../utils/stripeLoader';
 
-export const createCheckout = async (planType) => {
-  const stripe = await getStripe();
+// Custom checkout (authenticated): create subscription and return client secret
+export const createSubscription = async (planType) => {
   const body = { plan_type: planType };
-  const { checkout_url } = await apiRequest('/stripe/checkout', {
+  const res = await apiRequest('/stripe/create-subscription', {
     method: 'POST',
     body: JSON.stringify(body),
   });
+  // { client_secret, subscription_id, customer_id }
+  return res;
+};
 
-  // Prefer using redirect to URL to avoid CORS issues
-  if (checkout_url) {
-    window.location.href = checkout_url;
-  } else {
-    throw new Error('Failed to get checkout URL');
-  }
-}; 
+// Public funnel custom checkout
+export const createPublicSubscription = async (email, planCode) => {
+  const res = await apiRequest('/public/billing/create-subscription', {
+    method: 'POST',
+    body: JSON.stringify({ email, plan_code: planCode }),
+  });
+  return res; // { client_secret, subscription_id, customer_id }
+};

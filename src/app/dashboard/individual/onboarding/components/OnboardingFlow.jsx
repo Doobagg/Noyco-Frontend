@@ -371,7 +371,7 @@ const OnboardingFlow = ({ onComplete, isCompleting, user }) => {
                   value={profileData.phone}
                   onChange={(e) => updateProfileData({ phone: e.target.value })}
                   placeholder="e.g. 555 123 4567"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-gray-400 text-gray-900"
+                  className="w-full p-3 border border-gray-300  focus:ring-2 focus:ring-gray-400 focus:border-gray-400 text-gray-900"
                 />
                 {(errors.phone) && <p className="text-red-500 text-sm mt-2">{errors.phone}</p>}
               </div>

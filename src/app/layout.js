@@ -21,6 +21,7 @@ export const metadata = generatePageMetadata({
 
 export default function RootLayout({ children }) {
   const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
+  const useCustomCheckout = process.env.NEXT_PUBLIC_USE_CUSTOM_CHECKOUT === 'true';
   
   return (
     <html lang="en">
@@ -31,6 +32,8 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
       <body>
+        {/* Log once on client hydration for visibility of feature flags */}
+        <script dangerouslySetInnerHTML={{ __html: `console.info('[FeatureFlag] NEXT_PUBLIC_USE_CUSTOM_CHECKOUT =', '${process.env.NEXT_PUBLIC_USE_CUSTOM_CHECKOUT || 'false'}');` }} />
         <ReduxProvider>
           <Suspense fallback={null}>
             {gaId && <GoogleAnalytics measurementId={gaId} />}
