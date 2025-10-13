@@ -929,12 +929,8 @@ const ImprovedVoiceAssistant = () => {
       
       await roomRef.current.localParticipant.publishData(data, { reliable: true });
       
-      // Add to conversation UI
-      setConversationMessages(prev => [...prev, {
-        sender: 'user',
-        text: textToSend,
-        timestamp: Date.now()
-      }]);
+      // Don't add to conversation UI here - let the backend send it back
+      // This prevents duplicate messages in the logs
       
       // Clear accumulated transcript
       setAccumulatedTranscript('');
