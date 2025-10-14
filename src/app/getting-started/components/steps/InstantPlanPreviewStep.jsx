@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useMarketingFunnel } from '../../context/MarketingFunnelContext';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Target, Clock, Zap, Smartphone, Heart, BookOpen } from 'lucide-react';
+import { Target, Clock, Zap, Smartphone, Heart, BookOpen, CheckCircle, XCircle, Star } from 'lucide-react';
 import { apiRequest } from '@/lib/api';
 import { createPublicSubscription } from '@/stripe/services/checkoutService';
 
@@ -257,14 +257,107 @@ const InstantPlanPreviewStep = () => {
         </div>
       </motion.div>
 
+              
+     
       {/* Pricing - Stacked rectangular cards */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.75 }}
       >
+        {/* Transformation highlights: two-column comparison */}
+        <div className="mb-6">
+          <h3 className="text-center text-lg font-semibold text-gray-900 mb-4">Transform Your Wellness in 4 Weeks</h3>
+          {(() => {
+            const items = [
+              'Stress-free mornings and peaceful evenings',
+              'Crystal clear focus throughout your day',
+              'Steady energy without the crashes',
+              'Deep, restorative sleep every night',
+              'Confidence in social connections',
+              'Freedom from anxiety and worry',
+              'A calmer, stronger version of yourself',
+            ];
+            return (
+              <div className="bg-white   border-gray-200 p-5">
+                <div className="grid [grid-template-columns:1fr_auto_auto] gap-x-2 gap-y-2 items-center">
+                  <div></div>
+                  <div className="text-xs font-semibold text-gray-600 text-right pr-1">With Noyco</div>
+                  <div className="text-xs font-semibold text-gray-600 text-right">Without Noyco</div>
+                  {items.map((text, idx) => (
+                    <div className="contents" key={`row-${idx}`}>
+                      <div className="text-sm text-gray-800 whitespace-nowrap truncate pr-2">{text}</div>
+                      <div className="flex items-center justify-end">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                      </div>
+                      <div className="flex items-center justify-end">
+                        <XCircle className="w-4 h-4 text-red-500" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+          {/* Transform image placed immediately after comparison */}
+          <div className="flex justify-center mt-2">
+            <div className="w-full max-w-[420px] md:max-w-[600px]">
+              <Image
+                src="/transform.png"
+                alt="Transform preview"
+                width={600}
+                height={600}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Reviews / Testimonials */}
+          <div className="mt-6">
+            <h4 className="text-center text-md font-semibold text-gray-900 mb-4">What people are saying</h4>
+            <div className="space-y-4">
+              {[
+                {
+                  name: 'Stacy',
+                  text: 'I finally sleep through the night and wake up calmer. The daily steps are simple and effective.',
+                },
+                {
+                  name: 'Michael',
+                  text: 'My focus and energy improved in two weeks — this felt like a personal coach in my pocket.',
+                },
+                {
+                  name: 'Sofia',
+                  text: 'Practical, research-backed techniques. Less anxiety, more confidence in social situations.',
+                }
+              ].map((r, i) => (
+                <div key={i} className="bg-white  p-4 rounded-md w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-sm font-semibold text-gray-800">{r.name.split(' ')[0].charAt(0)}</div>
+                      <div>
+                        <div className="text-sm font-semibold text-gray-900">{r.name}</div>
+                          <div className="flex items-center text-yellow-500">
+                      <Star className="w-4 h-4" />
+                      <Star className="w-4 h-4" />
+                      <Star className="w-4 h-4" />
+                      <Star className="w-4 h-4" />
+                      <Star className="w-4 h-4 text-yellow-400" />
+                    </div>
+                      </div>
+                    </div>
+                  
+                  </div>
+                  <p className="text-sm text-gray-700">{r.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
         {/* Cost comparison note (placed above heading) */}
-        <div className="text-center mb-2">
+        <div className="text-center mt-6 mb-4">
           <div className="inline-block bg-yellow-50 text-yellow-900 border border-yellow-200 px-4 py-2 rounded-md text-sm">
             Therapy costs $200+/hr. This only costs $19.99.
           </div>
@@ -294,7 +387,7 @@ const InstantPlanPreviewStep = () => {
                   <h3 className="font-bold text-gray-900 mb-1">{p.title}</h3>
                   {p.priceDisplay && (
                     <div className="flex items-baseline gap-2">
-                      <div className="text-xl text-gray-900">{p.priceDisplay}</div>
+                      <div className="text-base text-gray-900 font-normal">{p.priceDisplay}</div>
                     </div>
                   )}
                 </div>
