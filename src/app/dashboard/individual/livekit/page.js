@@ -431,8 +431,8 @@ const ChatTherapist = () => {
     // Clean up voice session on backend
     if (sessionIdRef.current) {
       try {
-        const agentUrl = process.env.NEXT_PUBLIC_AGENT_URL || 'http://localhost:8000';
-        await fetch(`${agentUrl}/api/v1/livekit/voice-sessions/${sessionIdRef.current}`, {
+        const agentUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        await fetch(`${agentUrl}/api/v1/voice/voice-sessions/${sessionIdRef.current}`, {
           method: 'DELETE',
         });
         console.log('🗑️ Voice session cleaned up:', sessionIdRef.current);
@@ -500,14 +500,14 @@ const ChatTherapist = () => {
   const isProfileReady = !profilesLoading;
 
   return (
-    <div className="h-full flex flex-col bg-[#f8f7f1]">
+    <div className="min-h-[calc(100vh-200px)] flex flex-col bg-[#f8f7f1] mt-4">
       {/* Header */}
-      <div className="flex-shrink-0 px-4 sm:px-6 py-4 border-b border-gray-200/40">
+      <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 py-3 sm:py-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Your Personal AI Agent</h2>
-              <p className="text-sm text-gray-600 mt-1">Chat-based emotional support and guidance</p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+            <div className="flex-1">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Your Personal AI Agent</h2>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">Chat-based emotional support and guidance</p>
             </div>
             
             {/* Connection Button */}
@@ -515,22 +515,22 @@ const ChatTherapist = () => {
               <button
                 onClick={connectWebSocket}
                 disabled={isConnecting || !isAuthenticated || !isProfileReady}
-                className={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold transition-all duration-200 shadow-lg ${
+                className={`flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 shadow-lg whitespace-nowrap ${
                   isConnecting
                     ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white cursor-wait'
                     : isAuthenticated && isProfileReady
-                    ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 text-white hover:shadow-xl hover:scale-105 active:scale-95'
+                    ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 hover:shadow-xl hover:scale-105 active:scale-95 border-2 border-gray-300/30'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
                 {isConnecting ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                     <span>Connecting...</span>
                   </>
                 ) : (
                   <>
-                    <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                    <ChatBubbleLeftRightIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Start Session</span>
                   </>
                 )}
@@ -538,9 +538,9 @@ const ChatTherapist = () => {
             ) : (
               <button
                 onClick={disconnectWebSocket}
-                className="flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold bg-gradient-to-r from-red-500 to-red-600 text-white hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg"
+                className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-full text-xs sm:text-sm font-bold bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg whitespace-nowrap"
               >
-                <XMarkIcon className="w-5 h-5" />
+                <XMarkIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>End Session</span>
               </button>
             )}
@@ -548,7 +548,7 @@ const ChatTherapist = () => {
 
           {/* Connection Status */}
           {isConnected && (
-            <div className="mt-3 flex items-center gap-2 text-xs">
+            <div className="mt-3 flex items-center gap-2 text-xs sm:text-sm">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
               <span className="text-gray-600 font-medium">Connected - Your conversation is secure and private</span>
             </div>
@@ -557,15 +557,15 @@ const ChatTherapist = () => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6">
-        <div className="max-w-4xl mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
+        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4">
           {!isConnected && messages.length === 0 && (
-            <div className="text-center py-12">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 mb-4">
-                <ChatBubbleLeftRightIcon className="w-10 h-10 text-blue-600" />
+            <div className="text-center py-8 sm:py-12 px-3">
+              <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] mb-4 shadow-lg">
+                <ChatBubbleLeftRightIcon className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700" />
               </div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Start Your Session</h3>
-              <p className="text-sm text-gray-600 max-w-md mx-auto">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2">Start Your Session</h3>
+              <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
                 Connect to begin a confidential conversation with your personal AI agent. 
                 Share your thoughts, feelings, and concerns in a safe space.
               </p>
@@ -581,25 +581,25 @@ const ChatTherapist = () => {
               className={`flex ${msg.sender === 'agent' ? 'justify-start' : msg.sender === 'system' ? 'justify-center' : 'justify-end'}`}
             >
               {msg.sender === 'system' ? (
-                <div className="px-4 py-2 rounded-full bg-yellow-100 border border-yellow-300 text-yellow-800 text-xs font-medium">
+                <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-yellow-300/50 text-yellow-800 text-[10px] sm:text-xs font-medium shadow-md">
                   {msg.text}
                 </div>
               ) : (
-                <div className={`max-w-[85%] sm:max-w-[75%] px-5 py-4 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
+                <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] px-4 py-3 sm:px-5 sm:py-4 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
                   msg.sender === 'agent'
                     ? 'bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-purple-200/50'
                     : 'bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-800 border-blue-300/50'
                 }`}>
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                     <div className={`w-1.5 h-1.5 rounded-full ${msg.sender === 'agent' ? 'bg-purple-500' : 'bg-blue-500'}`}></div>
-                    <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-80">
-                      {msg.sender === 'agent' ? '🧠 Noyco' : '👤 You'}
+                    <div className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-80">
+                      {msg.sender === 'agent' ? '� Noyco' : '👤 You'}
                     </div>
                   </div>
-                  <div className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">
+                  <div className="text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">
                     {msg.text}
                   </div>
-                  <div className="text-[9px] sm:text-[10px] text-gray-500 mt-2 opacity-70 font-medium">
+                  <div className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500 mt-1.5 sm:mt-2 opacity-70 font-medium">
                     {new Date(msg.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
@@ -613,7 +613,7 @@ const ChatTherapist = () => {
               animate={{ opacity: 1 }}
               className="flex justify-start"
             >
-              <div className="px-5 py-4 rounded-2xl bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] border-2 border-purple-200/50 shadow-xl">
+              <div className="px-4 py-3 sm:px-5 sm:py-4 rounded-2xl bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] border-2 border-purple-200/50 shadow-xl">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-purple-500 animate-bounce"></div>
                   <div className="w-2 h-2 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
@@ -629,32 +629,32 @@ const ChatTherapist = () => {
 
       {/* Input Area */}
       {isConnected && (
-        <div className="flex-shrink-0 border-t border-gray-200/40 bg-white/50 backdrop-blur-sm">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
-            <div className="flex gap-3">
+        <div className="flex-shrink-0 border-t-2 border-gray-200/40 bg-gradient-to-r from-white/80 via-blue-50/20 to-purple-50/20 backdrop-blur-sm">
+          <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+            <div className="flex gap-2 sm:gap-3">
               <textarea
                 ref={inputRef}
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Share your thoughts and feelings..."
-                className="flex-1 px-4 py-3 rounded-xl border-2 border-blue-200/60 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-none bg-white shadow-sm text-sm"
+                className="flex-1 px-3 py-2 sm:px-4 sm:py-3 rounded-xl border-2 border-gray-300/60 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 resize-none bg-white shadow-sm text-xs sm:text-sm"
                 rows={2}
                 disabled={isSending}
               />
               <button
                 onClick={sendMessage}
                 disabled={!inputMessage.trim() || isSending}
-                className={`flex items-center justify-center px-6 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg ${
+                className={`flex items-center justify-center px-4 sm:px-6 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 shadow-lg ${
                   inputMessage.trim() && !isSending
-                    ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 text-white hover:shadow-xl hover:scale-105 active:scale-95'
+                    ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 hover:shadow-xl hover:scale-105 active:scale-95 border-2 border-gray-300/30'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                <PaperAirplaneIcon className="w-5 h-5" />
+                <PaperAirplaneIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
-            <div className="mt-2 text-xs text-gray-500 text-center">
+            <div className="mt-2 text-[10px] sm:text-xs text-gray-500 text-center">
               Press Enter to send • Shift + Enter for new line
             </div>
           </div>
@@ -677,6 +677,7 @@ const ImprovedVoiceAssistant = () => {
   const [debugStatus, setDebugStatus] = useState('Ready');
   const [turnCount, setTurnCount] = useState(0);
   const [conversationMessages, setConversationMessages] = useState([]);
+  const [initialGreetingReceived, setInitialGreetingReceived] = useState(false);
   
   // New states for manual send mode
   const [autoSendEnabled, setAutoSendEnabled] = useState(true);
@@ -769,6 +770,11 @@ const ImprovedVoiceAssistant = () => {
           }
           setIsBotSpeaking(true);
           setDebugStatus('Agent speaking');
+          
+          // Mark initial greeting as received when first audio plays
+          if (!initialGreetingReceived) {
+            setInitialGreetingReceived(true);
+          }
         }
       });
 
@@ -776,7 +782,10 @@ const ImprovedVoiceAssistant = () => {
         track.detach().forEach(el => el.remove());
         setIsBotSpeaking(false);
         setIsListening(false);
-        setDebugStatus('Ready to talk');
+        // Only show "Ready to talk" after initial greeting has been played
+        if (initialGreetingReceived) {
+          setDebugStatus('Ready to talk');
+        }
       });
 
       room.on(RoomEvent.DataReceived, (payload, participant) => {
@@ -842,7 +851,7 @@ const ImprovedVoiceAssistant = () => {
         console.log('Connected to room');
         setIsConnecting(false);
         setIsRecording(true);
-        setDebugStatus('Connected - Ready to talk');
+        setDebugStatus('Waiting for agent...');
       });
 
       room.on(RoomEvent.Disconnected, () => {
@@ -906,6 +915,7 @@ const ImprovedVoiceAssistant = () => {
       setDebugStatus('Ready');
       setAccumulatedTranscript('');
       setAutoSendEnabled(true);
+      setInitialGreetingReceived(false);
 
     } catch (error) {
       console.error('Error stopping session:', error);
@@ -1021,7 +1031,7 @@ const ImprovedVoiceAssistant = () => {
   const ConversationDisplay = () => {
     if (conversationMessages.length > 0) {
       return (
-        <div className="space-y-4 px-1 sm:px-2 py-2">
+        <div className="space-y-2 sm:space-y-3 md:space-y-4 px-1 sm:px-2 py-2">
           {conversationMessages.map((msg, idx) => (
             <motion.div 
               key={idx}
@@ -1030,21 +1040,21 @@ const ImprovedVoiceAssistant = () => {
               transition={{ duration: 0.3, delay: idx * 0.05 }}
               className={`flex ${msg.sender === 'agent' ? 'justify-start' : 'justify-end'}`}
             >
-              <div className={`max-w-[90%] sm:max-w-[85%] md:max-w-[75%] px-5 py-4 sm:px-6 sm:py-5 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
+              <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
                 msg.sender === 'agent'
                   ? 'bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-purple-200/50'
                   : 'bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-800 border-blue-300/50'
               }`}>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                   <div className={`w-1.5 h-1.5 rounded-full ${msg.sender === 'agent' ? 'bg-purple-500' : 'bg-blue-500'}`}></div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-80">
+                  <div className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-80">
                     {msg.sender === 'agent' ? '🤖 Noyco' : '👤 You'}
                   </div>
                 </div>
-                <div className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">
+                <div className="text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">
                   {msg.text}
                 </div>
-                <div className="text-[9px] sm:text-[10px] text-gray-500 mt-2 opacity-70 font-medium">
+                <div className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500 mt-1.5 sm:mt-2 opacity-70 font-medium">
                   {new Date(msg.timestamp).toLocaleTimeString()}
                 </div>
               </div>
@@ -1055,9 +1065,9 @@ const ImprovedVoiceAssistant = () => {
       );
     } else if (currentMessage) {
       return (
-        <div className="text-center px-4">
-          <div className="inline-block bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 px-6 py-4 sm:px-8 sm:py-5 lg:px-10 lg:py-6 rounded-2xl border-2 border-blue-200/50 shadow-xl max-w-2xl w-full backdrop-blur-sm">
-            <div className="text-gray-800 text-sm lg:text-base font-medium leading-relaxed">
+        <div className="text-center px-3 sm:px-4">
+          <div className="inline-block bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-5 lg:px-10 lg:py-6 rounded-2xl border-2 border-blue-200/50 shadow-xl max-w-full sm:max-w-2xl w-full backdrop-blur-sm">
+            <div className="text-gray-800 text-xs sm:text-sm md:text-base font-medium leading-relaxed">
               {currentMessage}
             </div>
           </div>
@@ -1065,8 +1075,8 @@ const ImprovedVoiceAssistant = () => {
       );
     } else if (isRecording) {
       return (
-        <div className="text-center text-gray-600">
-          <div className="text-sm font-medium">Start speaking to begin the conversation...</div>
+        <div className="text-center text-gray-600 px-3">
+          <div className="text-xs sm:text-sm font-medium">Start speaking to begin the conversation...</div>
         </div>
       );
     }
@@ -1124,10 +1134,10 @@ const ImprovedVoiceAssistant = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4 }}
-            className="text-center px-4"
+            className="text-center px-3 sm:px-4"
           >
-            <div className="inline-block bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 px-6 py-4 rounded-2xl border-2 border-blue-200/50 shadow-xl backdrop-blur-sm">
-              <div className="text-sm text-gray-800 font-medium leading-relaxed">
+            <div className="inline-block bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border-2 border-blue-200/50 shadow-xl backdrop-blur-sm max-w-full">
+              <div className="text-xs sm:text-sm md:text-base text-gray-800 font-medium leading-relaxed">
                 {currentMessage}
               </div>
             </div>
@@ -1136,8 +1146,8 @@ const ImprovedVoiceAssistant = () => {
       }
       if (isRecording) {
         return (
-          <div className="text-center text-gray-600">
-            <div className="text-sm font-medium">Start speaking to begin the conversation...</div>
+          <div className="text-center text-gray-600 px-3">
+            <div className="text-xs sm:text-sm font-medium">Start speaking to begin the conversation...</div>
           </div>
         );
       }
@@ -1152,22 +1162,22 @@ const ImprovedVoiceAssistant = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -12 }}
         transition={{ duration: 0.55, ease: 'easeOut' }}
-        className={`w-full flex px-2 sm:px-4 ${isAgent ? 'justify-start' : 'justify-end'}`}
+        className={`w-full flex px-2 sm:px-3 md:px-4 ${isAgent ? 'justify-start' : 'justify-end'}`}
       >
-        <div className={`max-w-[92%] sm:max-w-[85%] md:max-w-[75%] lg:max-w-[65%] px-5 py-4 sm:px-6 sm:py-5 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
+        <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[70%] px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
           isAgent
             ? 'bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-purple-200/50'
             : 'bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-800 border-blue-300/50'
         }`}
         >
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
             <div className={`w-1.5 h-1.5 rounded-full ${isAgent ? 'bg-purple-500' : 'bg-blue-500'}`}></div>
-            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-80">
+            <div className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-80">
               {isAgent ? '🤖 Noyco' : '👤 You'}
             </div>
           </div>
-          <div className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">{msg.text}</div>
-          <div className="text-[9px] sm:text-[10px] text-gray-500 mt-2 opacity-70 font-medium">
+          <div className="text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">{msg.text}</div>
+          <div className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500 mt-1.5 sm:mt-2 opacity-70 font-medium">
             {new Date(msg.timestamp).toLocaleTimeString()}
           </div>
         </div>
@@ -1241,15 +1251,15 @@ const VoiceAssistantContent = ({
           }
         }
       `}</style>
-      <div className="h-full bg-[#f8f7f1] flex flex-col overflow-hidden">
-        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 lg:px-10 pt-3 sm:pt-4 pb-2 bg-[#f8f7f1] sticky top-0 z-30 border-b border-gray-200/40">
-          <div className="w-full max-w-3xl mx-auto">
+      <div className="min-h-[calc(100vh-200px)] bg-[#f8f7f1] flex flex-col">
+        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 pb-2 bg-[#f8f7f1]">
+          <div className="w-full max-w-4xl mx-auto">
         
         {/* Profile Loading State */}
         {profilesLoading && (
-          <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-            <div className="inline-block bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] px-4 py-3 sm:px-6 sm:py-4 rounded-2xl backdrop-blur-sm shadow-lg">
-              <div className="text-gray-800 text-base sm:text-lg font-medium">
+          <div className="text-center mb-3 sm:mb-4 md:mb-6">
+            <div className="inline-block bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] px-4 py-2 sm:px-6 sm:py-3 md:py-4 rounded-2xl backdrop-blur-sm shadow-lg">
+              <div className="text-gray-800 text-sm sm:text-base md:text-lg font-medium">
                 Loading your profile...
               </div>
             </div>
@@ -1258,17 +1268,17 @@ const VoiceAssistantContent = ({
         
         {/* No Profile Warning */}
         {!profilesLoading && !activeProfile && (
-          <div className="text-center mb-4 sm:mb-6 lg:mb-8 px-2">
-            <div className="inline-block bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] px-4 py-3 sm:px-6 sm:py-4 rounded-2xl backdrop-blur-sm shadow-lg max-w-md">
-              <div className="text-gray-800 text-base sm:text-lg font-medium">
+          <div className="text-center mb-3 sm:mb-4 md:mb-6 px-2">
+            <div className="inline-block bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] px-4 py-2 sm:px-6 sm:py-3 md:py-4 rounded-2xl backdrop-blur-sm shadow-lg max-w-md w-full mx-2">
+              <div className="text-gray-800 text-sm sm:text-base md:text-lg font-medium">
                 Profile not found
               </div>
-              <div className="text-gray-700 text-xs sm:text-sm mt-1">
+              <div className="text-gray-700 text-[10px] sm:text-xs md:text-sm mt-1">
                 Please refresh the page or check your profile settings.
               </div>
               <button 
                 onClick={fetchProfiles}
-                className="mt-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 rounded-lg text-xs sm:text-sm hover:shadow-md transition-all duration-200 border border-gray-300/30"
+                className="mt-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/80 text-gray-800 rounded-lg text-[10px] sm:text-xs md:text-sm hover:shadow-md transition-all duration-200 border border-gray-300/30 font-medium"
               >
                 Retry Loading Profile
               </button>
@@ -1277,14 +1287,14 @@ const VoiceAssistantContent = ({
         )}
         
         {/* Main Control Button with Animated Blobs */}
-        <div className="flex flex-col items-center mb-3 sm:mb-4 lg:mb-6 lg:-mt-12">
+        <div className="flex flex-col items-center mb-3 sm:mb-4 md:mb-6">
           {isAuthenticated && user ? (
-            <div className="relative w-full max-w-[min(85vw,65vh,480px)] sm:max-w-[min(80vw,70vh,520px)] aspect-square">
+            <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px] aspect-square">
               <Amoeba
                 gradient="linear-gradient(135deg, #facc15 0%, #f97316 100%)"
                 duration={12}
                 delay={0}
-                sizeClass="w-[clamp(120px,42%,380px)] aspect-square"
+                sizeClass="w-[42%] aspect-square"
                 isActive={isRecording}
                 isListening={isListening}
               />
@@ -1292,7 +1302,7 @@ const VoiceAssistantContent = ({
                 gradient="linear-gradient(135deg, #a855f7 0%, #ef4444 100%)"
                 duration={16}
                 delay={2}
-                sizeClass="w-[clamp(140px,48%,420px)] aspect-square"
+                sizeClass="w-[48%] aspect-square"
                 isActive={isRecording}
                 isListening={isListening}
               />
@@ -1300,7 +1310,7 @@ const VoiceAssistantContent = ({
                 gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"
                 duration={14}
                 delay={1}
-                sizeClass="w-[clamp(100px,38%,350px)] aspect-square"
+                sizeClass="w-[38%] aspect-square"
                 isActive={isRecording}
                 isListening={isListening}
               />
@@ -1308,7 +1318,7 @@ const VoiceAssistantContent = ({
                 gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"
                 duration={18}
                 delay={3}
-                sizeClass="w-[clamp(125px,43%,395px)] aspect-square"
+                sizeClass="w-[43%] aspect-square"
                 isActive={isRecording}
                 isListening={isListening}
               />
@@ -1321,17 +1331,17 @@ const VoiceAssistantContent = ({
               />
             </div>
           ) : (
-            <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-full bg-gray-300 flex items-center justify-center opacity-50">
-              <div className="text-gray-500 text-sm text-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-300 flex items-center justify-center opacity-50">
+              <div className="text-gray-500 text-xs sm:text-sm text-center px-2">
                 Not Authenticated
               </div>
             </div>
           )}
 
           {/* Status text */}
-          <div className="mt-2 sm:mt-2 lg:mt-3 text-center px-2">
+          <div className="mt-2 sm:mt-3 text-center px-2">
             {!isAuthenticated || !user ? (
-              <div className="text-[#15345fff] text-base sm:text-lg font-medium">
+              <div className="text-[#15345fff] text-sm sm:text-base md:text-lg font-medium">
                 Please login to start
               </div>
             ) : (
@@ -1363,8 +1373,8 @@ const VoiceAssistantContent = ({
 
           {/* Status Indicator */}
           {isRecording && (
-            <div className="mb-2 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full transition-all text-[10px] sm:text-xs font-bold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 backdrop-blur-md shadow-xl border-2 border-white/50">
+            <div className="mb-2 mt-2 text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 rounded-full transition-all text-[10px] sm:text-xs font-bold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 backdrop-blur-md shadow-xl border-2 border-white/50">
                 <div className={`w-2 h-2 rounded-full flex-shrink-0 shadow-lg ${
                   isBotSpeaking 
                     ? 'bg-purple-600 animate-pulse' 
@@ -1393,20 +1403,20 @@ const VoiceAssistantContent = ({
 
         {/* Auto-Send Toggle & Manual Controls */}
         {isRecording && (
-          <div className="mt-4 mb-2">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <div className="mt-3 sm:mt-4 mb-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-4">
               {/* Auto-Send Toggle */}
-              <div className="flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 backdrop-blur-md shadow-lg border-2 border-blue-200/40">
-                <span className="text-xs font-bold text-gray-700">Auto-Send</span>
+              <div className="flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 backdrop-blur-md shadow-lg border-2 border-blue-200/40">
+                <span className="text-[10px] sm:text-xs font-bold text-gray-700">Auto-Send</span>
                 <button
                   onClick={handleAutoSendToggle}
-                  className={`relative w-12 h-6 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-inner ${
+                  className={`relative w-10 h-5 sm:w-12 sm:h-6 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-inner ${
                     autoSendEnabled ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600' : 'bg-gray-300'
                   }`}
                 >
                   <span
-                    className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
-                      autoSendEnabled ? 'left-[26px]' : 'left-0.5'
+                    className={`absolute top-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
+                      autoSendEnabled ? 'left-[22px] sm:left-[26px]' : 'left-0.5'
                     }`}
                   />
                 </button>
@@ -1420,13 +1430,13 @@ const VoiceAssistantContent = ({
                   exit={{ opacity: 0, scale: 0.8 }}
                   onClick={handleManualSend}
                   disabled={!(isEditing ? editableText.trim() : accumulatedTranscript.trim())}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold transition-all duration-200 shadow-lg ${
+                  className={`flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold transition-all duration-200 shadow-lg ${
                     (isEditing ? editableText.trim() : accumulatedTranscript.trim())
                       ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 text-white hover:shadow-xl hover:scale-105 active:scale-95 border border-blue-400/30'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
-                  <PaperAirplaneIcon className="w-4 h-4" />
+                  <PaperAirplaneIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>Send Query</span>
                 </motion.button>
               )}
@@ -1437,54 +1447,54 @@ const VoiceAssistantContent = ({
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-3 mx-auto max-w-2xl"
+                className="mt-3 mx-auto max-w-full sm:max-w-2xl px-2 sm:px-0"
               >
-                <div className="px-5 py-4 rounded-2xl bg-gradient-to-br from-white via-blue-50/40 to-purple-50/40 backdrop-blur-md border border-blue-200/50 shadow-xl">
-                  <div className="flex items-center justify-between mb-2.5">
+                <div className="px-4 py-3 sm:px-5 sm:py-4 rounded-2xl bg-gradient-to-br from-white via-blue-50/40 to-purple-50/40 backdrop-blur-md border border-blue-200/50 shadow-xl">
+                  <div className="flex items-center justify-between mb-2.5 flex-wrap gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 animate-pulse"></div>
-                      <div className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                      <div className="text-[10px] sm:text-xs font-bold text-gray-700 uppercase tracking-wider">
                         Your Query
                       </div>
                     </div>
                     {!isEditing && accumulatedTranscript && (
                       <button
                         onClick={handleStartEdit}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-blue-700 bg-blue-100/60 hover:bg-blue-100 transition-all duration-200 hover:shadow-md border border-blue-300/30"
+                        className="flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold text-blue-700 bg-blue-100/60 hover:bg-blue-100 transition-all duration-200 hover:shadow-md border border-blue-300/30"
                       >
-                        <PencilSquareIcon className="w-3.5 h-3.5" />
+                        <PencilSquareIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         <span>Edit</span>
                       </button>
                     )}
                   </div>
                   
                   {isEditing ? (
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       <textarea
                         value={editableText}
                         onChange={(e) => setEditableText(e.target.value)}
-                        className="w-full px-4 py-3 text-sm text-gray-800 leading-relaxed border-2 border-blue-300/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white/90 shadow-inner"
-                        rows={4}
+                        className="w-full px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-gray-800 leading-relaxed border-2 border-blue-300/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white/90 shadow-inner"
+                        rows={3}
                         placeholder="Edit your message..."
                         autoFocus
                       />
-                      <div className="flex items-center justify-between pt-1">
-                        <div className="text-xs text-gray-600 font-medium">
-                          {editableText.split(' ').filter(w => w).length} words • {editableText.length} characters
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-1 gap-2">
+                        <div className="text-[10px] sm:text-xs text-gray-600 font-medium">
+                          {editableText.split(' ').filter(w => w).length} words • {editableText.length} chars
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 w-full sm:w-auto">
                           <button
                             onClick={handleCancelEdit}
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-200 border border-gray-300/50 shadow-sm"
+                            className="flex-1 sm:flex-none flex items-center justify-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-200 border border-gray-300/50 shadow-sm"
                           >
-                            <XMarkIcon className="w-4 h-4" />
+                            <XMarkIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             <span>Cancel</span>
                           </button>
                           <button
                             onClick={() => setIsEditing(false)}
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                            className="flex-1 sm:flex-none flex items-center justify-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
                           >
-                            <CheckIcon className="w-4 h-4" />
+                            <CheckIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             <span>Apply</span>
                           </button>
                         </div>
@@ -1492,15 +1502,15 @@ const VoiceAssistantContent = ({
                     </div>
                   ) : (
                     <>
-                      <div className="text-sm text-gray-800 leading-relaxed max-h-32 overflow-y-auto px-2 py-2 bg-white/50 rounded-lg">
+                      <div className="text-xs sm:text-sm text-gray-800 leading-relaxed max-h-24 sm:max-h-32 overflow-y-auto px-2 py-2 bg-white/50 rounded-lg">
                         {accumulatedTranscript}
                       </div>
-                      <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-200/60">
-                        <div className="text-xs text-gray-600 font-medium">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-2 sm:mt-3 pt-2 border-t border-gray-200/60 gap-2">
+                        <div className="text-[10px] sm:text-xs text-gray-600 font-medium">
                           {accumulatedTranscript.split(' ').filter(w => w).length} words • {accumulatedTranscript.length} chars
                         </div>
-                        <div className="flex items-center gap-1.5 text-xs text-emerald-600 font-semibold">
-                          <CheckIcon className="w-3.5 h-3.5" />
+                        <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-emerald-600 font-semibold">
+                          <CheckIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                           <span>Ready to send</span>
                         </div>
                       </div>
@@ -1514,41 +1524,41 @@ const VoiceAssistantContent = ({
 
           </div>
         </div>
-        <div className="flex-1 flex flex-col px-3 sm:px-4 md:px-6 lg:px-10 pb-3 sm:pb-4 overflow-hidden">
-          <div className="w-full max-w-6xl mx-auto flex flex-col h-full">
+        <div className="flex-1 flex flex-col px-3 sm:px-4 md:px-6 pb-3 sm:pb-4 overflow-hidden">
+          <div className="w-full max-w-5xl mx-auto flex flex-col h-full">
             {hasConversation && (
               <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
-                  <div className="text-xs text-gray-700 font-bold">
+                  <div className="text-[10px] sm:text-xs text-gray-700 font-bold">
                     {conversationMessages.length} {conversationMessages.length === 1 ? 'message' : 'messages'}
                   </div>
                 </div>
                 <button
                   onClick={() => setShowAllLogs(s => !s)}
-                  className="text-xs font-bold px-5 py-2.5 rounded-full border-2 border-blue-300/50 bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 hover:from-blue-50 hover:to-purple-50 shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm"
+                  className="text-[10px] sm:text-xs font-bold px-3 py-2 sm:px-5 sm:py-2.5 rounded-full border-2 border-blue-300/50 bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 hover:from-blue-50 hover:to-purple-50 shadow-md hover:shadow-lg transition-all duration-200 backdrop-blur-sm"
                 >
-                  {showAllLogs ? '📱 Show Stream' : '📋 Show All Logs'}
+                  {showAllLogs ? '📱 Stream' : '📋 All Logs'}
                 </button>
               </div>
             )}
             {showAllLogs ? (
-              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overscroll-contain pr-2 space-y-3 pb-4">
+              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overscroll-contain pr-1 sm:pr-2 space-y-2 sm:space-y-3 pb-4">
                 <ConversationDisplay />
                 <div ref={messagesEndRef} />
               </div>
             ) : (
-              <div className="flex-1 flex flex-col justify-center">
-                <div className="flex-1 w-full flex items-center justify-center">
+              <div className="flex-1 flex flex-col justify-center min-h-0">
+                <div className="flex-1 w-full flex items-center justify-center overflow-y-auto">
                   <SequentialMessage />
                 </div>
                 {isRecording && !autoSendEnabled && (
-                  <div className="mt-3 text-center text-gray-500 text-xs font-light">
+                  <div className="mt-2 sm:mt-3 text-center text-gray-500 text-[10px] sm:text-xs font-light px-2">
                     🎤 Manual Mode: Keep speaking, then click "Send Query" when done
                   </div>
                 )}
                 {isRecording && autoSendEnabled && (
-                  <div className="mt-3 text-center text-gray-400 text-xs font-light">
+                  <div className="mt-2 sm:mt-3 text-center text-gray-400 text-[10px] sm:text-xs font-light px-2">
                     Speak naturally • Assistant responds in real-time
                   </div>
                 )}
@@ -1565,46 +1575,56 @@ const VoiceAssistantContent = ({
 const TabbedAssistantInterface = () => {
   const [activeTab, setActiveTab] = useState('voice'); // 'voice' or 'chat'
 
+  const tabs = [
+    { id: 'voice', name: 'Voice AI', icon: MicrophoneIcon },
+    { id: 'chat', name: 'Chat AI', icon: ChatBubbleLeftRightIcon },
+  ];
+
   return (
-    <div className="h-screen bg-[#f8f7f1] flex flex-col">
-      {/* Tab Navigation */}
-      <div className="flex-shrink-0 bg-white/80 backdrop-blur-md border-b border-gray-200/60 shadow-sm sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center gap-2 sm:gap-4">
-            <button
-              onClick={() => setActiveTab('voice')}
-              className={`relative flex items-center gap-2 px-4 sm:px-6 py-4 text-sm sm:text-base font-bold transition-all duration-300 group ${
-                activeTab === 'voice'
-                  ? 'text-blue-600'
-                  : 'text-gray-500 hover:text-gray-800'
-              }`}
-            >
-              <MicrophoneIcon className="w-5 h-5" />
-              <span className="hidden sm:inline">Voice AI</span>
-              <span className="sm:hidden">Voice</span>
-              <span className={`absolute bottom-0 left-0 w-full h-1 rounded-t-full transition-all duration-300 ${activeTab === 'voice' ? 'bg-blue-600 scale-x-100' : 'bg-blue-600 scale-x-0 group-hover:scale-x-50'}`} />
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('chat')}
-              className={`relative flex items-center gap-2 px-4 sm:px-6 py-4 text-sm sm:text-base font-bold transition-all duration-300 group ${
-                activeTab === 'chat'
-                  ? 'text-purple-600'
-                  : 'text-gray-500 hover:text-gray-800'
-              }`}
-            >
-              <ChatBubbleLeftRightIcon className="w-5 h-5" />
-              <span className="hidden sm:inline">Chat AI</span>
-              <span className="sm:hidden">Chat</span>
-              <span className={`absolute bottom-0 left-0 w-full h-1 rounded-t-full transition-all duration-300 ${activeTab === 'chat' ? 'bg-purple-600 scale-x-100' : 'bg-purple-600 scale-x-0 group-hover:scale-x-50'}`} />
-            </button>
+    <div className="min-h-screen bg-beige">
+      {/* Header with Tab Navigation - Similar to Metrics Page */}
+      <div className="bg-beige sticky top-0 z-10">
+        <div className="px-4 sm:px-6 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">AI Assistant</h1>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                Connect via voice or chat for support and guidance
+              </p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <div className="w-3 h-3 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Tab Navigation - Metrics Page Style */}
+          <div className="mt-3">
+            <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center px-3 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors ${
+                      activeTab === tab.id
+                        ? 'border-gray-800 text-gray-800 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-t-lg'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 mr-2" />
+                    {tab.name}
+                  </button>
+                );
+              })}
+            </nav>
           </div>
         </div>
       </div>
 
       {/* Tab Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="pt-4">
+      <div className="p-3 sm:p-4 md:p-6">
+        <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right shadow-sm">
           <AnimatePresence mode="wait">
             {activeTab === 'voice' ? (
               <motion.div
@@ -1613,7 +1633,6 @@ const TabbedAssistantInterface = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="h-full"
               >
                 <ImprovedVoiceAssistant />
               </motion.div>
@@ -1624,7 +1643,6 @@ const TabbedAssistantInterface = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="h-full"
               >
                 <ChatTherapist />
               </motion.div>
