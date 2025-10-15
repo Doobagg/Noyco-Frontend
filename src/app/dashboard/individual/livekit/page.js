@@ -764,16 +764,21 @@ const ImprovedVoiceAssistant = () => {
           audioElement.muted = false;
           audioElement.style.display = 'none';
           document.body.appendChild(audioElement);
+          
           const attempt = audioElement.play();
           if (attempt && attempt.catch) {
             attempt.catch(err => console.warn('Autoplay blocked, waiting for user gesture:', err));
           }
+          
           setIsBotSpeaking(true);
           setDebugStatus('Agent speaking');
           
-          // Mark initial greeting as received when first audio plays
+          // Mark initial greeting as received and set recording to true when first audio plays
           if (!initialGreetingReceived) {
+            console.log('✅ Initial greeting received, activating session');
             setInitialGreetingReceived(true);
+            setIsConnecting(false);
+            setIsRecording(true);
           }
         }
       });
@@ -782,9 +787,9 @@ const ImprovedVoiceAssistant = () => {
         track.detach().forEach(el => el.remove());
         setIsBotSpeaking(false);
         setIsListening(false);
-        // Only show "Ready to talk" after initial greeting has been played
+        // Show "Ready" after initial greeting has been played
         if (initialGreetingReceived) {
-          setDebugStatus('Ready to talk');
+          setDebugStatus('Ready - Your turn to speak');
         }
       });
 
@@ -849,9 +854,8 @@ const ImprovedVoiceAssistant = () => {
 
       room.on(RoomEvent.Connected, () => {
         console.log('Connected to room');
-        setIsConnecting(false);
-        setIsRecording(true);
-        setDebugStatus('Waiting for agent...');
+        // Keep connecting state until we receive first audio
+        setDebugStatus('Waiting for agent greeting...');
       });
 
       room.on(RoomEvent.Disconnected, () => {
@@ -867,18 +871,7 @@ const ImprovedVoiceAssistant = () => {
       // Enable microphone
       await room.localParticipant.setMicrophoneEnabled(true);
 
-      console.log('Voice session started successfully');
-      
-      // Test: Add a welcome message to verify display works
-      setTimeout(() => {
-        const testMessage = {
-          sender: 'agent',
-          text: 'Hello! I\'m ready to assist you. Start speaking anytime!',
-          timestamp: Date.now()
-        };
-        console.log('🧪 Adding test message:', testMessage);
-        setConversationMessages(prev => [...prev, testMessage]);
-      }, 2000);
+      console.log('Voice session started successfully - waiting for initial greeting');
 
     } catch (error) {
       console.error('Error starting voice session:', error);
@@ -1372,7 +1365,7 @@ const VoiceAssistantContent = ({
           </div>
 
           {/* Status Indicator */}
-          {isRecording && (
+          {(isRecording || isConnecting) && (
             <div className="mb-2 mt-2 text-center">
               <div className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 rounded-full transition-all text-[10px] sm:text-xs font-bold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 backdrop-blur-md shadow-xl border-2 border-white/50">
                 <div className={`w-2 h-2 rounded-full flex-shrink-0 shadow-lg ${
@@ -1388,12 +1381,10 @@ const VoiceAssistantContent = ({
                   {isBotSpeaking 
                     ? `Speaking...` 
                     : isConnecting
-                      ? 'Connecting...'
+                      ? 'Waiting for Agent...'
                       : isListening 
                         ? `Listening...`
-                        : turnCount === 0 
-                          ? 'Ready'
-                          : `Ready`
+                        : 'Ready'
                   }
                 </span>
               </div>
