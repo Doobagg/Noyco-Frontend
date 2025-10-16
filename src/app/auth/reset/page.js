@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiRequest } from "@/lib/api";
+import { showToast } from "@/lib/toast";
 
 export default function ResetPasswordPage() {
   const params = useSearchParams();
@@ -64,16 +65,19 @@ export default function ResetPasswordPage() {
     
     if (!email || otpCode.length !== 6 || !newPassword || !confirmPassword) {
       setError("All fields are required and OTP must be 6 digits");
+      showToast("All fields are required and OTP must be 6 digits", "error");
       return;
     }
     
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match");
+      showToast("Passwords do not match", "error");
       return;
     }
     
     if (newPassword.length < 8) {
       setError("Password must be at least 8 characters long");
+      showToast("Password must be at least 8 characters long", "error");
       return;
     }
     
@@ -84,10 +88,12 @@ export default function ResetPasswordPage() {
         body: JSON.stringify({ email, otp: otpCode, new_password: newPassword }),
       });
       setStatus("done");
+      showToast("Password reset successfully", "success");
     } catch (e) {
       console.error(e);
       setError(e?.message || "Unable to reset password");
       setStatus(null);
+      showToast(e?.message || "Unable to reset password", "error");
     }
   };
 
@@ -103,6 +109,7 @@ export default function ResetPasswordPage() {
       setCanResend(false);
       setOtp(["", "", "", "", "", ""]); // Clear OTP fields
       setError("");
+      showToast("Verification code resent", "success");
       // Focus first OTP input
       setTimeout(() => {
         const first = document.getElementById("otp-0");
@@ -111,6 +118,7 @@ export default function ResetPasswordPage() {
     } catch (e) {
       console.error(e);
       setError("Failed to resend OTP. Please try again.");
+      showToast("Failed to resend OTP. Please try again.", "error");
     }
   };
 

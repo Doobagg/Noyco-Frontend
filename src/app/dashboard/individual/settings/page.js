@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/store/hooks';
 import { User, Bell, Shield, Settings } from 'lucide-react';
 import AnimatedBlob from '@/components/landing/AnimatedBlob';
+import { showToast } from '@/lib/toast';
 
 export default function SettingsPage() {
   const { user, updateProfile, updatePassword } = useAuth();
@@ -68,7 +69,7 @@ export default function SettingsPage() {
       // Phone validation regex
       const phoneRegex = /^\+?[0-9]{10,15}$/;
       if (settings.profile.phone && !phoneRegex.test(settings.profile.phone)) {
-        alert('Invalid phone number. Enter 10-15 digits, optional leading +');
+        showToast('Invalid phone number. Enter 10-15 digits, optional leading +', 'error');
         return;
       }
 
@@ -86,23 +87,29 @@ export default function SettingsPage() {
       const { current, new: newPwd, confirm } = settings.password;
       if ((current || newPwd || confirm) && user?.hasPassword) {
         if (!current || !newPwd || !confirm) {
-          alert('Please fill all password fields.');
+          showToast('Please fill all password fields.', 'error');
           return;
         }
         if (newPwd !== confirm) {
-          alert('New password and confirm password do not match');
+          showToast('New password and confirm password do not match', 'error');
           return;
         }
         const res = await updatePassword(current, newPwd);
         if (!res.success) throw res.error || new Error('Password update failed');
+        showToast('Password updated', 'success');
       }
 
-      alert('Settings updated successfully');
+      if (Object.keys(payload).length) {
+        showToast('Profile updated', 'success');
+      } else if (!(settings.password.current || settings.password.new || settings.password.confirm)) {
+        // If neither profile nor password changed, still provide positive feedback if desired
+        showToast('Settings updated successfully', 'success');
+      }
       // reset password fields
       setSettings(prev=>({...prev,password:{current:'',new:'',confirm:''}}));
     } catch (error) {
       console.error('Failed to save settings:', error);
-      alert(error.message || 'Failed to save settings');
+      showToast(error.message || 'Failed to save settings', 'error');
     }
   };
 

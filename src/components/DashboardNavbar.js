@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/store/hooks";
+import { showToast } from '@/lib/toast';
 
 export default function DashboardNavbar() {
   const { user, logout } = useAuth();
@@ -20,9 +21,11 @@ export default function DashboardNavbar() {
   const handleLogout = async () => {
     try {
       await logout();
+      showToast('Signed out successfully', 'success');
       router.push("/auth/login");
     } catch (err) {
       console.error("Logout failed", err);
+      showToast('Failed to sign out', 'error');
     }
   };
 
