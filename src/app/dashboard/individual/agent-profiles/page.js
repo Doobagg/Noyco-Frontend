@@ -8,6 +8,7 @@ import ProfileViewer from "./components/ProfileViewer";
 import EmptyState from "./components/EmptyState";
 import { Bot } from "lucide-react";
 import { Mars, Venus, NonBinary, UserCircle } from "lucide-react";
+import { showToast } from "@/lib/toast";
 
 export default function AgentProfilesPage() {
   const { user } = useAuth();
@@ -66,14 +67,14 @@ export default function AgentProfilesPage() {
         const result = await deleteProfile(profileId);
         if (result.success) {
           // Profile is automatically removed from state by the slice
-          console.log('Profile deleted successfully');
+          showToast('Profile deleted', 'success');
         } else {
           console.error("Error deleting profile:", result.error);
-          alert("Failed to delete profile: " + result.error);
+          showToast("Failed to delete profile: " + result.error, 'error');
         }
       } catch (error) {
         console.error("Error deleting profile:", error);
-        alert("Failed to delete profile");
+        showToast("Failed to delete profile", 'error');
       }
     }
   };
@@ -88,17 +89,17 @@ export default function AgentProfilesPage() {
       }
       
       if (result.success) {
-        console.log('Profile saved successfully');
+        showToast(isEdit ? 'Profile updated' : 'Profile created', 'success');
         setCurrentView("grid");
         setSelectedProfile(null);
         clearActiveProfile();
       } else {
         console.error("Error saving profile:", result.error);
-        alert("Failed to save profile: " + result.error);
+        showToast("Failed to save profile: " + result.error, 'error');
       }
     } catch (error) {
       console.error("Error saving profile:", error);
-      alert("Failed to save profile");
+      showToast("Failed to save profile", 'error');
     }
   };
 

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { apiRequest } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/lib/toast";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ export default function ForgotPasswordPage() {
     setError("");
     if (!email) {
       setError("Please enter your e-mail");
+      showToast("Please enter your e-mail", "error");
       return;
     }
     try {
@@ -22,10 +24,12 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email }),
       });
       setStatus("sent");
+      showToast("Reset code sent to your e-mail", "success");
     } catch (e) {
       console.error(e);
       setStatus("error");
       setError("Could not send reset code. Please try again later.");
+      showToast("Could not send reset code. Please try again later.", "error");
     }
   };
 
