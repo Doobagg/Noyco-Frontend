@@ -174,7 +174,7 @@ export default function Plan() {
   const periodEnd = subSummary?.current_period_end || null;
     return (
       <div className="bg-beige min-h-screen">
-        <div className="max-w-2xl mx-auto px-6 py-12">
+        <div className="max-w-2xl mx-auto px-4 py-8 md:px-6 md:py-12">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-light text-gray-900 mb-2 tracking-tight">
               Your Subscription
@@ -258,7 +258,7 @@ export default function Plan() {
 
   return (
     <div className="bg-beige min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-8 md:px-6 md:py-12">
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-light text-gray-900 mb-4 tracking-tight">
@@ -313,7 +313,7 @@ export default function Plan() {
             return (
               <div
                 key={plan.plan_type}
-                className={`relative bg-beige backdrop-blur-xl border-accent-right border-accent-left border-accent-top border-accent rounded-none p-6 transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-2xl ${
+                className={`relative bg-beige backdrop-blur-xl border-accent-right border-accent-left border-accent-top border-accent rounded-none p-4 md:p-6 transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-2xl ${
                   isCurrentPlan
                     ? 'border-blue-500 shadow-xl ring-1 ring-blue-500/20'
                     : isRecommended
@@ -324,7 +324,7 @@ export default function Plan() {
                 {/* Recommended Badge */}
                 {isRecommended && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 px-4 py-1  text-sm font-medium shadow-lg">
+                    <div className="bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 px-2 py-0.5 md:px-4 md:py-1  text-sm font-medium shadow-lg">
                       Most Popular
                     </div>
                   </div>

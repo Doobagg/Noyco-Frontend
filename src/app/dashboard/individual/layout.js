@@ -415,7 +415,7 @@ export default function IndividualLayout({ children }) {
                         <div className="relative">
                           <Link
                             href={item.href}
-                                                          className={`group relative flex items-center w-full lg:w-12 h-12 lg:justify-center lg:rounded-full rounded-lg transition-all duration-300 ease-out pl-3 lg:pl-0 overflow-hidden ${
+                            className={`group relative flex items-center w-full lg:w-12 h-12 lg:justify-center lg:rounded-full rounded-lg transition-all duration-300 ease-out pl-3 lg:pl-0 overflow-hidden ${
                                 isActive
                                  ? "bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 shadow-lg transform scale-105"
                                  : "bg-beige text-gray-600 hover:text-gray-800 hover:shadow-md hover:scale-105"
@@ -559,10 +559,10 @@ export default function IndividualLayout({ children }) {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 overflow-hidden pt-16 lg:pt-0 relative z-0">
+          <main className="flex-1 overflow-hidden pt-16 lg:pt-0 relative">
           <div className={`h-full ${pathname === "/dashboard/individual" ? "overflow-hidden" : "overflow-y-auto"}`}>
-              <div className="min-h-full p-4 sm:p-6 lg:p-8" style={{ backgroundColor: 'var(--background)' }}>
-                <div className="max-w-7xl mx-auto">{children}</div>
+              <div className="min-h-full sm:p-6 lg:p-8" style={{ backgroundColor: 'var(--background)' }}>
+                <div className="max-w-screen mx-auto">{children}</div>
               </div>
             </div>
           </main>

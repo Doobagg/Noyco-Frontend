@@ -67,13 +67,13 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
 
   const getStatusBadge = (isActive) => {
     return isActive ? (
-      <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
-        <div className="w-1.5 h-1.5 bg-green-600 mr-1.5"></div>
+      <span className="inline-flex items-center px-1 mt-1.5 md:px-2.5 md:py-0.5 text-xs font-small bg-green-100 text-green-800">
+        <div className="w-1.5 h-1.5 bg-green-600 mr:0.5 md:mr-1.5"></div>
         Active
       </span>
     ) : (
-      <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-800">
-        <div className="w-1.5 h-1.5 bg-gray-400 mr-1.5"></div>
+      <span className="inline-flex items-center px-1 mt-1.5 md:px-2.5 md:py-0.5 text-xs font-medium bg-gray-100 text-gray-800">
+        <div className="w-1.5 h-1.5 bg-gray-400 mr:0.5 md:mr-1.5"></div>
         Inactive
       </span>
     );
@@ -81,7 +81,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
 
   return (
     <div className="min-h-screen bg-beige">
-  <div className="max-w-7xl mx-auto p-3 sm:p-4 lg:p-6">
+  <div className="max-w-screen mx-auto p-2 sm:p-4 lg:p-6">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
           {/* Profile Header Card */}
@@ -92,7 +92,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] flex items-center justify-center text-gray-800 shadow-lg">
                     <User className="w-5 h-5 sm:w-7 sm:h-7" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1">
+                  <div className="absolute -bottom-1 ">
                     {getStatusBadge(profile.is_active)}
                   </div>
                 </div>
@@ -114,7 +114,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
                 </div>
               </div>
               
-              <div className="flex gap-2 sm:self-start">
+              <div className="flex gap-4 lg:gap-2 self-center md:self-start">
                 <button
                   onClick={() => onEdit(profile)}
                   className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 hover:shadow-md transition-colors text-xs sm:text-sm font-medium shadow-sm"
