@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useIntegratedFlow } from '../../context/IntegratedFlowContext';
 import { useSchedule } from '../../../../../../../store/hooks';
 import { useRouter } from 'next/navigation';
+import { showToast } from '@/lib/toast';
 import { 
   CheckCircle, 
   User, 
@@ -80,8 +81,8 @@ const ReviewAndConfirm = () => {
         // Success! Show success message and redirect
         actions.resetFlow(); // Clear all data
         
-        // You might want to show a success toast here
-        alert('Call scheduled successfully!');
+        // Show a success toast
+        showToast('Call scheduled successfully!', 'success');
         
         // Redirect to dashboard or schedule list
         router.push('/dashboard/individual/schedule');
@@ -92,6 +93,7 @@ const ReviewAndConfirm = () => {
     } catch (error) {
       console.error('Error scheduling call:', error);
       setSubmitError(error.message || error || 'Failed to schedule call');
+      showToast(error.message || 'Failed to schedule call', 'error');
     }
   };
 

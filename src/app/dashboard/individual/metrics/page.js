@@ -67,7 +67,7 @@ export default function MetricsDashboardPage() {
     <div className="bg-beige min-h-screen">
       {/* Header */}
       <div className="bg-beige  sticky top-0 z-10">
-        <div className="px-6 py-4">
+        <div className="px-4 py-2 md:px-6 md:py-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Health Metrics</h1>
@@ -112,9 +112,9 @@ export default function MetricsDashboardPage() {
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-2 md:p-6">
         <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right shadow-sm">
-          <div className="p-6">
+          <div className="p-2 md:p-6">
             {activeTab === 'overview' && (
               <OverviewTab 
                 dashboard={dashboard} 
@@ -146,7 +146,7 @@ function OverviewTab({ dashboard, onConversationSelect, onScheduleSelect }) {
   const systemHealth = dashboard?.system_health || {};
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-1 md:space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
         <MetricCard

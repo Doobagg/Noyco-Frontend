@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../../store/hooks';
 import { useRouter } from 'next/navigation';
 import { Shield, Clock, Brain, Eye, EyeOff } from 'lucide-react';
+import { showToast } from '@/lib/toast';
 
 // Note: For client components, metadata is handled in parent layout or via next/head
 export default function LoginPage() {
@@ -32,6 +33,7 @@ export default function LoginPage() {
         // Redirect based on user role
         const { user } = result;
         console.log("Login successful, user data:", user);
+        showToast('Signed in successfully', 'success');
 
         if (user?.role === 'admin') {
           router.push('/dashboard/admin');
@@ -42,10 +44,12 @@ export default function LoginPage() {
         }
       } else {
         setError(result.error || 'Invalid email or password. Please try again.');
+        showToast(result.error || 'Login failed', 'error');
       }
     } catch (err) {
       console.error('Login error:', err);
       setError('Connection error. Please check your internet connection and try again.');
+      showToast('Connection error. Please try again.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -72,6 +76,7 @@ export default function LoginPage() {
                 const result = await loginWithGoogle(response.credential);
                 if (result.success) {
                   const user = result.user;
+                  showToast('Signed in successfully', 'success');
                   if (user?.role === 'admin') {
                     router.push('/dashboard/admin');
                   } else if (user?.role === 'individual') {
@@ -81,10 +86,12 @@ export default function LoginPage() {
                   }
                 } else {
                   setError(result.error || 'Google sign-in failed');
+                  showToast(result.error || 'Google sign-in failed', 'error');
                 }
               } catch (e) {
                 console.error('Google sign-in error:', e);
                 setError(e.message || 'Google sign-in failed. Please try again.');
+                showToast('Google sign-in failed. Please try again.', 'error');
               } finally {
                 setIsSubmitting(false);
               }

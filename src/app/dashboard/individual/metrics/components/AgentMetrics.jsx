@@ -99,9 +99,9 @@ export default function AgentMetrics() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-1 md:space-y-6">
       {/* Header with Controls */}
-      <div className="bg-beige p-6   ">
+      <div className="bg-beige p-2 md:p-6">
         <div className="flex flex-col space-y-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Agent Goal Analytics</h2>
@@ -160,7 +160,7 @@ export default function AgentMetrics() {
                     <button
                       key={timeframe.value}
                       onClick={() => handleTimeframeChange(timeframe.value)}
-                      className={`px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors ${
+                      className={`px-2 md:px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors ${
                         selectedTimeframe === timeframe.value
                           ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900'
                           : 'text-gray-600 hover:text-gray-900'

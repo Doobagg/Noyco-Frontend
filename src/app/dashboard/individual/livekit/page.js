@@ -500,9 +500,9 @@ const ChatTherapist = () => {
   const isProfileReady = !profilesLoading;
 
   return (
-    <div className="min-h-[calc(100vh-200px)] flex flex-col bg-[#f8f7f1] mt-4">
-      {/* Header */}
-      <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+    <div className="flex flex-col bg-[#f8f7f1] mt-4 min-h-[calc(100vh-200px)] max-h-[calc(100vh-100px)]">
+      {/* Header - Sticky */}
+      <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 py-3 sm:py-4 sticky top-0 bg-[#f8f7f1] z-10 shadow-sm">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
             <div className="flex-1">
@@ -556,9 +556,9 @@ const ChatTherapist = () => {
         </div>
       </div>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
-        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4">
+      {/* Messages Area - Scrollable */}
+      <div className="flex-1 overflow-y-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 overscroll-contain">
+        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4 min-h-full">
           {!isConnected && messages.length === 0 && (
             <div className="text-center py-8 sm:py-12 px-3">
               <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] mb-4 shadow-lg">
@@ -627,9 +627,9 @@ const ChatTherapist = () => {
         </div>
       </div>
 
-      {/* Input Area */}
+      {/* Input Area - Sticky Bottom */}
       {isConnected && (
-        <div className="flex-shrink-0 border-t-2 border-gray-200/40 bg-gradient-to-r from-white/80 via-blue-50/20 to-purple-50/20 backdrop-blur-sm">
+        <div className="flex-shrink-0 border-t-2 border-gray-200/40 bg-gradient-to-r from-white/80 via-blue-50/20 to-purple-50/20 backdrop-blur-sm sticky bottom-0 z-10 shadow-lg">
           <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 py-3 sm:py-4">
             <div className="flex gap-2 sm:gap-3">
               <textarea
@@ -1244,8 +1244,8 @@ const VoiceAssistantContent = ({
           }
         }
       `}</style>
-      <div className="min-h-[calc(100vh-200px)] bg-[#f8f7f1] flex flex-col">
-        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 pb-2 bg-[#f8f7f1]">
+      <div className="min-h-[calc(100vh-200px)] max-h-[calc(100vh-100px)] bg-[#f8f7f1] flex flex-col overflow-hidden">
+        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 pb-2 bg-[#f8f7f1] sticky top-0 z-10 shadow-sm">
           <div className="w-full max-w-4xl mx-auto">
         
         {/* Profile Loading State */}
@@ -1515,10 +1515,10 @@ const VoiceAssistantContent = ({
 
           </div>
         </div>
-        <div className="flex-1 flex flex-col px-3 sm:px-4 md:px-6 pb-3 sm:pb-4 overflow-hidden">
-          <div className="w-full max-w-5xl mx-auto flex flex-col h-full">
+        <div className="flex-1 flex flex-col px-3 sm:px-4 md:px-6 pb-3 sm:pb-4 overflow-y-auto overscroll-contain">
+          <div className="w-full max-w-5xl mx-auto flex flex-col min-h-full">
             {hasConversation && (
-              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <div className="flex items-center justify-between mb-3 flex-wrap gap-2 sticky top-0 bg-[#f8f7f1] py-2 z-[5]">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
                   <div className="text-[10px] sm:text-xs text-gray-700 font-bold">
@@ -1534,13 +1534,13 @@ const VoiceAssistantContent = ({
               </div>
             )}
             {showAllLogs ? (
-              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overscroll-contain pr-1 sm:pr-2 space-y-2 sm:space-y-3 pb-4">
+              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overscroll-contain pr-1 sm:pr-2 space-y-2 sm:space-y-3 pb-4 min-h-0">
                 <ConversationDisplay />
                 <div ref={messagesEndRef} />
               </div>
             ) : (
-              <div className="flex-1 flex flex-col justify-center min-h-0">
-                <div className="flex-1 w-full flex items-center justify-center overflow-y-auto">
+              <div className="flex-1 flex flex-col justify-center min-h-0 overflow-y-auto">
+                <div className="flex-1 w-full flex items-center justify-center py-4">
                   <SequentialMessage />
                 </div>
                 {isRecording && !autoSendEnabled && (
@@ -1572,50 +1572,49 @@ const TabbedAssistantInterface = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-beige">
-      {/* Header with Tab Navigation - Similar to Metrics Page */}
-      <div className="bg-beige sticky top-0 z-10">
-        <div className="px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">AI Assistant</h1>
+    <div className="flex flex-col h-screen max-h-screen bg-beige overflow-hidden">
+      {/* Header with Tab Navigation - Sticky */}
+      <div className="flex-shrink-0 bg-beige border-b border-gray-200/40 sticky top-0 z-20 shadow-sm">
+        <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-3 sm:mb-4">
+            <div className="flex-1">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">AI Assistant</h1>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
                 Connect via voice or chat for support and guidance
               </p>
             </div>
-            <div className="flex items-center space-x-3">
-              <div className="w-3 h-3 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full animate-pulse"></div>
+            <div className="flex items-center space-x-3 flex-shrink-0">
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full animate-pulse"></div>
             </div>
           </div>
 
-          {/* Tab Navigation - Metrics Page Style */}
-          <div className="mt-3">
-            <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center px-3 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors ${
-                      activeTab === tab.id
-                        ? 'border-gray-800 text-gray-800 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-t-lg'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 mr-2" />
-                    {tab.name}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
+          {/* Tab Navigation */}
+          <nav className="flex space-x-3 sm:space-x-6 md:space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap pb-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center px-2 sm:px-3 py-2 text-xs sm:text-sm font-medium border-b-2 transition-all duration-200 flex-shrink-0 ${
+                    activeTab === tab.id
+                      ? 'border-gray-800 text-gray-800 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-t-lg px-3 sm:px-4'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0" />
+                  <span className="hidden sm:inline">{tab.name}</span>
+                  <span className="sm:hidden">{tab.name.split(' ')[0]}</span>
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </div>
 
-      {/* Tab Content */}
-      <div className="p-3 sm:p-4 md:p-6">
-        <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right shadow-sm">
+      {/* Tab Content - Flex to fill remaining space with scroll */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col min-h-0">
+        <div className="flex-1 bg-beige">
           <AnimatePresence mode="wait">
             {activeTab === 'voice' ? (
               <motion.div
@@ -1624,6 +1623,7 @@ const TabbedAssistantInterface = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="w-full h-full"
               >
                 <ImprovedVoiceAssistant />
               </motion.div>
@@ -1634,6 +1634,7 @@ const TabbedAssistantInterface = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="w-full h-full"
               >
                 <ChatTherapist />
               </motion.div>
