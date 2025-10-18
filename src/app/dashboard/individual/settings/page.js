@@ -23,7 +23,7 @@ export default function SettingsPage() {
       confirm: ''
     },
     notifications: {
-      emailNotifications: true,
+      emailNotifications: false,
       smsNotifications: false,
       pushNotifications: true,
       reminderNotifications: true
@@ -74,9 +74,14 @@ export default function SettingsPage() {
       }
 
       // Update profile
-      const payload = {};
-      if (settings.profile.name.trim()) payload.name = settings.profile.name.trim();
-      if (settings.profile.phone.trim()) payload.phone = settings.profile.phone.trim();
+  const payload = {};
+  const currentName = user?.name || '';
+  const currentPhone = user?.phone || '';
+  const newName = settings.profile.name.trim();
+  const newPhone = settings.profile.phone.trim();
+
+  if (newName && newName !== currentName) payload.name = newName;
+  if (newPhone && newPhone !== currentPhone) payload.phone = newPhone;
 
       if (Object.keys(payload).length) {
         const res = await updateProfile(payload);
@@ -210,9 +215,9 @@ export default function SettingsPage() {
         <div className="space-y-4">
           {[
             { key: 'emailNotifications', label: 'Email Notifications', description: 'Receive updates via email' },
-            { key: 'smsNotifications', label: 'SMS Notifications', description: 'Receive text message alerts' },
-            { key: 'pushNotifications', label: 'Push Notifications', description: 'Receive browser notifications' },
-            { key: 'reminderNotifications', label: 'Reminder Notifications', description: 'Get reminders for appointments and tasks' }
+            // { key: 'smsNotifications', label: 'SMS Notifications', description: 'Receive text message alerts' },
+            // { key: 'pushNotifications', label: 'Push Notifications', description: 'Receive browser notifications' },
+            // { key: 'reminderNotifications', label: 'Reminder Notifications', description: 'Get reminders for appointments and tasks' }
           ].map((notification) => (
             <div key={notification.key} className="flex items-center justify-between py-4 border-b border-gray-100">
               <div className="flex-1">
