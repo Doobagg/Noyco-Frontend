@@ -1,12 +1,14 @@
-"use client";
+'use client';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../store/hooks';
 import { useRouter, usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, isAuthenticated, loading, logout, refreshAuthToken } = useAuth();
+  const { user, isAuthenticated, loading, logout, refreshAuthToken } =
+    useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const refreshIntervalRef = useRef(null);
@@ -29,11 +31,16 @@ export default function Navbar() {
       const isAuthPage = pathname?.startsWith('/auth');
       if (!mounted || isAuthPage) return;
 
-      if (!isAuthenticated && !loading && (typeof localStorage === 'undefined' || localStorage.getItem('loggedOut') !== 'true')) {
+      if (
+        !isAuthenticated &&
+        !loading &&
+        (typeof localStorage === 'undefined' ||
+          localStorage.getItem('loggedOut') !== 'true')
+      ) {
         try {
           await refreshAuthToken();
         } catch {
-          console.log("Token refresh failed in navbar");
+          console.log('Token refresh failed in navbar');
         }
       }
     };
@@ -60,17 +67,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-beige border-accent border-accent-bottom sticky top-0 z-50" style={{ fontFamily: '"Mier A", sans-serif' }}>
+    <nav
+      className="bg-beige border-accent border-accent-bottom sticky top-0 z-50"
+      style={{ fontFamily: '"Mier A", sans-serif' }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
           {/* Logo Section */}
           <div className="flex items-center">
-            <Link
-              href="/"
-              className="flex items-center space-x-2 group"
-            >
-              
+            <Link href="/" className="flex items-center space-x-2 group">
               <span className="text-3xl  text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
                 Noyco
               </span>
@@ -113,15 +118,30 @@ export default function Navbar() {
 
           {/* Right Section - Auth Buttons */}
           <div className="flex items-center space-x-3">
-            {mounted && isAuthenticated && !loading && !pathname?.startsWith('/auth') ? (
+            {mounted &&
+            isAuthenticated &&
+            !loading &&
+            !pathname?.startsWith('/auth') ? (
               <div className="hidden lg:flex items-center space-x-4">
                 <div className="flex items-center space-x-3 h-10 px-3 bg-white/50 border border-gray-200 hover:bg-white/70 transition-colors duration-200">
                   <div className="w-8 h-8 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full flex items-center justify-center">
-                    <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <svg
+                      className="w-4 h-4 text-gray-800"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
                     </svg>
                   </div>
-                  <span className="text-sm font-medium text-gray-700 max-w-32 truncate">{user?.name || user?.email}</span>
+                  <span className="text-sm font-medium text-gray-700 max-w-32 truncate">
+                    {user?.name || user?.email}
+                  </span>
                 </div>
                 <Link
                   href={getDashboardLink()}
@@ -136,22 +156,27 @@ export default function Navbar() {
                   Sign Out
                 </button>
               </div>
-            ) : (mounted && loading && !loggedOutFlag) ? (
-              <div className="hidden lg:flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                <span className="text-sm font-medium text-gray-500">Loading...</span>
-              </div>
             ) : (
               <div className="hidden lg:flex items-center space-x-3">
                 <Link
                   href="/auth/login"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className={cn(
+                    'inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500',
+                    loading ? 'pointer-events-none opacity-60' : ''
+                  )}
+                  aria-disabled={loading}
+                  tabIndex={loading ? -1 : 0}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/getting-started"
-                  className="inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className={cn(
+                    'inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500',
+                    loading ? 'pointer-events-none opacity-60' : ''
+                  )}
+                  aria-disabled={loading}
+                  tabIndex={loading ? -1 : 0}
                 >
                   Get Started
                 </Link>
@@ -167,11 +192,25 @@ export default function Navbar() {
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle mobile menu"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </button>
@@ -183,10 +222,11 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-beige border-accent border-accent-top shadow-lg">
           <div className="px-4 py-6 space-y-6">
-            
             {/* Mobile Navigation Links */}
             <div className="space-y-1">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Navigation</h3>
+              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                Navigation
+              </h3>
               <Link
                 href="/#features"
                 className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors duration-200"
@@ -223,13 +263,27 @@ export default function Navbar() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3 py-2">
                     <div className="w-8 h-8 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      <svg
+                        className="w-4 h-4 text-gray-800"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-gray-500">Signed in as</p>
-                      <p className="text-sm font-medium text-gray-800">{user?.name || user?.email}</p>
+                      <p className="text-xs font-medium text-gray-500">
+                        Signed in as
+                      </p>
+                      <p className="text-sm font-medium text-gray-800">
+                        {user?.name || user?.email}
+                      </p>
                     </div>
                   </div>
                   <Link
@@ -252,7 +306,9 @@ export default function Navbar() {
               ) : loading && !loggedOutFlag ? (
                 <div className="flex items-center justify-center space-x-2 py-4">
                   <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                  <span className="text-sm font-medium text-gray-500">Loading...</span>
+                  <span className="text-sm font-medium text-gray-500">
+                    Loading...
+                  </span>
                 </div>
               ) : (
                 <div className="space-y-3">
