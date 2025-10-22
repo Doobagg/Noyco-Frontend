@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../store/hooks';
 import { useRouter, usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -159,19 +160,23 @@ export default function Navbar() {
               <div className="hidden lg:flex items-center space-x-3">
                 <Link
                   href="/auth/login"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className={cn(
+                    'inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500',
+                    loading ? 'pointer-events-none opacity-60' : ''
+                  )}
                   aria-disabled={loading}
                   tabIndex={loading ? -1 : 0}
-                  style={loading ? { pointerEvents: 'none', opacity: 0.6 } : {}}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/getting-started"
-                  className="inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  className={cn(
+                    'inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500',
+                    loading ? 'pointer-events-none opacity-60' : ''
+                  )}
                   aria-disabled={loading}
                   tabIndex={loading ? -1 : 0}
-                  style={loading ? { pointerEvents: 'none', opacity: 0.6 } : {}}
                 >
                   Get Started
                 </Link>
