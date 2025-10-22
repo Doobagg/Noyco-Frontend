@@ -567,7 +567,7 @@ const ChatTherapist = () => {
   const isProfileReady = !profilesLoading;
 
   return (
-    <div className="flex flex-col bg-[#f8f7f1] mt-4 min-h-[calc(100vh-200px)] max-h-[calc(100vh-100px)]">
+    <div className="flex flex-col bg-[#f8f7f1] h-[calc(100vh-215px)] ">
       {/* Header - Sticky */}
       <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 py-3 sm:py-4 sticky top-0 bg-[#f8f7f1] z-10 shadow-sm">
         <div className="max-w-4xl mx-auto">
@@ -714,7 +714,7 @@ const ChatTherapist = () => {
             </motion.div>
           )}
 
-          {/* <div ref={messagesEndRef} /> */}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 
@@ -1753,7 +1753,7 @@ const TabbedAssistantInterface = () => {
   ];
 
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-beige overflow-hidden">
+    <div className="flex flex-col h-full bg-beige overflow-hidden">
       {/* Header with Tab Navigation - Sticky */}
       <div className="flex-shrink-0 bg-beige border-b border-gray-200/40 sticky top-0 z-20 shadow-sm">
         <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
@@ -1796,7 +1796,7 @@ const TabbedAssistantInterface = () => {
       </div>
 
       {/* Tab Content - Flex to fill remaining space with scroll */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col min-h-0">
+      <div className="flex-1 h-full overflow-x-hidden flex flex-col min-h-0">
         <div className="flex-1 bg-beige h-full">
           <AnimatePresence mode="wait">
             {activeTab === 'voice' ? (
