@@ -310,21 +310,27 @@ export default function Plan() {
             };
             const introPeriodLabel = introLabelByType[plan.plan_type] || 'first month';
 
+            // Presentation gradients similar to marketing screenshot
+            const gradientByPlan = {
+              one_month: 'from-[#A4E5FF] to-[#7FD3FF]',
+              three_months: 'from-[#FFE0B5] to-[#FFC9A1]',
+              six_months: 'from-[#DCC6FF] to-[#B9A9FF]',
+            };
+            const glow = gradientByPlan[plan.plan_type] || 'from-white to-gray-50';
+
             return (
-              <div
-                key={plan.plan_type}
-                className={`relative bg-beige backdrop-blur-xl border-accent-right border-accent-left border-accent-top border-accent rounded-none p-6 transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-2xl ${
-                  isCurrentPlan
-                    ? 'border-blue-500 shadow-xl ring-1 ring-blue-500/20'
-                    : isRecommended
-                    ? 'border-gray-200 shadow-xl'
-                    : 'border-white/20 shadow-lg hover:border-gray-200'
-                }`}
-              >
+              <div key={plan.plan_type} className="relative group">
+                {/* Glow */}
+                <div className={`absolute inset-0 rounded-2xl blur-xl opacity-60 bg-gradient-to-r ${glow}`} aria-hidden="true"></div>
+                <div
+                  className={`relative rounded-2xl bg-white/80 border border-white/60 backdrop-blur-sm p-6 transition-all duration-300 ease-out ${
+                    isCurrentPlan ? 'ring-1 ring-blue-500/30 shadow-xl' : 'shadow-md group-hover:shadow-xl'
+                  }`}
+                >
                 {/* Recommended Badge */}
                 {isRecommended && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 px-4 py-1  text-sm font-medium shadow-lg">
+                    <div className="bg-gray-900 text-white px-3 py-1 text-xs font-semibold shadow">
                       Most Popular
                     </div>
                   </div>
@@ -340,29 +346,55 @@ export default function Plan() {
                   </div>
                 )}
 
-                <div className="mb-6">
-                  <h2 className="text-2xl font-light text-gray-900 mb-2 tracking-tight">
-                    {plan.name}
-                  </h2>
-                  <p className="text-gray-600 leading-relaxed">
-                    {plan.description}
-                  </p>
-                </div>
-
-                {/* Pricing */}
-                <div className="mb-6">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-baseline">
-                      <span className="text-4xl font-light text-gray-900 tracking-tight">
-                        ${introPrice}
-                      </span>
-                      <span className="text-gray-500 ml-2">{introPeriodLabel}</span>
+                {/* Header + Inline CTA row */}
+                <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
+                  <div className="min-w-0">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-1 tracking-tight">
+                      {plan.name}
+                    </h2>
+                    <p className="text-gray-600 leading-relaxed mb-2">
+                      {plan.description}
+                    </p>
+                    {/* Pricing */}
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-baseline flex-wrap">
+                        <span className="text-3xl font-light text-gray-900 tracking-tight">
+                          ${introPrice}
+                        </span>
+                        <span className="text-gray-500 ml-2 text-sm">{introPeriodLabel}</span>
+                      </div>
+                      <div className="text-gray-600 text-sm">
+                        then <span className="font-medium text-gray-900">${recurringPrice}</span> {intervalLabel}
+                      </div>
+                      {perDayText && (
+                        <div className="text-xs text-gray-500">{perDayText}</div>
+                      )}
                     </div>
-                    <div className="text-gray-600">
-                      then <span className="font-medium text-gray-900">${recurringPrice}</span> {intervalLabel}
-                    </div>
-                    {perDayText && (
-                      <div className="text-sm text-gray-500">{perDayText}</div>
+                  </div>
+                  <div className="w-[180px] justify-self-end self-start">
+                    {isCurrentPlan ? (
+                      <button
+                        disabled
+                        className="w-full py-3 bg-green-50 border border-green-200 text-green-800 rounded-full font-medium"
+                      >
+                        Current Plan
+                      </button>
+                    ) : (
+                      <>
+                        {process.env.NEXT_PUBLIC_USE_CUSTOM_CHECKOUT === 'true' ? (
+                          <Link href="/dashboard/individual/plan/custom-checkout" className="flex items-center justify-center w-full py-3 bg-gray-900 text-white rounded-full font-semibold">
+                            <span className="font-medium">
+                              {plan.plan_type === 'three_months' ? 'Choose Plan' : plan.plan_type === 'six_months' ? 'Choose Plan' : 'Choose Plan'}
+                            </span>
+                          </Link>
+                        ) : (
+                          <div className="[&>*]:w-full [&>button]:w-full">
+                            <CheckoutButton planType={plan.plan_type}>
+                              <span className="font-medium">Choose Plan</span>
+                            </CheckoutButton>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
@@ -393,30 +425,12 @@ export default function Plan() {
                   </div>
                 </div>
 
-                {/* CTA + Legal */}
-                {isCurrentPlan ? (
-                  <button
-                    disabled
-                    className="w-full py-3 bg-green-50 border border-green-200 text-green-800 rounded-2xl font-medium  "
-                  >
-                    Current Plan
-                  </button>
-                ) : (
-                  <div className="w-full space-y-3">
-                    {process.env.NEXT_PUBLIC_USE_CUSTOM_CHECKOUT === 'true' ? (
-                      <Link href="/dashboard/individual/plan/custom-checkout" className="flex items-center justify-center w-full py-3 bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 font-semibold">
-                        <span className="font-medium">Get Started</span>
-                      </Link>
-                    ) : (
-                      <CheckoutButton planType={plan.plan_type}>
-                        <span className="font-medium">Get Started</span>
-                      </CheckoutButton>
-                    )}
-                    {legal && (
-                      <p className="text-xs text-gray-500 leading-relaxed">{legal}</p>
-                    )}
-                  </div>
+                {/* Legal disclaimer under the card content */}
+                {legal && (
+                  <p className="text-xs text-gray-500 leading-relaxed mt-3">{legal}</p>
                 )}
+              </div>
+              {/* Close wrapper for glow + card */}
               </div>
             );
           })}
