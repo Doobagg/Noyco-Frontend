@@ -51,15 +51,15 @@ export default function ConversationInsights({ onConversationSelect }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-1 md:space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 md:gap-3">
         <h2 className="text-xl font-semibold text-gray-900">Conversation Insights</h2>
 
         {/* Right side wrapper */}
-        <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
+        <div className="flex items-center gap-4 md:gap-3 flex-wrap sm:flex-nowrap">
           <select 
-            className="px-3 py-1 text-sm bg-beige font-medium  transition-colors text-gray-600 hover:text-gray-900 border-accent border-accent-top border-accent-left border-accent-right focus:bg-gradient-to-r focus:from-[#E6D3E7] focus:via-[#F6D9D5] focus:to-[#D6E3EC] focus:text-gray-800"
+            className="px-2 md:px-3 py-1 text-sm bg-beige font-medium  transition-colors text-gray-600 hover:text-gray-900 border-accent border-accent-top border-accent-left border-accent-right focus:bg-gradient-to-r focus:from-[#E6D3E7] focus:via-[#F6D9D5] focus:to-[#D6E3EC] focus:text-gray-800"
             value={selectedAgentType}
             onChange={handleAgentTypeChange}
           >
@@ -76,7 +76,7 @@ export default function ConversationInsights({ onConversationSelect }) {
               <button
                 key={timeframe.value}
                 onClick={() => setSelectedTimeframe(timeframe.value)}
-                className={`px-3 py-1 text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`px-1.5 md:px-3 py-1 text-sm font-medium whitespace-nowrap transition-colors ${
                   selectedTimeframe === timeframe.value
                     ? 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -90,7 +90,7 @@ export default function ConversationInsights({ onConversationSelect }) {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:h-[calc(100vh-200px)]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 sm:h-[calc(100vh-200px)]">
         {/* Left: Conversation List */}
         <div className="overflow-hidden min-w-0">
           <ConversationList 

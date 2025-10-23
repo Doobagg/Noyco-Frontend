@@ -219,7 +219,7 @@ export default function AgentProfilesPage() {
 
   return (
     <div className="min-h-screen bg-beige">
-      <div className="w-full mx-auto p-3 sm:p-6">
+      <div className="w-full overflow-x-hidden sm:p-6">
         {currentView === "grid" && (
           <>
             <div className="mb-4 sm:mb-6">

@@ -214,9 +214,10 @@ const InstantPlanPreviewStep = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.25 }}
       >
-        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 items-start">
-          {/* Before */}
-          <div className="flex flex-col items-center text-center">
+        {/* <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 items-start"> */}
+        
+        
+          {/* <div className="flex flex-col items-center text-center">
             <div className="relative w-full max-w-[180px] xs:max-w-[200px] sm:max-w-[180px] md:max-w-[200px] aspect-square">
               <Image
                 src="/sad.png"
@@ -229,7 +230,9 @@ const InstantPlanPreviewStep = () => {
             </div>
             <div className="mt-4 text-sm font-medium text-gray-500 uppercase tracking-wide">Before</div>
           </div>
-          {/* After */}
+
+          
+
           <div className="flex flex-col items-center text-center">
             <div className="relative w-full max-w-[180px] xs:max-w-[200px] sm:max-w-[180px] md:max-w-[200px] aspect-square">
               <Image
@@ -242,13 +245,35 @@ const InstantPlanPreviewStep = () => {
               />
             </div>
             <div className="mt-4 text-sm font-medium text-gray-500 uppercase tracking-wide">After</div>
-          </div>
-        </div>
+          </div> */}
+
+
+
+              <Image
+                src="/trans.png"
+                alt="After following plan: calmer and uplifted"
+                width={500}
+                height={500}
+                priority
+              />
+
+
+
+
+        {/* </div> */}
+
+
         {/* Subtle connector for larger screens */}
         <div className="hidden sm:flex justify-center mt-4 text-[11px] text-gray-400 tracking-wide">
           Guided micro-habits over 30 days → gradual mood shift
         </div>
+
       </motion.div>
+
+
+
+
+
 
       {/* Highlights of your plan as lines */}
       <motion.div
@@ -320,9 +345,12 @@ const InstantPlanPreviewStep = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.75 }}
+
+
+
       >
         {/* Transformation highlights: two-column comparison */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <h3 className="text-center text-lg font-semibold text-gray-900 mb-4">Transform Your Wellness in 4 Weeks</h3>
           {(() => {
             const items = [
@@ -355,13 +383,79 @@ const InstantPlanPreviewStep = () => {
               </div>
             );
           })()}
+        </div> */}
+
+
+
+<div className="mb-10">
+  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden max-w-2xl mx-auto">
+    {/* Header */}
+    <div className="bg-gradient-to-b from-green-50 to-transparent px-6 py-4 flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="w-5 h-5 text-green-600"
+        >
+          <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2z" />
+        </svg>
+        <h3 className="text-gray-900 font-semibold text-lg">
+          Noyco
+        </h3>
+      </div>
+      <div className="flex gap-6 text-sm font-medium">
+        <div className="flex items-center gap-1 text-green-700">
+          <div className="bg-green-100 rounded-full p-1">
+            <CheckCircle className="w-4 h-4 text-green-600" />
+          </div>
+          <span>With</span>
         </div>
+        <div className="flex items-center gap-1 text-red-600">
+          <div className="bg-red-100 rounded-full p-1">
+            <XCircle className="w-4 h-4 text-red-500" />
+          </div>
+          <span>Without</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Comparison Table */}
+    <div className="divide-y divide-gray-100 px-6 py-4">
+      {[
+        'Stress-free mornings and evenings',
+        'Crystal clear focus throughout your day',
+        'Steady energy without the crashes',
+        'Deep, restorative sleep every night',
+        'Confidence in social connections',
+        'Freedom from anxiety and worry',
+        'A calmer, stronger version of yourself',
+      ].map((item, i) => (
+        <div
+          key={i}
+          className="grid grid-cols-[1fr_auto_auto] gap-x-4 py-3 items-center"
+        >
+          <div className="text-gray-800 text-sm">{item}</div>
+          <div className="flex justify-center mr-16" >
+            <CheckCircle className="w-5 h-5 text-green-600" />
+          </div>
+          <div className="flex justify-center mr-4">
+            <XCircle className="w-5 h-5 text-red-500" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+
+
 
           {/* Transform image placed immediately after comparison */}
           <div className="flex justify-center mt-2">
             <div className="w-full max-w-[420px] md:max-w-[600px]">
               <Image
-                src="/transform.png"
+                src="/noycofp.png"
                 alt="Transform preview"
                 width={600}
                 height={600}
@@ -371,8 +465,13 @@ const InstantPlanPreviewStep = () => {
             </div>
           </div>
 
+
+
+
+
+
           {/* Reviews / Testimonials */}
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <h4 className="text-center text-md font-semibold text-gray-900 mb-4">What people are saying</h4>
             <div className="space-y-4">
               {[
@@ -410,7 +509,62 @@ const InstantPlanPreviewStep = () => {
                 </div>
               ))}
             </div>
+          </div> */}
+
+
+       <div className="mt-10">
+  <h4 className="text-center text-2xl font-normal text-gray-900 mb-6">
+    What people are saying
+  </h4>
+  <div className="space-y-5 max-w-lg mx-auto">
+    {[
+      {
+        name: 'Stacy',
+        text: 'I finally sleep through the night and wake up calmer. The daily steps are simple and effective.',
+        gradient: 'from-green-200 to-green-400',
+      },
+      {
+        name: 'Michael',
+        text: 'My focus and energy improved in two weeks — this felt like a personal coach in my pocket.',
+        gradient: 'from-orange-200 to-orange-400',
+      },
+      {
+        name: 'Sofia',
+        text: 'Practical, research-backed techniques. Less anxiety, more confidence in social situations.',
+        gradient: 'from-purple-200 to-purple-400',
+      },
+    ].map((r, i) => (
+      <div
+        key={i}
+        className="bg-beige p-5 rounded-2xl shadow-sm border border-gray-100"
+      >
+        <div className="flex items-start gap-3">
+          {/* Avatar */}
+          <div
+            className={`w-12 h-12 rounded-full bg-gradient-to-br ${r.gradient} flex items-center justify-center text-base font-semibold text-white shadow-sm flex-shrink-0`}
+          >
+            {r.name.charAt(0)}
           </div>
+
+          {/* Name, Stars, and Review (aligned vertically) */}
+          <div className="flex flex-col">
+            <div className="text-base font-semibold text-gray-900">{r.name}</div>
+            <div className="flex items-center text-yellow-400 mb-2">
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400/70" />
+            </div>
+            <p className="text-sm text-gray-700 leading-relaxed">{r.text}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
 
         {/* Cost comparison note (placed above heading) */}
         <div className="text-center mt-6 mb-4">
