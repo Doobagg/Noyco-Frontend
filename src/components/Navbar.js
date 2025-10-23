@@ -303,26 +303,29 @@ export default function Navbar() {
                     Sign Out
                   </button>
                 </div>
-              ) : loading && !loggedOutFlag ? (
-                <div className="flex items-center justify-center space-x-2 py-4">
-                  <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                  <span className="text-sm font-medium text-gray-500">
-                    Loading...
-                  </span>
-                </div>
               ) : (
                 <div className="space-y-3">
                   <Link
                     href="/auth/login"
-                    className="block w-full text-center text-sm font-semibold border border-gray-300 text-gray-700 px-4 py-3 hover:bg-gray-50 transition-colors"
+                    className={cn(
+                      'block w-full text-center text-sm font-semibold border border-gray-300 text-gray-700 px-4 py-3 hover:bg-gray-50 transition-colors',
+                      loading ? 'pointer-events-none opacity-60' : ''
+                    )}
                     onClick={() => setMobileMenuOpen(false)}
+                    aria-disabled={loading}
+                    tabIndex={loading ? -1 : 0}
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/getting-started"
-                    className="block w-full text-center text-sm font-semibold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-4 py-3 hover:shadow-md transition-all duration-300"
+                    className={cn(
+                      'block w-full text-center text-sm font-semibold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 px-4 py-3 hover:shadow-md transition-all duration-300',
+                      loading ? 'pointer-events-none opacity-60' : ''
+                    )}
                     onClick={() => setMobileMenuOpen(false)}
+                    aria-disabled={loading}
+                    tabIndex={loading ? -1 : 0}
                   >
                     Get Started
                   </Link>
