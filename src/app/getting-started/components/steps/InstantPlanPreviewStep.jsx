@@ -87,13 +87,69 @@ const InstantPlanPreviewStep = () => {
     { label: 'Patterns', value: (data.symptomPatterns && data.symptomPatterns.length) ? data.symptomPatterns.slice(0,2).join(', ') : '—', color: 'text-gray-700', },
   ];
 
-  const planCards = plans.map((p) => ({
-    id: p.code,
-    title: `${p.months}-MONTH PLAN`,
-    priceDisplay: p.priceDisplay || '',
-    // Only show 'MOST POPULAR' and remove 'BEST VALUE'
-    badge: p.code === 'IND_1M' ? 'MOST POPULAR' : null,
-  }));
+  // Friendly marketing presentation for the three primary individual plans.
+  // NOTE: This is presentation-only. Stripe uses the plan `code` (e.g., IND_1M),
+  // which we keep intact via selectedPlan + createPublicSubscription.
+  // Helper to split server priceDisplay like
+  // "$16.66 /month (Billed $49.99 every 3 months)" → { monthly: "$16.66 /month", billed: "Billed $49.99 every 3 months" }
+  const parsePriceDisplay = (code) => {
+    const pd = plans.find(p => p.code === code)?.priceDisplay || '';
+    if (!pd) return { monthly: '', billed: '' };
+    const m = pd.match(/^([^()]+?)(?:\s*\(([^)]+)\))?$/);
+    if (!m) return { monthly: pd, billed: '' };
+    return { monthly: (m[1] || '').trim(), billed: (m[2] || '').trim() };
+  };
+
+  const IND_1M_PRICE = parsePriceDisplay('IND_1M');
+  const IND_3M_PRICE = parsePriceDisplay('IND_3M');
+  const IND_6M_PRICE = parsePriceDisplay('IND_6M');
+
+  const DISPLAY_BY_CODE = {
+    IND_1M: {
+      name: 'The Starter Journey',
+      sub: 'Flex Plan',
+      monthly: IND_1M_PRICE.monthly || '$19.99 /month',
+      billed: IND_1M_PRICE.billed || '',
+      helper: 'Perfect for testing the waters.',
+      gradient: 'from-[#A4E5FF] to-[#7FD3FF]',
+      badge: 'MOST POPULAR',
+    },
+    IND_3M: {
+      name: 'The Transformation',
+      sub: 'Recommended Path',
+      monthly: IND_3M_PRICE.monthly || '$16.66 /month',
+      billed: IND_3M_PRICE.billed,
+      helper: 'Best value for building a habit.',
+      gradient: 'from-[#FFE0B5] to-[#FFC9A1]',
+      badge: null,
+    },
+    IND_6M: {
+      name: 'The Deep Dive',
+      sub: 'Commitment Plan',
+      monthly: IND_6M_PRICE.monthly || '$13.33 /month',
+      billed: IND_6M_PRICE.billed ,
+      helper: 'Lock in your lowest price.',
+      gradient: 'from-[#DCC6FF] to-[#B9A9FF]',
+      badge: null,
+    },
+  };
+
+  const planCards = plans
+    .filter(p => ['IND_1M', 'IND_3M', 'IND_6M'].includes(p.code))
+    .map((p) => {
+      const d = DISPLAY_BY_CODE[p.code] || {
+        name: `${p.months}-Month Plan`,
+        sub: '',
+        priceLine: p.priceDisplay || '',
+        helper: '',
+        gradient: 'from-white to-gray-50',
+        badge: null,
+      };
+      return {
+        id: p.code,
+        ...d,
+      };
+    });
   
   const getPreviewParagraph = () => {
     const focus = data.primaryTopic || 'your wellbeing';
@@ -141,7 +197,7 @@ const InstantPlanPreviewStep = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.15 }}
       >
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-normal text-gray-900">
           {getUserName()}, here’s a snapshot of your
           <br />
           <span className="text-gray-600">personalized plan</span>
@@ -158,9 +214,10 @@ const InstantPlanPreviewStep = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.25 }}
       >
-        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 items-start">
-          {/* Before */}
-          <div className="flex flex-col items-center text-center">
+        {/* <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 items-start"> */}
+        
+        
+          {/* <div className="flex flex-col items-center text-center">
             <div className="relative w-full max-w-[180px] xs:max-w-[200px] sm:max-w-[180px] md:max-w-[200px] aspect-square">
               <Image
                 src="/sad.png"
@@ -173,7 +230,9 @@ const InstantPlanPreviewStep = () => {
             </div>
             <div className="mt-4 text-sm font-medium text-gray-500 uppercase tracking-wide">Before</div>
           </div>
-          {/* After */}
+
+          
+
           <div className="flex flex-col items-center text-center">
             <div className="relative w-full max-w-[180px] xs:max-w-[200px] sm:max-w-[180px] md:max-w-[200px] aspect-square">
               <Image
@@ -186,13 +245,35 @@ const InstantPlanPreviewStep = () => {
               />
             </div>
             <div className="mt-4 text-sm font-medium text-gray-500 uppercase tracking-wide">After</div>
-          </div>
-        </div>
+          </div> */}
+
+
+
+              <Image
+                src="/trans.png"
+                alt="After following plan: calmer and uplifted"
+                width={500}
+                height={500}
+                priority
+              />
+
+
+
+
+        {/* </div> */}
+
+
         {/* Subtle connector for larger screens */}
         <div className="hidden sm:flex justify-center mt-4 text-[11px] text-gray-400 tracking-wide">
           Guided micro-habits over 30 days → gradual mood shift
         </div>
+
       </motion.div>
+
+
+
+
+
 
       {/* Highlights of your plan as lines */}
       <motion.div
@@ -264,9 +345,12 @@ const InstantPlanPreviewStep = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.75 }}
+
+
+
       >
         {/* Transformation highlights: two-column comparison */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <h3 className="text-center text-lg font-semibold text-gray-900 mb-4">Transform Your Wellness in 4 Weeks</h3>
           {(() => {
             const items = [
@@ -299,13 +383,79 @@ const InstantPlanPreviewStep = () => {
               </div>
             );
           })()}
+        </div> */}
+
+
+
+<div className="mb-10">
+  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden max-w-2xl mx-auto">
+    {/* Header */}
+    <div className="bg-gradient-to-b from-green-50 to-transparent px-6 py-4 flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="w-5 h-5 text-green-600"
+        >
+          <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2z" />
+        </svg>
+        <h3 className="text-gray-900 font-semibold text-lg">
+          Noyco
+        </h3>
+      </div>
+      <div className="flex gap-6 text-sm font-medium">
+        <div className="flex items-center gap-1 text-green-700">
+          <div className="bg-green-100 rounded-full p-1">
+            <CheckCircle className="w-4 h-4 text-green-600" />
+          </div>
+          <span>With</span>
         </div>
+        <div className="flex items-center gap-1 text-red-600">
+          <div className="bg-red-100 rounded-full p-1">
+            <XCircle className="w-4 h-4 text-red-500" />
+          </div>
+          <span>Without</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Comparison Table */}
+    <div className="divide-y divide-gray-100 px-6 py-4">
+      {[
+        'Stress-free mornings and evenings',
+        'Crystal clear focus throughout your day',
+        'Steady energy without the crashes',
+        'Deep, restorative sleep every night',
+        'Confidence in social connections',
+        'Freedom from anxiety and worry',
+        'A calmer, stronger version of yourself',
+      ].map((item, i) => (
+        <div
+          key={i}
+          className="grid grid-cols-[1fr_auto_auto] gap-x-4 py-3 items-center"
+        >
+          <div className="text-gray-800 text-sm">{item}</div>
+          <div className="flex justify-center mr-16" >
+            <CheckCircle className="w-5 h-5 text-green-600" />
+          </div>
+          <div className="flex justify-center mr-4">
+            <XCircle className="w-5 h-5 text-red-500" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+
+
 
           {/* Transform image placed immediately after comparison */}
           <div className="flex justify-center mt-2">
             <div className="w-full max-w-[420px] md:max-w-[600px]">
               <Image
-                src="/transform.png"
+                src="/noycofp.png"
                 alt="Transform preview"
                 width={600}
                 height={600}
@@ -315,8 +465,13 @@ const InstantPlanPreviewStep = () => {
             </div>
           </div>
 
+
+
+
+
+
           {/* Reviews / Testimonials */}
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <h4 className="text-center text-md font-semibold text-gray-900 mb-4">What people are saying</h4>
             <div className="space-y-4">
               {[
@@ -354,7 +509,62 @@ const InstantPlanPreviewStep = () => {
                 </div>
               ))}
             </div>
+          </div> */}
+
+
+       <div className="mt-10">
+  <h4 className="text-center text-2xl font-normal text-gray-900 mb-6">
+    What people are saying
+  </h4>
+  <div className="space-y-5 max-w-lg mx-auto">
+    {[
+      {
+        name: 'Stacy',
+        text: 'I finally sleep through the night and wake up calmer. The daily steps are simple and effective.',
+        gradient: 'from-green-200 to-green-400',
+      },
+      {
+        name: 'Michael',
+        text: 'My focus and energy improved in two weeks — this felt like a personal coach in my pocket.',
+        gradient: 'from-orange-200 to-orange-400',
+      },
+      {
+        name: 'Sofia',
+        text: 'Practical, research-backed techniques. Less anxiety, more confidence in social situations.',
+        gradient: 'from-purple-200 to-purple-400',
+      },
+    ].map((r, i) => (
+      <div
+        key={i}
+        className="bg-beige p-5 rounded-2xl shadow-sm border border-gray-100"
+      >
+        <div className="flex items-start gap-3">
+          {/* Avatar */}
+          <div
+            className={`w-12 h-12 rounded-full bg-gradient-to-br ${r.gradient} flex items-center justify-center text-base font-semibold text-white shadow-sm flex-shrink-0`}
+          >
+            {r.name.charAt(0)}
           </div>
+
+          {/* Name, Stars, and Review (aligned vertically) */}
+          <div className="flex flex-col">
+            <div className="text-base font-semibold text-gray-900">{r.name}</div>
+            <div className="flex items-center text-yellow-400 mb-2">
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400" />
+              <Star className="w-4 h-4 fill-yellow-400/70" />
+            </div>
+            <p className="text-sm text-gray-700 leading-relaxed">{r.text}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
 
         {/* Cost comparison note (placed above heading) */}
         <div className="text-center mt-6 mb-4">
@@ -367,39 +577,70 @@ const InstantPlanPreviewStep = () => {
           {loadingPlans && (
             <div className="text-center text-sm text-gray-500">Loading plans…</div>
           )}
-          {!loadingPlans && planCards.map((p) => (
-            <div
-              key={p.id}
-              onClick={() => setSelectedPlan(p.id)}
-              className={`relative bg-white border-2 rounded-none p-5 cursor-pointer w-full transition-all duration-200 ${
-                selectedPlan === p.id ? 'border-gray-900 shadow-sm' : 'border-gray-200 hover:border-gray-300'
-              }`}
-            >
-              {p.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-gray-900 text-white px-3 py-1 text-[10px] font-semibold rounded-b-md shadow">
-                    {p.badge}
-                  </div>
-                </div>
-              )}
-              <div className="flex items-center justify-between gap-6 flex-wrap">
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-1">{p.title}</h3>
-                  {p.priceDisplay && (
-                    <div className="flex items-baseline gap-2">
-                      <div className="text-base text-gray-900 font-normal">{p.priceDisplay}</div>
+          {!loadingPlans && planCards.map((p) => {
+            const isSelected = selectedPlan === p.id;
+            return (
+              <div
+                key={p.id}
+                onClick={() => setSelectedPlan(p.id)}
+                className={`relative w-full cursor-pointer transition-all duration-300 ease-out`}
+              >
+                {/* Glow */}
+                <div className={`absolute inset-0 rounded-2xl blur-xl opacity-60 ${isSelected ? 'opacity-80' : 'opacity-50'} bg-gradient-to-r ${p.gradient}`} aria-hidden="true"></div>
+
+                {/* Card */}
+                <div className={`relative rounded-2xl bg-white/80 border border-white/60 backdrop-blur-sm p-5 sm:p-6 shadow-sm hover:shadow-lg`}
+                  style={{
+                    boxShadow: isSelected
+                      ? '0 10px 30px rgba(0,0,0,0.08), 0 0 0 2px rgba(0,0,0,0.02)'
+                      : '0 6px 18px rgba(0,0,0,0.05)'
+                  }}
+                >
+                  {/* Badge */}
+                  {p.badge && (
+                    <div className="absolute -top-3 left-4">
+                      <div className="bg-gray-900 text-white px-3 py-1 text-[10px] font-semibold rounded-md shadow">
+                        {p.badge}
+                      </div>
                     </div>
                   )}
-                </div>
-                <div className="min-w-[160px]">
-                  <button className="w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 px-4 py-2 rounded-none hover:shadow-lg transition-all duration-200 text-sm font-semibold">
-                    {selectedPlan === p.id ? 'Selected' : 'Choose plan'}
-                  </button>
+
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
+                    <div className="min-w-0">
+                      <div className="text-xs text-gray-600">{p.sub}</div>
+                      <h3 className="text-[17px] sm:text-[19px] font-semibold text-gray-900 leading-snug">{p.name}</h3>
+                      {/* Price lines to mirror screenshot layout */}
+                      {(p.monthly || p.billed) && (
+                        <div className="mt-1">
+                          {p.monthly && (
+                            <div className="text-[17px] sm:text-[19px] text-gray-900 font-semibold">{p.monthly}</div>
+                          )}
+                          {p.billed && (
+                            <div className="text-xs text-gray-600">{p.billed}</div>
+                          )}
+                        </div>
+                      )}
+                      {p.helper && (
+                        <div className="text-xs text-gray-600 mt-1">{p.helper}</div>
+                      )}
+                    </div>
+
+                    <div className="w-[150px] justify-self-end self-start">
+                      <button
+                        className={`w-full px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                          isSelected
+                            ? 'bg-gray-900 text-white'
+                            : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        {isSelected ? 'Selected' : 'Choose Plan'}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-            </div>
-          ))}
+            );
+          })}
         </div>
       </motion.div>
 
@@ -413,9 +654,15 @@ const InstantPlanPreviewStep = () => {
         <button
           onClick={startCheckout}
           disabled={creatingCheckout || loadingPlans}
-          className={`w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 py-4 px-8 rounded-none text-base font-semibold hover:shadow-lg transition-all duration-200 ${creatingCheckout || loadingPlans ? 'opacity-60 cursor-not-allowed' : ''}`}
+          className={`w-full bg-gray-900 text-white py-4 px-8 rounded-full text-base font-semibold hover:opacity-90 transition-all duration-200 ${creatingCheckout || loadingPlans ? 'opacity-60 cursor-not-allowed' : ''}`}
         >
-          {creatingCheckout ? 'Redirecting…' : 'Get my plan'}
+          {creatingCheckout
+            ? 'Redirecting…'
+            : selectedPlan === 'IND_3M'
+              ? 'Start My Transformation'
+              : selectedPlan === 'IND_6M'
+                ? 'Start My Deep Dive'
+                : 'Start My Journey'}
         </button>
         <p className="text-[11px] text-gray-600 mt-3 leading-relaxed">
           {getPlanDisclaimer(selectedPlan)}
