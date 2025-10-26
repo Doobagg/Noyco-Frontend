@@ -105,7 +105,7 @@ const flowReducer = (state, action) => {
         error: null
       };
 
-    case FLOW_ACTIONS.SELECT_AGENT:
+    case FLOW_ACTIONS.SELECT_AGENT: {
       // Prevent selection of disabled agents
       if (disabledAgents.includes(action.payload?.key)) {
         return {
@@ -123,6 +123,7 @@ const flowReducer = (state, action) => {
         totalSteps: newTotalSteps,
         error: null
       };
+    }
 
     case FLOW_ACTIONS.SET_CALL_TIME:
       return {
@@ -264,7 +265,7 @@ export const IntegratedFlowProvider = ({ children }) => {
         return true;
       case 2:
         return state.selectedAgent !== null && !isAgentDisabled;
-      case 3:
+      case 3: {
         // Step 3 is Call Time for all agents
         const agentKey = state.selectedAgent?.key;
         let additionalInfoValid = false;
@@ -278,6 +279,7 @@ export const IntegratedFlowProvider = ({ children }) => {
         return state.selectedAgent !== null && 
                !isAgentDisabled && 
                additionalInfoValid;
+      }
       case 4:
         // Step 4 is Review & Confirm
         return state.selectedAgent !== null && 

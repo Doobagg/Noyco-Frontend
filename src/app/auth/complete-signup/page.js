@@ -21,7 +21,10 @@ export default function CompleteSignupPage() {
     if (e) {
       setEmail(e);
       // sync to session for consistency
-      try { if (typeof window !== 'undefined') sessionStorage.setItem('funnelEmail', e); } catch {}
+      try { if (typeof window !== 'undefined') sessionStorage.setItem('funnelEmail', e); } 
+      catch(error){
+        console.error("Failed to set funnelEmail in sessionStorage", error);
+      }
       return;
     }
     // Fallback to sessionStorage values saved during funnel
@@ -42,7 +45,9 @@ export default function CompleteSignupPage() {
           }
         }
       }
-    } catch {}
+    } catch (error) {
+      console.error("Error syncing email from sessionStorage", error);
+    }
   }, [params]);
 
   const onSubmit = async () => {
@@ -57,7 +62,11 @@ export default function CompleteSignupPage() {
         method: "POST",
         body: JSON.stringify({ email, otp, password })
       });
-      try { await dispatch(checkAuthStatus()); } catch {}
+      try { 
+        await dispatch(checkAuthStatus()) 
+      } catch (error) {
+        console.error("Error checking auth status", error);
+      }
       router.push("/dashboard/individual?onboarding=1");
     } catch (e) {
       setError(e?.message || "Verification failed");

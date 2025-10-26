@@ -62,7 +62,9 @@ const InstantPlanPreviewStep = () => {
             'pre_checkout',
             JSON.stringify({ cs: res.client_secret, sid: res.subscription_id })
           );
-        } catch {}
+        } catch (error){
+          console.error('Unable to store pre_checkout in sessionStorage', error);
+        }
       }
       // Navigate to subscribe with params (no autostart needed; page will consume pre_checkout)
       const params = new URLSearchParams({ email, plan: selectedPlan });

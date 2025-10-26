@@ -64,7 +64,9 @@ export default function CheckoutSuccess() {
           setTimeout(poll, 1500);
         } else if (res?.processed) {
           if (res.userStatus === 'active') {
-            try { await dispatch(checkAuthStatus()); } catch {}
+            try { await dispatch(checkAuthStatus()); } catch(error) {
+              console.error('Auth status check failed after payment success', error);
+            }
             setTimeout(() => router.push('/dashboard/individual'), 1200);
           } else {
             // Redirect to dedicated flow to finish registration

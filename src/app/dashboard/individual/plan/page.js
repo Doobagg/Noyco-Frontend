@@ -33,7 +33,9 @@ export default function Plan() {
       try {
         const sub = await getCurrentSubscription();
         setSubSummary(sub);
-      } catch {}
+      } catch (error) {
+        console.error('Error fetching subscription summary:', error);
+      }
 
       try {
         current = await apiRequest('/billing/plan/current', { suppressError: true });
@@ -66,7 +68,9 @@ export default function Plan() {
                 setShowPlans(false);
                 return;
               }
-            } catch {}
+            } catch (error){
+              console.error('Error polling for current plan:', error);
+            }
             if (Date.now() - start < 20000) {
               setTimeout(poll, 1500);
             } else {
@@ -95,7 +99,9 @@ export default function Plan() {
               setShowPlans(false);
               return;
             }
-          } catch {}
+          } catch(error) {
+            console.error('Error polling for current plan:', error);
+          }
           if (Date.now() - start < 20000) {
             setTimeout(poll, 1500);
           } else {
@@ -218,9 +224,9 @@ export default function Plan() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               {/** SubscriptionManager (Manage subscription) temporarily disabled per request */}
-              {false && (
+              {/* {false && (
                 <SubscriptionManager className="flex-1 w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] hover:shadow-lg text-gray-800 font-semibold py-3 px-6 transition-all duration-200" />
-              )}
+              )} */}
               <div className="flex-1 flex flex-col">
                 <CancelSubscriptionButton
                   subscriptionId={subId}
@@ -230,14 +236,14 @@ export default function Plan() {
                 />
               </div>
               {/** Change Plan button temporarily disabled per request */}
-              {false && (
+              {/* {false && (
                 <button
                   onClick={() => setShowPlans(true)}
                   className="flex-1 px-6 py-3 bg-beige border-accent-right border-accent-left border-accent-top border-accent text-gray-700 font-medium transition-all duration-200 hover:bg-gray-50 hover:shadow-md"
                 >
                   Change Plan
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>

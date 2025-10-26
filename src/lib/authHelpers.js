@@ -6,6 +6,8 @@ export async function verifyOtpAndSetPassword(dispatch, { email, otp, password }
     method: 'POST',
     body: JSON.stringify({ email, otp, password })
   });
-  try { await dispatch(checkAuthStatus()); } catch {}
+  try { await dispatch(checkAuthStatus()); } catch (error) {
+    console.error('Error checking auth status after OTP verification', error);
+  }
   return res;
 }
