@@ -17,7 +17,6 @@ import {
   Plus,
   X,
   Sparkles,
-  Target,
   Folder,
   Edit3,
   CheckCircle,
@@ -27,15 +26,11 @@ import {
 const AdditionalInfoForm = () => {
   const { selectedAgent, additionalInfo, selectedTaskId, actions } = useIntegratedFlow();
   const { 
-    goals, 
-    isLoading: goalsLoading, 
     error: goalsError, 
     fetchGoalsByAgent, 
     createOrUpdateGoal,
-    getGoalsForAgent 
   } = useGoals();
   
-  const [currentInput, setCurrentInput] = useState('');
   const [isNewSession, setIsNewSession] = useState(false);
   const [savedTasks, setSavedTasks] = useState([]);
   const [isFetchingGoals, setIsFetchingGoals] = useState(false);
@@ -674,7 +669,7 @@ const AdditionalInfoForm = () => {
 
       </div>
 
-      <style jsx>{`
+      <style>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
           height: 24px;

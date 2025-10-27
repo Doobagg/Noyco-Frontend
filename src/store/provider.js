@@ -40,14 +40,14 @@ export function ReduxProvider({ children }) {
             await store.dispatch(checkAuthStatus()).unwrap();
             console.log("Auth check successful");
           } catch (error) {
-            console.log("Auth check failed, trying to refresh token");
+            console.log("Auth check failed, trying to refresh token",error);
             
             // If auth check fails, try to refresh the token
             try {
               await store.dispatch(refreshToken()).unwrap();
               console.log("Token refresh successful");
             } catch (refreshError) {
-              console.log("Token refresh failed, user needs to login");
+              console.log("Token refresh failed, user needs to login", refreshError);
               // Clear any stale auth data from localStorage
               localStorage.removeItem('lastRefreshAttempt');
               localStorage.removeItem('refreshCount');
@@ -55,7 +55,7 @@ export function ReduxProvider({ children }) {
           }
         } catch (error) {
           // Auth check failed, but we still consider initialization complete
-          console.log("Auth initialization completed with error");
+          console.log("Auth initialization completed with error", error);
         } finally {
           // No-op: we don't block rendering on auth init
         }

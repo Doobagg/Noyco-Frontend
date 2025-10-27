@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -71,7 +69,7 @@ const StoriesForm = ({ data = {}, updateData }) => {
 
   // Auto-add story on form progression (listen for a custom next event)
   useEffect(() => {
-    const handler = (e) => {
+    const handler = () => {
       if (newStory.title.trim() && newStory.description.trim()) {
         addStory();
       }

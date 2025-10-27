@@ -2,16 +2,6 @@
 
 import React from 'react';
 import { 
-  Calendar, 
-  Target, 
-  Clock, 
-  FileText, 
-  Tag, 
-  AlertCircle,
-  Heart,
-  Brain,
-  Users,
-  Thermometer,
   Plus,
   X
 } from 'lucide-react';

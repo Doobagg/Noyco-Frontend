@@ -5,20 +5,20 @@ import { useState } from "react";
 const BasicInfoForm = ({ data = {}, updateData }) => {
   const [errors, setErrors] = useState({});
 
-  const avatarOptions = [
-    { emoji: "🤖", label: "AI Assistant" },
-    { emoji: "👨‍⚕️", label: "Doctor (Male)" },
-    { emoji: "👩‍⚕️", label: "Doctor (Female)" },
-    { emoji: "🧑‍⚕️", label: "Healthcare Pro" },
-    { emoji: "👨‍🔬", label: "Scientist (Male)" },
-    { emoji: "👩‍🔬", label: "Scientist (Female)" },
-    { emoji: "🏥", label: "Hospital" },
-    { emoji: "💊", label: "Medicine" },
-    { emoji: "🩺", label: "Medical" },
-    { emoji: "❤️", label: "Heart" },
-    { emoji: "🧠", label: "Brain" },
-    { emoji: "💪", label: "Fitness" }
-  ];
+  // const avatarOptions = [
+  //   { emoji: "🤖", label: "AI Assistant" },
+  //   { emoji: "👨‍⚕️", label: "Doctor (Male)" },
+  //   { emoji: "👩‍⚕️", label: "Doctor (Female)" },
+  //   { emoji: "🧑‍⚕️", label: "Healthcare Pro" },
+  //   { emoji: "👨‍🔬", label: "Scientist (Male)" },
+  //   { emoji: "👩‍🔬", label: "Scientist (Female)" },
+  //   { emoji: "🏥", label: "Hospital" },
+  //   { emoji: "💊", label: "Medicine" },
+  //   { emoji: "🩺", label: "Medical" },
+  //   { emoji: "❤️", label: "Heart" },
+  //   { emoji: "🧠", label: "Brain" },
+  //   { emoji: "💪", label: "Fitness" }
+  // ];
 
   const genderOptions = [
     { value: "", label: "Select Gender" },
@@ -53,16 +53,17 @@ const BasicInfoForm = ({ data = {}, updateData }) => {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!data.profile_name?.trim()) newErrors.profile_name = "Profile name is required";
-    if (!data.name?.trim()) newErrors.name = "Agent name is required";
-    if (!data.phone?.trim()) newErrors.phone = "Phone number is required";
+  // const validateForm = () => {
+  //   const newErrors = {};
+  //   if (!data.profile_name?.trim()) newErrors.profile_name = "Profile name is required";
+  //   if (!data.name?.trim()) newErrors.name = "Agent name is required";
+  //   if (!data.phone?.trim()) newErrors.phone = "Phone number is required";
     
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
+  
   // Auto-validate when required fields change
   const handleRequiredFieldChange = (field, value) => {
     handleInputChange(field, value);

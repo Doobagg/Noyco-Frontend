@@ -32,34 +32,34 @@ const HealthPreferencesForm = ({ data = {}, updateData }) => {
     updateData({ preferences: updated });
   };
 
-  const communicationStyles = [
-    { value: "professional", label: "Professional", desc: "Medical terminology, formal tone" },
-    { value: "friendly", label: "Friendly", desc: "Warm, approachable, easy to understand" },
-    { value: "empathetic", label: "Empathetic", desc: "Emotional support, understanding tone" },
-    { value: "direct", label: "Direct", desc: "Clear, concise, to-the-point" },
-    { value: "encouraging", label: "Encouraging", desc: "Positive, uplifting, motivating" }
-  ];
+  // const communicationStyles = [
+  //   { value: "professional", label: "Professional", desc: "Medical terminology, formal tone" },
+  //   { value: "friendly", label: "Friendly", desc: "Warm, approachable, easy to understand" },
+  //   { value: "empathetic", label: "Empathetic", desc: "Emotional support, understanding tone" },
+  //   { value: "direct", label: "Direct", desc: "Clear, concise, to-the-point" },
+  //   { value: "encouraging", label: "Encouraging", desc: "Positive, uplifting, motivating" }
+  // ];
 
-  const voiceGenders = [
-    { value: "female", label: "Female Voice" },
-    { value: "male", label: "Male Voice" },
-    { value: "neutral", label: "Gender Neutral" },
-    { value: "no_preference", label: "No Preference" }
-  ];
+  // const voiceGenders = [
+  //   { value: "female", label: "Female Voice" },
+  //   { value: "male", label: "Male Voice" },
+  //   { value: "neutral", label: "Gender Neutral" },
+  //   { value: "no_preference", label: "No Preference" }
+  // ];
 
-  const callTimes = [
-    { value: "morning", label: "Morning (6 AM - 12 PM)" },
-    { value: "afternoon", label: "Afternoon (12 PM - 6 PM)" },
-    { value: "evening", label: "Evening (6 PM - 10 PM)" },
-    { value: "anytime", label: "Anytime" }
-  ];
+  // const callTimes = [
+  //   { value: "morning", label: "Morning (6 AM - 12 PM)" },
+  //   { value: "afternoon", label: "Afternoon (12 PM - 6 PM)" },
+  //   { value: "evening", label: "Evening (6 PM - 10 PM)" },
+  //   { value: "anytime", label: "Anytime" }
+  // ];
 
-  const urgencyLevels = [
-    { value: "low", label: "Low - Routine check-ins only" },
-    { value: "medium", label: "Medium - Important health updates" },
-    { value: "high", label: "High - Urgent health matters" },
-    { value: "emergency", label: "Emergency - Critical situations only" }
-  ];
+  // const urgencyLevels = [
+  //   { value: "low", label: "Low - Routine check-ins only" },
+  //   { value: "medium", label: "Medium - Important health updates" },
+  //   { value: "high", label: "High - Urgent health matters" },
+  //   { value: "emergency", label: "Emergency - Critical situations only" }
+  // ];
 
   return (
     <div className="space-y-6">

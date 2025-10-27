@@ -14,11 +14,11 @@ import {
 } from '@heroicons/react/24/solid';
 
 const DevChatTest = () => {
-  const { user, isAuthenticated } = useAuth();
-  const { profiles, currentProfile, fetchProfiles } = useAgentProfile();
+  const { user } = useAuth();
+  const { profiles, currentProfile } = useAgentProfile();
 
   const [sessionId, setSessionId] = useState(null);
-  const [roomName, setRoomName] = useState(null);
+  // const [roomName, setRoomName] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isConnecting, setIsConnecting] = useState(false);
@@ -86,7 +86,7 @@ const DevChatTest = () => {
 
       const data = await response.json();
       setSessionId(data.session_id);
-      setRoomName(data.room_name);
+      // setRoomName(data.room_name);
       
       setDebugInfo({
         session_id: data.session_id,
@@ -252,7 +252,7 @@ const DevChatTest = () => {
     }
     setIsConnected(false);
     setSessionId(null);
-    setRoomName(null);
+    // setRoomName(null);
     setMessages([]);
     setDebugInfo({});
   };

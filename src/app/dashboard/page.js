@@ -20,8 +20,7 @@ export default function DashboardHome() {
         } else {
           router.replace("/");
         }
-      } catch (err) {
-        // Fallback to login if something goes wrong
+      } catch{
         router.replace("/auth/login");
       }
     }

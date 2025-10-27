@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 
 const CommunicationStep = ({ data, updateData, errors }) => {
   const communicationTimes = [

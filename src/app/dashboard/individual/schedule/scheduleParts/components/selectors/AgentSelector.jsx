@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useIntegratedFlow } from '../../context/IntegratedFlowContext';
 import { agentSchemas } from '../../utils/agentSchemas';
-import { Check, ChevronRight, Sparkles } from 'lucide-react';
+import { Check, ChevronRight } from 'lucide-react';
 
 const AgentSelector = () => {
   const { selectedAgent, actions } = useIntegratedFlow();

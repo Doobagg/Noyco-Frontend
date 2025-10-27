@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { MessageCircle, Clock, TrendingUp, Users, ChevronDown, ChevronRight } from 'lucide-react';
+import { MessageCircle, TrendingUp, Users, ChevronDown, ChevronRight } from 'lucide-react';
 import { useMetrics } from '../../../../../store/hooks';
 import { useGoals } from '../../../../../store/hooks';
 
 export default function ConversationList({ selectedAgentType, onConversationSelect }) {
-  const { agentTypes, conversations, analytics, loading, error, fetchConversations, fetchAnalytics } = useMetrics();
+  const { conversations, analytics, loading, error, fetchConversations, fetchAnalytics } = useMetrics();
   const { goals, fetchGoalsByAgent } = useGoals();
   const [expandedGroups, setExpandedGroups] = useState(new Set());
   const [selectedConversation, setSelectedConversation] = useState(null);

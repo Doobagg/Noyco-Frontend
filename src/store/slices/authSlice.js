@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getApiUrl, apiRequest } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 
 // Initial state
 const initialState = {
@@ -146,7 +146,7 @@ let isRefreshingGlobal = false;
 
 export const refreshToken = createAsyncThunk(
   'auth/refreshToken',
-  async (_, { rejectWithValue, getState, dispatch }) => {
+  async (_, { rejectWithValue, getState }) => {
     // Abort early if we've explicitly logged out in this browser session
     if (typeof localStorage !== 'undefined' && localStorage.getItem('loggedOut') === 'true') {
       return rejectWithValue('User is logged out');

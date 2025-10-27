@@ -14,7 +14,6 @@ export default function AgentProfilesPage() {
   const { user } = useAuth();
   const { 
     profiles, 
-    currentProfile, 
     isLoading, 
     error,
     createProfile,

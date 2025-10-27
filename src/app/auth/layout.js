@@ -1,4 +1,4 @@
-import { generatePageMetadata, pageMetadata } from "@/lib/seo";
+import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
   title: 'Authentication - Noyco Mental Health Support',

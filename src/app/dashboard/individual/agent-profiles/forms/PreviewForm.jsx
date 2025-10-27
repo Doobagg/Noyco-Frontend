@@ -3,13 +3,14 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle, Edit3, User, Heart, Brain, Users, BookOpen, Shield, Loader2 } from 'lucide-react';
+import { CheckCircle, Edit3, User, Heart, Brain, Users, Shield, Loader2 } from 'lucide-react';
 
 const PreviewForm = ({ data, updateData, onSave }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Debug: Log the data to see what we're working with
   console.log('PreviewForm received data:', data);
+  console.log(updateData);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -42,10 +43,10 @@ const PreviewForm = ({ data, updateData, onSave }) => {
     return "Not specified";
   };
 
-  const formatTextValue = (value, limit = 100) => {
-    if (!value) return "Not provided";
-    return value.length > limit ? value.substring(0, limit) + "..." : value;
-  };
+  // const formatTextValue = (value, limit = 100) => {
+  //   if (!value) return "Not provided";
+  //   return value.length > limit ? value.substring(0, limit) + "..." : value;
+  // };
 
   const formatLovedOnes = (lovedOnes, limit = 3) => {
     if (Array.isArray(lovedOnes) && lovedOnes.length > 0) {

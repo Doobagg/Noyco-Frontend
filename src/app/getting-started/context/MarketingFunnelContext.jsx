@@ -42,7 +42,7 @@ const initialState = {
 
 const funnelReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_STEP':
+    case 'SET_STEP': {
       // Ensure we don't go beyond valid step range
       const targetStep = Math.max(1, Math.min(action.payload, state.totalSteps));
       const newVisitedSteps = new Set(state.visitedSteps);
@@ -55,8 +55,9 @@ const funnelReducer = (state, action) => {
         visitedSteps: newVisitedSteps,
         maxReachedStep: Math.max(state.maxReachedStep, targetStep)
       };
+    }
     
-    case 'NEXT_STEP':
+    case 'NEXT_STEP':{
       // Add validation to prevent auto-skipping steps
       const nextStep = Math.min(state.currentStep + 1, state.totalSteps);
       const nextVisitedSteps = new Set(state.visitedSteps);
@@ -69,8 +70,8 @@ const funnelReducer = (state, action) => {
         visitedSteps: nextVisitedSteps,
         maxReachedStep: Math.max(state.maxReachedStep, nextStep)
       };
-    
-    case 'PREVIOUS_STEP':
+    }
+    case 'PREVIOUS_STEP':{
       // Ensure we can always go back to previous steps
       const prevStep = Math.max(state.currentStep - 1, 1);
       return {
@@ -79,7 +80,7 @@ const funnelReducer = (state, action) => {
         direction: 'backward'
         // Don't update visitedSteps or maxReachedStep when going back
       };
-    
+  }
     case 'UPDATE_DATA':
       return {
         ...state,

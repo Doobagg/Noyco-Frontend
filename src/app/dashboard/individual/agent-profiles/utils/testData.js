@@ -1,5 +1,3 @@
-import { createAgentProfile, fetchAgentProfiles, updateAgentProfile, deleteAgentProfile } from '../../../store/slices/agentProfileSlice';
-
 // Test data structure matching the backend API
 const testProfileData = {
   profile_name: "Test Health Assistant",

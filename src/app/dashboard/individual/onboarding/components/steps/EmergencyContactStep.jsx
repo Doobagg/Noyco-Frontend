@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 const EmergencyContactStep = ({ data, updateData, errors }) => {
   const relationshipOptions = [
     "Spouse", "Parent", "Child", "Sibling", "Friend", "Doctor", "Caregiver", "Other"

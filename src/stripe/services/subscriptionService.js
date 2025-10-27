@@ -4,7 +4,7 @@ import { apiRequest } from '@/lib/api';
 export async function getCurrentSubscription(options = {}) {
 	try {
 		return await apiRequest('/stripe/subscription/current', { suppressError: true, ...options });
-	} catch (e) {
+	} catch {
 		return null;
 	}
 }

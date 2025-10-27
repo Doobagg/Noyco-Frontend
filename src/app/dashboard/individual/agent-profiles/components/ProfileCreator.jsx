@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeftIcon, ArrowRightIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import BasicInfoForm from "../forms/BasicInfoForm";
 import PersonalityForm from "../forms/PersonalityForm";
 import RelationshipsForm from "../forms/RelationshipsForm";
@@ -31,7 +31,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
     health_info: {},
     preferences: {},
   });
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const steps = [
     { id: 1, title: "Basic Info", icon: "👤", component: BasicInfoForm },
@@ -85,16 +85,16 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
     }
     
     // Auto-add relationship if on Relationships step and form has data but not saved
-    if (currentStep === 3) {
-      const hasUnsavedLovedOne = Array.isArray(profileData.loved_ones) && profileData.loved_ones.some(lo => lo && lo.__unsaved);
-      // No-op: relationships form manages its own state; ensure at least placeholder save when moving next if user entered data
-    }
+    // if (currentStep === 3) {
+    //   const hasUnsavedLovedOne = Array.isArray(profileData.loved_ones) && profileData.loved_ones.some(lo => lo && lo.__unsaved);
+    //   // No-op: relationships form manages its own state; ensure at least placeholder save when moving next if user entered data
+    // }
 
-    // Auto-add story if on Stories step and fields are filled but not added yet
-    if (currentStep === 4) {
-      // StoriesForm handles add when clicking its button; here we do nothing because we don't have the local newStory
-      // The actual auto-add is handled inside StoriesForm when Next is pressed via window event
-    }
+    // // Auto-add story if on Stories step and fields are filled but not added yet
+    // if (currentStep === 4) {
+    //   // StoriesForm handles add when clicking its button; here we do nothing because we don't have the local newStory
+    //   // The actual auto-add is handled inside StoriesForm when Next is pressed via window event
+    // }
 
     // Broadcast an event so child forms (e.g., StoriesForm) can persist unsaved entries
     if (typeof window !== 'undefined') {
@@ -113,7 +113,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       // Validate required fields
       // If profile_name is empty, default it to agent name
@@ -122,7 +122,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
 
       if (!cleanedAgentName) {
         alert('Agent name is required');
-        setIsLoading(false);
+        // setIsLoading(false);
         return;
       }
 
@@ -130,7 +130,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
       
       if (!profileData.phone?.trim()) {
         alert('Phone number is required');
-        setIsLoading(false);
+        // setIsLoading(false);
         return;
       }
 
@@ -182,7 +182,7 @@ const ProfileCreator = ({ profile, isEdit, onBack, onSave }) => {
       console.error("Error saving profile:", error);
       alert("Failed to save profile: " + error.message);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 

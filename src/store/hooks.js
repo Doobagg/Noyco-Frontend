@@ -35,7 +35,6 @@ import {
   deleteSchedule,
   clearError as clearScheduleError,
   clearLastCreatedSchedule,
-  resetSchedules
 } from './slices/scheduleSlice';
 import { useState, useEffect } from 'react';
 
@@ -133,7 +132,7 @@ export const useAuth = () => {
     try {
       // remove empty string fields
       const payload = Object.fromEntries(
-        Object.entries(profileData).filter(([_, v]) => v !== undefined && v !== '')
+        Object.entries(profileData).filter(([, v]) => v !== undefined && v !== '')
       );
       await apiRequest('/auth/me/profile', {
         method: 'PUT',
@@ -601,7 +600,6 @@ export const useAgentMetrics = () => {
 export const useGoals = () => {
   const dispatch = useDispatch();
   const { goals, isLoading, error, lastUpdated } = useSelector(state => state.goals);
-  const { user } = useAuth();
 
   const fetchGoalsByAgent = async (agentType) => {
     try {

@@ -22,7 +22,9 @@ export default function Navbar() {
       if (typeof window !== 'undefined') {
         setLoggedOutFlag(localStorage.getItem('loggedOut') === 'true');
       }
-    } catch {}
+    } catch (error) {
+      console.error('Error reading loggedOut flag from localStorage', error);
+    }
     setMounted(true);
   }, []);
 

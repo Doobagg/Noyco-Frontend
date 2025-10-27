@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Calendar, CheckCircle, Clock, TrendingUp, AlertTriangle, Heart, ChevronDown, ChevronRight } from 'lucide-react';
-import { format, formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 
 export default function AgentGoalsList({ agentMetrics, selectedGoal, onGoalSelect, timeframe }) {
   const [expandedAgent, setExpandedAgent] = useState(null);
