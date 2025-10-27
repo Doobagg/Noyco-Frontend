@@ -1,6 +1,6 @@
 "use client";
 
-import { EyeIcon, PencilIcon, TrashIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { MessageCircle, Clock } from 'lucide-react';
 import { useState } from "react";
 

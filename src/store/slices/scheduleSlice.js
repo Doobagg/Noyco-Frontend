@@ -27,16 +27,16 @@ const initialState = {
 };
 
 // Map frontend agent keys to backend agent instance IDs
-const getAgentInstanceId = (agentType) => {
-  const agentTypeMap = {
-    'emotional_companion': 'emotional_companion_v1',
-    'accountability_buddy': 'accountability_buddy_v1', 
-    'social_prep': 'social_anxiety_v1',
-    'therapy_checkin': 'therapy_checkin_v1',
-    'loneliness_support': 'loneliness_support_v1'
-  };
-  return agentTypeMap[agentType] || agentType;
-};
+// const getAgentInstanceId = (agentType) => {
+//   const agentTypeMap = {
+//     'emotional_companion': 'emotional_companion_v1',
+//     'accountability_buddy': 'accountability_buddy_v1', 
+//     'social_prep': 'social_anxiety_v1',
+//     'therapy_checkin': 'therapy_checkin_v1',
+//     'loneliness_support': 'loneliness_support_v1'
+//   };
+//   return agentTypeMap[agentType] || agentType;
+// };
 
 // Convert frontend call settings to backend schedule format
 const convertToBackendSchedule = (selectedAgent, callSettings, additionalInfo, userProfile, createdBy, selectedTaskId = null) => {
@@ -431,7 +431,7 @@ const scheduleSlice = createSlice({
     clearLastCreatedSchedule: (state) => {
       state.lastCreatedSchedule = null;
     },
-    resetSchedules: (state) => {
+    resetSchedules: () => {
       return initialState;
     },
     setCurrentView: (state, action) => {

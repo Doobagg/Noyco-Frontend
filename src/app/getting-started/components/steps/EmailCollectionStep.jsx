@@ -6,7 +6,7 @@ import { Mail } from "lucide-react";
 import { useMarketingFunnel } from "../../context/MarketingFunnelContext";
 
 const EmailCollectionStep = () => {
-  const { data, actions } = useMarketingFunnel();
+  const { actions } = useMarketingFunnel();
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +59,7 @@ const EmailCollectionStep = () => {
       }
     } catch (e) {
       // no-op: best-effort caching
+      console.error('Error saving email to sessionStorage', e);
     }
     
     // Simulate a brief loading state

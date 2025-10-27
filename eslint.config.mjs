@@ -16,7 +16,7 @@ export default [
     },
     rules: {
       // ✅ Errors if a variable is declared but never used
-      "no-unused-vars": ["off", { vars: "all", args: "after-used", ignoreRestSiblings: false }],
+      "no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: false }],
       // ✅ Disable undefined variable warnings (React handles this)
       "no-undef": "off",
       // ✅ Allow console but warn on it

@@ -5,8 +5,6 @@ import { Room, RoomEvent, Track } from 'livekit-client';
 import { useAuth, useAgentProfile } from '../../../../store/hooks';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  PlayIcon,
-  PauseIcon,
   PaperAirplaneIcon,
   PencilSquareIcon,
   XMarkIcon,
@@ -227,25 +225,25 @@ const MicIconButton = ({ onClick, isActive, isConnecting, isListening }) => {
 };
 
 // Waveform Visualizer
-const WaveformVisualizer = ({ isActive }) => {
-  const bars = Array.from({ length: 30 }, (_, i) => i);
-  return (
-    <div className="flex items-center justify-center space-x-1 h-8 w-full max-w-xs mx-auto">
-      {bars.map((bar) => (
-        <div
-          key={bar}
-          className="bg-gradient-to-t from-blue-400 via-purple-400 to-pink-400 rounded-full transition-all duration-200 ease-out"
-          style={{
-            width: '2px',
-            height: isActive ? `${Math.random() * 20 + 4}px` : '3px',
-            opacity: isActive ? 0.8 : 0.3,
-            animationDelay: `${bar * 30}ms`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+// const WaveformVisualizer = ({ isActive }) => {
+//   const bars = Array.from({ length: 30 }, (_, i) => i);
+//   return (
+//     <div className="flex items-center justify-center space-x-1 h-8 w-full max-w-xs mx-auto">
+//       {bars.map((bar) => (
+//         <div
+//           key={bar}
+//           className="bg-gradient-to-t from-blue-400 via-purple-400 to-pink-400 rounded-full transition-all duration-200 ease-out"
+//           style={{
+//             width: '2px',
+//             height: isActive ? `${Math.random() * 20 + 4}px` : '3px',
+//             opacity: isActive ? 0.8 : 0.3,
+//             animationDelay: `${bar * 30}ms`,
+//           }}
+//         />
+//       ))}
+//     </div>
+//   );
+// };
 
 // Chat AI Component - Personal AI Agent
 // WebSocket Connection: Connects to backend at NEXT_PUBLIC_WS_URL (e.g., ws://localhost:8000/api/v1/ws/chat)
@@ -257,7 +255,6 @@ const ChatTherapist = () => {
   const {
     profiles,
     currentProfile,
-    fetchProfiles,
     isLoading: profilesLoading,
   } = useAgentProfile();
 
@@ -562,8 +559,8 @@ const ChatTherapist = () => {
     };
   }, []);
 
-  const activeProfile =
-    currentProfile || (profiles && profiles.length > 0 ? profiles[0] : null);
+  // const activeProfile =
+  //   currentProfile || (profiles && profiles.length > 0 ? profiles[0] : null);
   const isProfileReady = !profilesLoading;
 
   return (
@@ -818,6 +815,7 @@ const ImprovedVoiceAssistant = () => {
     try {
       setIsConnecting(true);
       setDebugStatus('Waking up assistant...');
+      console.log(debugStatus)
 
       fetch(`${process.env.NEXT_PUBLIC_AGENT_URL}/warmup`).catch((err) =>
         console.warn('Warmup call failed but proceeding anyway:', err)
@@ -897,6 +895,7 @@ const ImprovedVoiceAssistant = () => {
       room.on(RoomEvent.DataReceived, (payload, participant) => {
         try {
           console.log('📦 Raw data received:', payload);
+          console.log(participant);
 
           let message;
           if (typeof payload === 'string') {
@@ -1313,7 +1312,6 @@ const ImprovedVoiceAssistant = () => {
   const activeProfile =
     currentProfile || (profiles && profiles.length > 0 ? profiles[0] : null);
   const isProfileReady = !profilesLoading;
-  const canStartSession = isAuthenticated && user && isProfileReady;
   const hasConversation = conversationMessages.length > 0; // for conditional UI
 
   return (
@@ -1358,13 +1356,11 @@ const VoiceAssistantContent = ({
   isAuthenticated,
   activeProfile,
   profilesLoading,
-  isProfileReady,
   fetchProfiles,
   isRecording,
   isConnecting,
   isListening,
   isBotSpeaking,
-  turnCount,
   autoSendEnabled,
   handleAutoSendToggle,
   handleManualSend,

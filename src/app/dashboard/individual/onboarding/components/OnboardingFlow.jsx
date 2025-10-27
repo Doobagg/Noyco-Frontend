@@ -175,11 +175,6 @@ const OnboardingFlow = ({ onComplete, isCompleting, user }) => {
     await onComplete(completeProfileData);
   };
 
-  const progress = Math.round((currentStep / steps.length) * 100);
-  
-  // Generate age options for dropdown
-  const ageDropdownOptions = Array.from({ length: 83 }, (_, i) => i + 18); // 18 to 100
-
   const genderOptions = [
     { value: "male", label: "Male", icon: () => (
       <svg className="w-16 h-16 mx-auto mb-3" viewBox="0 0 100 100" fill="none">

@@ -32,7 +32,7 @@ ChartJS.register(
 );
 
 const ProgressReductionStep = () => {
-  const { data, actions } = useMarketingFunnel();
+  const { actions } = useMarketingFunnel();
   const [lineData, setLineData] = useState([52.5, null, null, null, null, null]);
   const [animationComplete, setAnimationComplete] = useState(false);
   const chartRef = useRef();
@@ -43,7 +43,6 @@ const ProgressReductionStep = () => {
     beforeDatasetsDraw(chart) {
       const { ctx, chartArea } = chart;
       if (!chartArea) return;
-      const dataset = chart.getDatasetMeta(0);
 
       // Dynamic gradient fill under the line
       const grad = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);

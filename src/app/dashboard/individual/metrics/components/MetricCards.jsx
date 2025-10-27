@@ -2,13 +2,15 @@
 import { ArrowUp, ArrowDown } from 'lucide-react';
 
 export function MetricCard({ title, value, subtitle, trend, icon, color = 'blue' }) {
-  const colorClasses = {
-    blue: 'bg-blue-50 text-blue-600 border-blue-100',
-    green: 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-accent',
-    orange: 'bg-orange-50 text-orange-600 border-orange-100',
-    red: 'bg-red-50 text-red-600 border-red-100',
-    purple: 'bg-purple-50 text-purple-600 border-purple-100'
-  };
+  // const colorClasses = {
+  //   blue: 'bg-blue-50 text-blue-600 border-blue-100',
+  //   green: 'bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-accent',
+  //   orange: 'bg-orange-50 text-orange-600 border-orange-100',
+  //   red: 'bg-red-50 text-red-600 border-red-100',
+  //   purple: 'bg-purple-50 text-purple-600 border-purple-100'
+  // };
+
+  void color; // to avoid unused variable warning
 
   return (
     <div className="bg-beige p-6 border-accent border-accent-top border-accent-left border-accent-right">

@@ -4,11 +4,8 @@ import { useAgentMetrics } from '../../../../../store/hooks';
 import { 
   TrendingUp, 
   Target, 
-  Calendar, 
   CheckCircle, 
   Clock,
-  ArrowRight,
-  Info 
 } from 'lucide-react';
 import { MetricCard } from './MetricCards';
 import AgentGoalCharts from './AgentGoalCharts';
@@ -55,6 +52,7 @@ export default function AgentMetrics() {
     } catch (err) {
       console.error('Failed to load analytics summary:', err);
     }
+    console.log(analyticsSummary);
   };
 
   const handleAgentChange = (e) => {

@@ -10,7 +10,6 @@ const Header = ({
   onSearchChange,
   sortBy,
   onSortChange,
-  profileCount
 }) => {
   const [showSortMenu, setShowSortMenu] = useState(false);
 

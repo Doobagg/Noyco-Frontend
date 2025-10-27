@@ -11,15 +11,15 @@ const ConsistencyFactStep = () => {
     actions.nextStep();
   };
 
-  const handleTrySample = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log('Try sample clicked - current step:', currentStep, 'jumping to step 9');
+  // const handleTrySample = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   console.log('Try sample clicked - current step:', currentStep, 'jumping to step 9');
     
-    // Use the direct setStep method without timeout
-    actions.setStep(9);
-    actions.updateData({ wantsVoiceDemo: true });
-  };
+  //   // Use the direct setStep method without timeout
+  //   actions.setStep(9);
+  //   actions.updateData({ wantsVoiceDemo: true });
+  // };
 
   return (
     <div className="text-center space-y-8">

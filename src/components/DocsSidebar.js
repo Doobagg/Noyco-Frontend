@@ -26,8 +26,6 @@ export default function DocsSidebar() {
   useEffect(() => {
     // Auto-expand main folders by default
     if (docs.length > 0) {
-      const structure = createNestedStructure(docs);
-      const folderNames = Object.keys(structure);
       setExpandedFolders(new Set(['overview', 'Services', 'others', 'Api Gateway']));
     }
   }, [docs]);
@@ -48,26 +46,26 @@ export default function DocsSidebar() {
   };
 
   // Organize docs into actual folder structure
-  const organizeDocsIntoFolders = (docs) => {
-    const folderStructure = {};
+  // const organizeDocsIntoFolders = (docs) => {
+  //   const folderStructure = {};
     
-    docs.forEach(doc => {
-      const folderPath = doc.folder || 'root';
+  //   docs.forEach(doc => {
+  //     const folderPath = doc.folder || 'root';
       
-      if (!folderStructure[folderPath]) {
-        folderStructure[folderPath] = [];
-      }
+  //     if (!folderStructure[folderPath]) {
+  //       folderStructure[folderPath] = [];
+  //     }
       
-      folderStructure[folderPath].push(doc);
-    });
+  //     folderStructure[folderPath].push(doc);
+  //   });
 
-    // Sort folders and files
-    Object.keys(folderStructure).forEach(folder => {
-      folderStructure[folder].sort((a, b) => a.name.localeCompare(b.name));
-    });
+  //   // Sort folders and files
+  //   Object.keys(folderStructure).forEach(folder => {
+  //     folderStructure[folder].sort((a, b) => a.name.localeCompare(b.name));
+  //   });
 
-    return folderStructure;
-  };
+  //   return folderStructure;
+  // };
 
   // Create nested folder structure for better display
   const createNestedStructure = (docs) => {

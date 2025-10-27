@@ -1610,36 +1610,15 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  AlertCircle, ArrowDown, ArrowUp, Calendar, Check,
-  CheckCircle, ChevronDown, Filter, ListFilter, MoreHorizontal,
-  Pause, Play, RefreshCw, Search, Trash, X, XCircle, Clock,
-  Phone, User, Settings, Ban
+  AlertCircle,Calendar, Filter, MoreHorizontal,
+  Pause, Play, RefreshCw, Trash, X, XCircle, Clock,
+  Phone, User, Settings, Ban,
+  CheckCircle
 } from "lucide-react";
 import {
   fetchSchedules,
@@ -1729,7 +1708,6 @@ const formatCallType = (type) => {
 
 export default function ScheduleTrackingComponent() {
   const dispatch = useDispatch();
-  const router = useRouter();
   
   const {
     schedules,
@@ -1751,7 +1729,6 @@ export default function ScheduleTrackingComponent() {
     per_page: 10
   });
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [actionMenu, setActionMenu] = useState({
     open: false,
     scheduleId: null,

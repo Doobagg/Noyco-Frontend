@@ -150,8 +150,8 @@ export default function AgentGoalCharts({ agentMetrics, selectedGoal, selectedAg
     const streakData = [];
     const labels = [];
 
-    agentMetrics.agents.forEach((agent, agentIndex) => {
-      agent.goals.forEach((goal, goalIndex) => {
+    agentMetrics.agents.forEach((agent) => {
+      agent.goals.forEach((goal) => {
         labels.push(`${goal.title.substring(0, 15)}...`);
         streakData.push(goal.streak);
       });

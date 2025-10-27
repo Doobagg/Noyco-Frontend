@@ -5,11 +5,11 @@ import StripeElementsProvider from "@/stripe/components/StripeElementsProvider";
 import PaymentForm from "@/stripe/components/PaymentForm";
 import { createPublicSubscription } from "@/stripe/services/checkoutService";
 
-const plans = [
-  { code: "IND_1M", label: "One Month" },
-  { code: "IND_3M", label: "Three Months" },
-  { code: "IND_6M", label: "Six Months" },
-];
+// const plans = [
+//   { code: "IND_1M", label: "One Month" },
+//   { code: "IND_3M", label: "Three Months" },
+//   { code: "IND_6M", label: "Six Months" },
+// ];
 
 export default function PublicSubscribePage() {
   const router = useRouter();

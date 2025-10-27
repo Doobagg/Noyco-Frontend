@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [googleReady, setGoogleReady] = useState(false);
+  // const [googleReady, setGoogleReady] = useState(false);
   const googleBtnRef = useRef(null);
 
   const { login, loginWithGoogle, loading } = useAuth();
@@ -65,7 +65,6 @@ export default function LoginPage() {
 
     const init = () => {
       try {
-        /* global google */
         if (window.google?.accounts?.id) {
           window.google.accounts.id.initialize({
             client_id: clientId,
@@ -107,7 +106,7 @@ export default function LoginPage() {
                 shape: 'rectangular',
                 logo_alignment: 'left',
               });
-              setGoogleReady(true);
+              // setGoogleReady(true);
             } catch (renderError) {
               console.error('Google button render error:', renderError);
             }

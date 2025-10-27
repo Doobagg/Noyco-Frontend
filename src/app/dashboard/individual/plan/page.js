@@ -3,7 +3,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
-import { useAuth } from '../../../../store/hooks';
 import { apiRequest } from '../../../../lib/api';
 import CheckoutButton from '@/stripe/components/CheckoutButton';
 import Link from 'next/link';
@@ -12,7 +11,6 @@ import CancelSubscriptionButton from '@/stripe/components/CancelSubscriptionButt
 import { getCurrentSubscription } from '@/stripe/services/subscriptionService';
 
 export default function Plan() {
-  const { user } = useAuth();
   const [plans, setPlans] = useState([]);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [showPlans, setShowPlans] = useState(false);
@@ -81,7 +79,7 @@ export default function Plan() {
         } else {
           setShowPlans(true);
         }
-      } catch (_) {
+      } catch {
         // treat as no plan
         setShowPlans(true);
         setPendingFinalize(true);
@@ -147,26 +145,26 @@ export default function Plan() {
   }, [currentPlan, subSummary, triedRefreshSub]);
 
   // POST to select an individual plan
-  const selectPlan = async (planType) => {
-    if (!user?.role_entity_id) return;
-    setLoading(true);
-    try {
-      const resp = await apiRequest('/billing/plan/select', {
-        method: 'POST',
-        body: JSON.stringify({ plan_type: planType }),
-      });
-      setCurrentPlan({
-        plan_type: resp.plan_type,
-        details: resp.plan_details
-      });
-      setError('');
-    } catch (err) {
-      console.error('Error selecting plan:', err);
-      setError('Failed to select plan');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const selectPlan = async (planType) => {
+  //   if (!user?.role_entity_id) return;
+  //   setLoading(true);
+  //   try {
+  //     const resp = await apiRequest('/billing/plan/select', {
+  //       method: 'POST',
+  //       body: JSON.stringify({ plan_type: planType }),
+  //     });
+  //     setCurrentPlan({
+  //       plan_type: resp.plan_type,
+  //       details: resp.plan_details
+  //     });
+  //     setError('');
+  //   } catch (err) {
+  //     console.error('Error selecting plan:', err);
+  //     setError('Failed to select plan');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const isActive = (type) => currentPlan?.plan_type === type;
 

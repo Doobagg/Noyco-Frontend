@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 const PersonalityStep = ({ data, updateData, errors }) => {
   const personalityTraits = [
     { value: "empathetic", label: "Empathetic", emoji: "❤️", description: "Understanding and caring" },
