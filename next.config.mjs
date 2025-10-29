@@ -27,6 +27,10 @@ const nextConfig = {
     
     return [
       {
+        source: '/admin/:path*',
+        destination: `${API_URL}/admin/:path*`,
+      },
+      {
         source: '/public/:path*',
         destination: `${API_URL}/public/:path*`,
       },
