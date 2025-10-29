@@ -171,7 +171,7 @@ const agentProfileSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    resetProfiles: (state) => {
+    resetProfiles: () => {
       return initialState;
     },
   },

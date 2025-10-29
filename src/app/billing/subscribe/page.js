@@ -5,11 +5,11 @@ import StripeElementsProvider from "@/stripe/components/StripeElementsProvider";
 import PaymentForm from "@/stripe/components/PaymentForm";
 import { createPublicSubscription } from "@/stripe/services/checkoutService";
 
-const plans = [
-  { code: "IND_1M", label: "One Month" },
-  { code: "IND_3M", label: "Three Months" },
-  { code: "IND_6M", label: "Six Months" },
-];
+// const plans = [
+//   { code: "IND_1M", label: "One Month" },
+//   { code: "IND_3M", label: "Three Months" },
+//   { code: "IND_6M", label: "Six Months" },
+// ];
 
 export default function PublicSubscribePage() {
   const router = useRouter();
@@ -31,9 +31,12 @@ export default function PublicSubscribePage() {
   React.useEffect(() => {
     if (!qpEmail || !qpPlan) {
       // Redirect users back to the funnel to select plan and enter email
-      try { router.replace("/getting-started"); } catch {}
+      try { 
+        router.replace("/getting-started"); 
+      } catch (error){
+        console.error("Failed to redirect to /getting-started", error);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qpEmail, qpPlan]);
 
   // Prefill from query params and optionally autostart
@@ -49,7 +52,9 @@ export default function PublicSubscribePage() {
           if (sid) setSubscriptionId(sid);
           sessionStorage.removeItem('pre_checkout');
         }
-      } catch {}
+      } catch(error) {
+        console.error("Error reading pre_checkout from sessionStorage",error);
+      }
     }
   }, [clientSecret, subscriptionId]);
 
@@ -61,7 +66,6 @@ export default function PublicSubscribePage() {
       startedRef.current = true;
       startCheckout(qpEmail, qpPlan);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qpEmail, qpPlan, clientSecret, loading]);
 
   async function startCheckout(eEmail, ePlan) {

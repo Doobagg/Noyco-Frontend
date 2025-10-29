@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -17,7 +17,6 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function DocViewPage() {
-  const router = useRouter();
   const params = useParams();
   const docName = Array.isArray(params.slug) ? params.slug.join('/') : params.slug;
   

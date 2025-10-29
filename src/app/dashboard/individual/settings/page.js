@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/store/hooks';
-import { User, Bell, Shield, Settings } from 'lucide-react';
+import { User, Bell} from 'lucide-react';
 import AnimatedBlob from '@/components/landing/AnimatedBlob';
 import { showToast } from '@/lib/toast';
 
@@ -240,72 +240,72 @@ export default function SettingsPage() {
     </div>
   );
 
-  const renderPrivacyTab = () => (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Privacy Settings</h3>
-        <div className="space-y-4">
-          <div className="py-4 border-b border-gray-100">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Profile Visibility</label>
-            <select
-              value={settings.privacy.profileVisibility}
-              onChange={(e) => handleSettingChange('privacy', 'profileVisibility', e.target.value)}
-              className="w-full px-4 py-3 bg-beige border focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors"
-            >
-              <option value="private">Private</option>
-              <option value="public">Public</option>
-              <option value="friends">Friends Only</option>
-            </select>
-          </div>
+  // const renderPrivacyTab = () => (
+  //   <div className="space-y-6">
+  //     <div>
+  //       <h3 className="text-lg font-medium text-gray-900 mb-4">Privacy Settings</h3>
+  //       <div className="space-y-4">
+  //         <div className="py-4 border-b border-gray-100">
+  //           <label className="block text-sm font-medium text-gray-700 mb-2">Profile Visibility</label>
+  //           <select
+  //             value={settings.privacy.profileVisibility}
+  //             onChange={(e) => handleSettingChange('privacy', 'profileVisibility', e.target.value)}
+  //             className="w-full px-4 py-3 bg-beige border focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors"
+  //           >
+  //             <option value="private">Private</option>
+  //             <option value="public">Public</option>
+  //             <option value="friends">Friends Only</option>
+  //           </select>
+  //         </div>
           
-          {[
-            { key: 'dataSharing', label: 'Data Sharing', description: 'Allow sharing of anonymized data for research' },
-            { key: 'analyticsOptOut', label: 'Analytics Opt-out', description: 'Opt out of usage analytics collection' }
-          ].map((privacy) => (
-            <div key={privacy.key} className="flex items-center justify-between py-4 border-b border-gray-100">
-              <div className="flex-1">
-                <h4 className="text-sm font-medium text-gray-900">{privacy.label}</h4>
-                <p className="text-sm text-gray-500">{privacy.description}</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.privacy[privacy.key]}
-                  onChange={(e) => handleSettingChange('privacy', privacy.key, e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#E6D3E7] peer-checked:via-[#F6D9D5] peer-checked:to-[#D6E3EC]"></div>
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  //         {[
+  //           { key: 'dataSharing', label: 'Data Sharing', description: 'Allow sharing of anonymized data for research' },
+  //           { key: 'analyticsOptOut', label: 'Analytics Opt-out', description: 'Opt out of usage analytics collection' }
+  //         ].map((privacy) => (
+  //           <div key={privacy.key} className="flex items-center justify-between py-4 border-b border-gray-100">
+  //             <div className="flex-1">
+  //               <h4 className="text-sm font-medium text-gray-900">{privacy.label}</h4>
+  //               <p className="text-sm text-gray-500">{privacy.description}</p>
+  //             </div>
+  //             <label className="relative inline-flex items-center cursor-pointer">
+  //               <input
+  //                 type="checkbox"
+  //                 checked={settings.privacy[privacy.key]}
+  //                 onChange={(e) => handleSettingChange('privacy', privacy.key, e.target.checked)}
+  //                 className="sr-only peer"
+  //               />
+  //               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#E6D3E7] peer-checked:via-[#F6D9D5] peer-checked:to-[#D6E3EC]"></div>
+  //             </label>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
-  const renderPreferencesTab = () => (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Application Preferences</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
-            <select
-              value={settings.preferences.theme}
-              onChange={(e) => handleSettingChange('preferences', 'theme', e.target.value)}
-              className="w-full px-4 py-3 bg-beige border-accent-right border-accent-left border-accent-top border-accent focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors"
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="auto">Auto</option>
-            </select>
-          </div>
+  // const renderPreferencesTab = () => (
+  //   <div className="space-y-6">
+  //     <div>
+  //       <h3 className="text-lg font-medium text-gray-900 mb-4">Application Preferences</h3>
+  //       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+  //         <div>
+  //           <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
+  //           <select
+  //             value={settings.preferences.theme}
+  //             onChange={(e) => handleSettingChange('preferences', 'theme', e.target.value)}
+  //             className="w-full px-4 py-3 bg-beige border-accent-right border-accent-left border-accent-top border-accent focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors"
+  //           >
+  //             <option value="light">Light</option>
+  //             <option value="dark">Dark</option>
+  //             <option value="auto">Auto</option>
+  //           </select>
+  //         </div>
          
          
-        </div>
-      </div>
-    </div>
-  );
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   const renderTabContent = () => {
     switch (activeTab) {

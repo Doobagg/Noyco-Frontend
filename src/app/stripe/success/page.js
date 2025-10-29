@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiRequest } from '@/lib/api';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { checkAuthStatus } from '@/store/slices/authSlice';
 import Toast from '@/components/ui/Toast';
 
@@ -11,10 +11,7 @@ export default function CheckoutSuccess() {
   const dispatch = useDispatch();
   const [message, setMessage] = useState('Finalizing your subscription...');
   const [status, setStatus] = useState(null);
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  // const [email, setEmail] = useState('');
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
@@ -58,13 +55,15 @@ export default function CheckoutSuccess() {
       try {
         const res = await apiRequest(url, { suppressError: true });
         setStatus(res);
-        if (res?.email) setEmail(res.email);
+        // if (res?.email) setEmail(res.email);
         if (!res?.processed && attempts < 20) {
           attempts += 1;
           setTimeout(poll, 1500);
         } else if (res?.processed) {
           if (res.userStatus === 'active') {
-            try { await dispatch(checkAuthStatus()); } catch {}
+            try { await dispatch(checkAuthStatus()); } catch(error) {
+              console.error('Auth status check failed after payment success', error);
+            }
             setTimeout(() => router.push('/dashboard/individual'), 1200);
           } else {
             // Redirect to dedicated flow to finish registration

@@ -16,10 +16,6 @@ function SchedulePage() {
     const { activeSubItem } = useSubNav();
     const [showManualSchedule, setShowManualSchedule] = useState(false);
 
-    const handleNewScheduleClick = () => {
-        setShowManualSchedule(true);
-    };
-
     const handleManualScheduleClose = () => {
         setShowManualSchedule(false);
     };

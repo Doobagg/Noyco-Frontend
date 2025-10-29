@@ -4,14 +4,12 @@ import { useState } from "react";
 import { 
   Edit, 
   Trash2, 
-  ArrowLeft,
   User,
   Heart,
   Clock,
   FileText,
   Settings,
   Sparkles,
-  Globe,
   Phone,
   MapPin,
   MessageCircle,
@@ -22,6 +20,7 @@ import {
 const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  console.log(onBack);
   console.log('ProfileViewer received profile:', profile);
 
   const formatArrayValue = (value) => {
@@ -31,15 +30,15 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
     return "Not specified";
   };
 
-  const formatObjectValue = (obj, field) => {
-    if (obj && typeof obj === "object" && obj[field]) {
-      if (Array.isArray(obj[field])) {
-        return obj[field].length > 0 ? obj[field].join(", ") : "Not specified";
-      }
-      return obj[field];
-    }
-    return "Not specified";
-  };
+  // const formatObjectValue = (obj, field) => {
+  //   if (obj && typeof obj === "object" && obj[field]) {
+  //     if (Array.isArray(obj[field])) {
+  //       return obj[field].length > 0 ? obj[field].join(", ") : "Not specified";
+  //     }
+  //     return obj[field];
+  //   }
+  //   return "Not specified";
+  // };
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "Not specified";

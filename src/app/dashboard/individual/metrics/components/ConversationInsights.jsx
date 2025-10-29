@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { MessageCircle, Clock, TrendingUp, Users } from 'lucide-react';
+import { MessageCircle} from 'lucide-react';
 import { useMetrics } from '../../../../../store/hooks';
 import ConversationList from './ConversationList';
 import ConversationDetail from './ConversationDetail';

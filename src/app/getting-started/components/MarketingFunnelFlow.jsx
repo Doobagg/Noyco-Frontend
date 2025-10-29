@@ -2,8 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMarketingFunnel } from '../context/MarketingFunnelContext';
-import ProgressBar from './ProgressBar';
-
 // Import step components
 import WelcomeStep from './steps/WelcomeStep';
 import AgeRangeStep from './steps/AgeRangeStep';
@@ -66,25 +64,25 @@ const MarketingFunnelFlow = () => {
 
   const CurrentStepComponent = stepComponents[currentStep];
 
-  const slideVariants = {
-    enter: (direction) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.95
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-      scale: 1
-    },
-    exit: (direction) => ({
-      zIndex: 0,
-      x: direction < 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.95
-    })
-  };
+  // const slideVariants = {
+  //   enter: (direction) => ({
+  //     x: direction > 0 ? 300 : -300,
+  //     opacity: 0,
+  //     scale: 0.95
+  //   }),
+  //   center: {
+  //     zIndex: 1,
+  //     x: 0,
+  //     opacity: 1,
+  //     scale: 1
+  //   },
+  //   exit: (direction) => ({
+  //     zIndex: 0,
+  //     x: direction < 0 ? 300 : -300,
+  //     opacity: 0,
+  //     scale: 0.95
+  //   })
+  // };
 
   // Improved back button handler with validation
   const handleBackButton = () => {

@@ -62,7 +62,9 @@ const InstantPlanPreviewStep = () => {
             'pre_checkout',
             JSON.stringify({ cs: res.client_secret, sid: res.subscription_id })
           );
-        } catch {}
+        } catch (error){
+          console.error('Unable to store pre_checkout in sessionStorage', error);
+        }
       }
       // Navigate to subscribe with params (no autostart needed; page will consume pre_checkout)
       const params = new URLSearchParams({ email, plan: selectedPlan });
@@ -75,17 +77,17 @@ const InstantPlanPreviewStep = () => {
     }
   };
 
-  const selections = [
-    { label: 'Primary focus', value: data.primaryTopic || '—', color: 'text-gray-700' },
-    { label: '30-day outcome', value: data.goal30 || '—', color: 'text-gray-700', },
-    { label: 'Intensity', value: typeof data.intensity === 'number' && data.intensity > 0 ? `${data.intensity}/10` : '—', color: 'text-gray-700', },
-    { label: 'Time budget', value: data.timeBudget || '—', color: 'text-gray-700',  },
-    { label: 'Support style', value: data.supportStyle || '—', color: 'text-gray-700',  },
-    { label: 'Accountability', value: data.accountabilityStyle || '—', color: 'text-gray-700',  },
-    { label: 'Coping anchors', value: (data.copingAnchors && data.copingAnchors.length) ? data.copingAnchors.slice(0,3).join(', ') : '—', color: 'text-gray-700',  },
-    { label: 'Triggers', value: (data.triggers && data.triggers.length) ? data.triggers.slice(0,3).join(', ') : '—', color: 'text-gray-700', },
-    { label: 'Patterns', value: (data.symptomPatterns && data.symptomPatterns.length) ? data.symptomPatterns.slice(0,2).join(', ') : '—', color: 'text-gray-700', },
-  ];
+  // const selections = [
+  //   { label: 'Primary focus', value: data.primaryTopic || '—', color: 'text-gray-700' },
+  //   { label: '30-day outcome', value: data.goal30 || '—', color: 'text-gray-700', },
+  //   { label: 'Intensity', value: typeof data.intensity === 'number' && data.intensity > 0 ? `${data.intensity}/10` : '—', color: 'text-gray-700', },
+  //   { label: 'Time budget', value: data.timeBudget || '—', color: 'text-gray-700',  },
+  //   { label: 'Support style', value: data.supportStyle || '—', color: 'text-gray-700',  },
+  //   { label: 'Accountability', value: data.accountabilityStyle || '—', color: 'text-gray-700',  },
+  //   { label: 'Coping anchors', value: (data.copingAnchors && data.copingAnchors.length) ? data.copingAnchors.slice(0,3).join(', ') : '—', color: 'text-gray-700',  },
+  //   { label: 'Triggers', value: (data.triggers && data.triggers.length) ? data.triggers.slice(0,3).join(', ') : '—', color: 'text-gray-700', },
+  //   { label: 'Patterns', value: (data.symptomPatterns && data.symptomPatterns.length) ? data.symptomPatterns.slice(0,2).join(', ') : '—', color: 'text-gray-700', },
+  // ];
 
   // Friendly marketing presentation for the three primary individual plans.
   // NOTE: This is presentation-only. Stripe uses the plan `code` (e.g., IND_1M),
@@ -151,25 +153,25 @@ const InstantPlanPreviewStep = () => {
       };
     });
   
-  const getPreviewParagraph = () => {
-    const focus = data.primaryTopic || 'your wellbeing';
-    const outcome = data.goal30 || 'meaningful progress';
-    const time = data.timeBudget || 'a few minutes a day';
-    const support = data.supportStyle || 'support that fits you';
-    const accountability = data.accountabilityStyle || 'gentle accountability';
-    const intensity = typeof data.intensity === 'number' && data.intensity > 0 ? `${data.intensity}/10` : null;
-    const triggers = (data.triggers && data.triggers.length) ? data.triggers.slice(0,2).join(', ') : null;
-    const anchors = (data.copingAnchors && data.copingAnchors.length) ? data.copingAnchors.slice(0,2).join(' & ') : null;
+  // const getPreviewParagraph = () => {
+  //   const focus = data.primaryTopic || 'your wellbeing';
+  //   const outcome = data.goal30 || 'meaningful progress';
+  //   const time = data.timeBudget || 'a few minutes a day';
+  //   const support = data.supportStyle || 'support that fits you';
+  //   const accountability = data.accountabilityStyle || 'gentle accountability';
+  //   const intensity = typeof data.intensity === 'number' && data.intensity > 0 ? `${data.intensity}/10` : null;
+  //   const triggers = (data.triggers && data.triggers.length) ? data.triggers.slice(0,2).join(', ') : null;
+  //   const anchors = (data.copingAnchors && data.copingAnchors.length) ? data.copingAnchors.slice(0,2).join(' & ') : null;
 
-    let parts = [
-      `We built a plan focused on ${focus} to help you achieve ${outcome}.`,
-      `It fits into ${time} with ${support} and ${accountability}.`
-    ];
-    if (intensity) parts.push(`Your current intensity is ${intensity}, so we start light and build confidence.`);
-    if (triggers) parts.push(`We’ll address your triggers like ${triggers} with step‑by‑step techniques.`);
-    if (anchors) parts.push(`You’ll also lean on anchors like ${anchors} when you need a quick reset.`);
-    return parts.join(' ');
-  };
+  //   let parts = [
+  //     `We built a plan focused on ${focus} to help you achieve ${outcome}.`,
+  //     `It fits into ${time} with ${support} and ${accountability}.`
+  //   ];
+  //   if (intensity) parts.push(`Your current intensity is ${intensity}, so we start light and build confidence.`);
+  //   if (triggers) parts.push(`We’ll address your triggers like ${triggers} with step‑by‑step techniques.`);
+  //   if (anchors) parts.push(`You’ll also lean on anchors like ${anchors} when you need a quick reset.`);
+  //   return parts.join(' ');
+  // };
   
 
   const getPlanDisclaimer = (code) => {

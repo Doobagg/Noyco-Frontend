@@ -2,29 +2,24 @@
 
 import { useMemo, useState } from 'react';
 import { useMetrics } from '../../../../store/hooks';
-import { 
-  Phone, 
-  Calendar, 
+import {  
   MessageCircle, 
   TrendingUp,
   Target,
-  Users,
-  Clock,
   CheckCircle,
   XCircle,
-  AlertTriangle
 } from 'lucide-react';
 
-import { MetricCard, PatientEngagementCard } from './components/MetricCards';
-import { CallVolumeChart, SuccessRateChart, CallsByHourChart, CallStatusDistribution, ConversationDurationChart, CombinedTrendChart, AgentDistributionChart, CallsByHourPolarChart } from './components/AppleStyleCharts';
+import { MetricCard, } from './components/MetricCards';
+import { CallStatusDistribution, ConversationDurationChart, CombinedTrendChart, AgentDistributionChart, CallsByHourPolarChart } from './components/AppleStyleCharts';
 import ConversationInsights from './components/ConversationInsights';
 import AgentMetrics from './components/AgentMetrics';
 
 
 export default function MetricsDashboardPage() {
-  const { dashboard, analytics, conversations, agentTypes, loading, error, getTranscript, pauseSchedule, resumeSchedule, cancelSchedule, deleteSchedule } = useMetrics();
+  const { dashboard, analytics, conversations, agentTypes, loading, error} = useMetrics();
   const [selectedConversation, setSelectedConversation] = useState(null);
-  const [selectedSchedule, setSelectedSchedule] = useState(null);
+  void selectedConversation; // to avoid unused variable warning
   const [activeTab, setActiveTab] = useState('overview');
 
   // Expose a setter so other components/buttons can switch tabs

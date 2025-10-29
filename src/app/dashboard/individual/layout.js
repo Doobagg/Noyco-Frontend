@@ -4,8 +4,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, createContext, useContext } from "react";
-import { useAuth, useMetrics } from "@/store/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/store/hooks";
 import { apiRequest } from "@/lib/api";
 import { SidebarBlob } from "@/components/landing/AnimatedBlob";
 
@@ -212,7 +211,7 @@ export default function IndividualLayout({ children }) {
   const [activeSubItem, setActiveSubItem] = useState("track");
   const [expandedItems, setExpandedItems] = useState(new Set());
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  // const [showOnboarding, setShowOnboarding] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [clickedItem, setClickedItem] = useState(null);
@@ -240,11 +239,11 @@ export default function IndividualLayout({ children }) {
         
         if (!data.onboarding_completed) {
           console.log('Redirecting to onboarding...');
-          setShowOnboarding(true);
+          // setShowOnboarding(true);
           router.push('/dashboard/individual/onboarding');
         } else {
           console.log('Onboarding completed, user can access dashboard');
-          setShowOnboarding(false);
+          // setShowOnboarding(false);
         }
       } catch (e) {
         console.error('Failed to fetch onboarding status', e);

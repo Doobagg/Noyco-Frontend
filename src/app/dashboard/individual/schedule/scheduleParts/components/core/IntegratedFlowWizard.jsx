@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect, useMemo } from 'react';
 import { useIntegratedFlow } from '../../context/IntegratedFlowContext';
 
 import AgentSelector from '../selectors/AgentSelector';
@@ -13,24 +12,22 @@ const IntegratedFlowWizard = () => {
   const { 
     currentStep, 
     totalSteps, 
-    selectedAgent,
     actions, 
-    canProceedToStep, 
     isCurrentStepValid,
     error,
     isLoading
   } = useIntegratedFlow();
 
   // Dynamic step configuration based on selected agent
-  const steps = useMemo(() => {
-    // All agents now have additional info steps, but no user profile step
-    return [
-      'Agent Configuration',
-      'Additional Information',
-      'Call Time',
-      'Review & Confirm'
-    ];
-  }, []);
+  // const steps = useMemo(() => {
+  //   // All agents now have additional info steps, but no user profile step
+  //   return [
+  //     'Agent Configuration',
+  //     'Additional Information',
+  //     'Call Time',
+  //     'Review & Confirm'
+  //   ];
+  // }, []);
 
   // Navigation handlers
   const handleNext = () => {
@@ -45,11 +42,11 @@ const IntegratedFlowWizard = () => {
     }
   };
 
-  const handleStepClick = (step) => {
-    if (canProceedToStep(step)) {
-      actions.setStep(step);
-    }
-  };
+  // const handleStepClick = (step) => {
+  //   if (canProceedToStep(step)) {
+  //     actions.setStep(step);
+  //   }
+  // };
 
   // Render step content
   const renderStepContent = () => {

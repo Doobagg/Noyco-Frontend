@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-const WelcomeStep = ({ onNext, isFirst, data, stepData }) => {
+const WelcomeStep = ({ onNext}) => {
   const benefits = [
     {
       icon: "🎯",

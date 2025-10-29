@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 
 const BasicInfoStep = ({ data, updateData, errors, stepData }) => {
   const [focusedField, setFocusedField] = useState(null);
+  void focusedField; // to avoid unused variable warning
   const [completedFields, setCompletedFields] = useState(new Set());
 
   const languageOptions = [

@@ -3,7 +3,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
-import { useAuth } from '../../../../store/hooks';
 import { apiRequest } from '../../../../lib/api';
 import CheckoutButton from '@/stripe/components/CheckoutButton';
 import Link from 'next/link';
@@ -12,7 +11,6 @@ import CancelSubscriptionButton from '@/stripe/components/CancelSubscriptionButt
 import { getCurrentSubscription } from '@/stripe/services/subscriptionService';
 
 export default function Plan() {
-  const { user } = useAuth();
   const [plans, setPlans] = useState([]);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [showPlans, setShowPlans] = useState(false);
@@ -33,7 +31,9 @@ export default function Plan() {
       try {
         const sub = await getCurrentSubscription();
         setSubSummary(sub);
-      } catch {}
+      } catch (error) {
+        console.error('Error fetching subscription summary:', error);
+      }
 
       try {
         current = await apiRequest('/billing/plan/current', { suppressError: true });
@@ -66,7 +66,9 @@ export default function Plan() {
                 setShowPlans(false);
                 return;
               }
-            } catch {}
+            } catch (error){
+              console.error('Error polling for current plan:', error);
+            }
             if (Date.now() - start < 20000) {
               setTimeout(poll, 1500);
             } else {
@@ -77,7 +79,7 @@ export default function Plan() {
         } else {
           setShowPlans(true);
         }
-      } catch (_) {
+      } catch {
         // treat as no plan
         setShowPlans(true);
         setPendingFinalize(true);
@@ -95,7 +97,9 @@ export default function Plan() {
               setShowPlans(false);
               return;
             }
-          } catch {}
+          } catch(error) {
+            console.error('Error polling for current plan:', error);
+          }
           if (Date.now() - start < 20000) {
             setTimeout(poll, 1500);
           } else {
@@ -141,26 +145,26 @@ export default function Plan() {
   }, [currentPlan, subSummary, triedRefreshSub]);
 
   // POST to select an individual plan
-  const selectPlan = async (planType) => {
-    if (!user?.role_entity_id) return;
-    setLoading(true);
-    try {
-      const resp = await apiRequest('/billing/plan/select', {
-        method: 'POST',
-        body: JSON.stringify({ plan_type: planType }),
-      });
-      setCurrentPlan({
-        plan_type: resp.plan_type,
-        details: resp.plan_details
-      });
-      setError('');
-    } catch (err) {
-      console.error('Error selecting plan:', err);
-      setError('Failed to select plan');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const selectPlan = async (planType) => {
+  //   if (!user?.role_entity_id) return;
+  //   setLoading(true);
+  //   try {
+  //     const resp = await apiRequest('/billing/plan/select', {
+  //       method: 'POST',
+  //       body: JSON.stringify({ plan_type: planType }),
+  //     });
+  //     setCurrentPlan({
+  //       plan_type: resp.plan_type,
+  //       details: resp.plan_details
+  //     });
+  //     setError('');
+  //   } catch (err) {
+  //     console.error('Error selecting plan:', err);
+  //     setError('Failed to select plan');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const isActive = (type) => currentPlan?.plan_type === type;
 
@@ -218,9 +222,9 @@ export default function Plan() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               {/** SubscriptionManager (Manage subscription) temporarily disabled per request */}
-              {false && (
+              {/* {false && (
                 <SubscriptionManager className="flex-1 w-full bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] hover:shadow-lg text-gray-800 font-semibold py-3 px-6 transition-all duration-200" />
-              )}
+              )} */}
               <div className="flex-1 flex flex-col">
                 <CancelSubscriptionButton
                   subscriptionId={subId}
@@ -230,14 +234,14 @@ export default function Plan() {
                 />
               </div>
               {/** Change Plan button temporarily disabled per request */}
-              {false && (
+              {/* {false && (
                 <button
                   onClick={() => setShowPlans(true)}
                   className="flex-1 px-6 py-3 bg-beige border-accent-right border-accent-left border-accent-top border-accent text-gray-700 font-medium transition-all duration-200 hover:bg-gray-50 hover:shadow-md"
                 >
                   Change Plan
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>

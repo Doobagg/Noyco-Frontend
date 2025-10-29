@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from 'react';
 import { useMarketingFunnel } from '../../context/MarketingFunnelContext';
 import { Heart, Brain, UserCheck, Shield, Target } from 'lucide-react';
 
 const MeetAgentsStep = () => {
   // Re-add the useMarketingFunnel hook
   const { actions } = useMarketingFunnel();
-  const [selectedAgent, setSelectedAgent] = useState(null);
 
   const agents = [
     {

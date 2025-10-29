@@ -118,7 +118,7 @@ const goalsSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    resetGoals: (state) => {
+    resetGoals: () => {
       return initialState;
     },
     // Add a goal to local state without API call (for immediate UI updates)
@@ -153,9 +153,9 @@ const goalsSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(createOrUpdateGoalThunk.fulfilled, (state, action) => {
+      .addCase(createOrUpdateGoalThunk.fulfilled, (state) => {
         state.isLoading = false;
-        const { agentType } = action.payload;
+        // const { agentType } = action.payload;
         
         // Refresh the goals for this agent type
         // Note: The actual goal data structure from the backend might be different

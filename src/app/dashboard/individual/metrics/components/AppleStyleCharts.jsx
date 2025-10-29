@@ -224,7 +224,7 @@ export function CallStatusDistribution({ data }) {
   const pct = total ? Math.round((activeCount * 100) / total) : 0;
   const centerText = {
     id: 'centerText',
-    beforeDraw(chart, args, options) {
+    beforeDraw(chart) {
       const { ctx, chartArea: { width, height } } = chart;
       ctx.save();
       ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';

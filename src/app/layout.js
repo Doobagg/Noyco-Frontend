@@ -21,7 +21,6 @@ export const metadata = generatePageMetadata({
 
 export default function RootLayout({ children }) {
   const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-  const useCustomCheckout = process.env.NEXT_PUBLIC_USE_CUSTOM_CHECKOUT === 'true';
   
   return (
     <html lang="en">

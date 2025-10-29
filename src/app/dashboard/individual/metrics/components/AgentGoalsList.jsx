@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { Calendar, CheckCircle, Clock, TrendingUp, AlertTriangle, Heart } from 'lucide-react';
-import { format, formatDistanceToNow } from 'date-fns';
+import { Calendar, CheckCircle, Clock, TrendingUp, AlertTriangle } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
 
 export default function AgentGoalsList({ agentMetrics, selectedGoal, onGoalSelect, timeframe }) {
   const [expandedAgent, setExpandedAgent] = useState(null);
@@ -45,24 +45,24 @@ export default function AgentGoalsList({ agentMetrics, selectedGoal, onGoalSelec
     }
   };
 
-  const getMoodIcon = (mood) => {
-    const moodColors = {
-      'very_happy': 'text-green-500',
-      'happy': 'text-green-400',
-      'neutral': 'text-gray-400',
-      'sad': 'text-orange-400',
-      'very_sad': 'text-red-500',
-      'anxious': 'text-red-400',
-      'worried': 'text-orange-500',
-      'calm': 'text-blue-400',
-      'excited': 'text-purple-500',
-      'stressed': 'text-red-600'
-    };
+  // const getMoodIcon = (mood) => {
+  //   const moodColors = {
+  //     'very_happy': 'text-green-500',
+  //     'happy': 'text-green-400',
+  //     'neutral': 'text-gray-400',
+  //     'sad': 'text-orange-400',
+  //     'very_sad': 'text-red-500',
+  //     'anxious': 'text-red-400',
+  //     'worried': 'text-orange-500',
+  //     'calm': 'text-blue-400',
+  //     'excited': 'text-purple-500',
+  //     'stressed': 'text-red-600'
+  //   };
     
-    return (
-      <Heart className={`w-4 h-4 ${moodColors[mood?.toLowerCase()] || 'text-gray-400'}`} />
-    );
-  };
+  //   return (
+  //     <Heart className={`w-4 h-4 ${moodColors[mood?.toLowerCase()] || 'text-gray-400'}`} />
+  //   );
+  // };
 
   const formatLastCheckIn = (timestamp) => {
     if (!timestamp) return 'Never';
@@ -73,22 +73,22 @@ export default function AgentGoalsList({ agentMetrics, selectedGoal, onGoalSelec
     }
   };
 
-  const formatDueDate = (dueDate) => {
-    if (!dueDate) return null;
-    try {
-      const date = new Date(dueDate);
-      const now = new Date();
-      const diffDays = Math.ceil((date - now) / (1000 * 60 * 60 * 24));
+  // const formatDueDate = (dueDate) => {
+  //   if (!dueDate) return null;
+  //   try {
+  //     const date = new Date(dueDate);
+  //     const now = new Date();
+  //     const diffDays = Math.ceil((date - now) / (1000 * 60 * 60 * 24));
       
-      if (diffDays < 0) return { text: 'Overdue', color: 'text-red-600' };
-      if (diffDays === 0) return { text: 'Due today', color: 'text-orange-600' };
-      if (diffDays <= 3) return { text: `${diffDays} days left`, color: 'text-orange-500' };
-      if (diffDays <= 7) return { text: `${diffDays} days left`, color: 'text-yellow-600' };
-      return { text: `${diffDays} days left`, color: 'text-gray-600' };
-    } catch {
-      return null;
-    }
-  };
+  //     if (diffDays < 0) return { text: 'Overdue', color: 'text-red-600' };
+  //     if (diffDays === 0) return { text: 'Due today', color: 'text-orange-600' };
+  //     if (diffDays <= 3) return { text: `${diffDays} days left`, color: 'text-orange-500' };
+  //     if (diffDays <= 7) return { text: `${diffDays} days left`, color: 'text-yellow-600' };
+  //     return { text: `${diffDays} days left`, color: 'text-gray-600' };
+  //   } catch {
+  //     return null;
+  //   }
+  // };
 
   return (
     <div className="bg-beige border-accent border-accent-top border-accent-left border-accent-right overflow-hidden">

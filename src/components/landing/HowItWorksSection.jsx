@@ -5,7 +5,6 @@ import {
   Settings,
   Heart,
   CheckCircle,
-  ArrowRight,
   Sparkles,
   Clock,
   Shield

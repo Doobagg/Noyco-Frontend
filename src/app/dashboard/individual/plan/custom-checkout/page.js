@@ -15,7 +15,7 @@ export default function CustomCheckoutPage() {
   const router = useRouter();
   const [plan, setPlan] = React.useState("one_month");
   const [clientSecret, setClientSecret] = React.useState(null);
-  const [subscriptionId, setSubscriptionId] = React.useState(null);
+  // const [subscriptionId, setSubscriptionId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
 
@@ -25,7 +25,7 @@ export default function CustomCheckoutPage() {
     try {
       const res = await createSubscription(plan);
       setClientSecret(res.client_secret);
-      setSubscriptionId(res.subscription_id);
+      // setSubscriptionId(res.subscription_id);
     } catch (e) {
       setError(e?.message || "Failed to create subscription");
     } finally {
@@ -33,7 +33,7 @@ export default function CustomCheckoutPage() {
     }
   }
 
-  function handleSuccess({ paymentIntentId }) {
+  function handleSuccess() {
     // Optionally route to success; backend webhook will activate plan
     router.push("/stripe/success");
   }

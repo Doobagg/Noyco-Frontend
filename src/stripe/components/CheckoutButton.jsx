@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createCheckout } from '../services/checkoutService';
 import { showToast } from '@/lib/toast';
 
 export default function CheckoutButton({ planType, children }) {
