@@ -128,7 +128,7 @@ const ProfileViewer = ({ profile, onBack, onEdit, onDelete }) => {
                 >
                   <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span className="hidden xs:inline">Delete</span>
-                  <span className="xs:hidden">Del</span>
+                  <span className="xs:hidden">Delete</span>
                 </button>
               </div>
             </div>
