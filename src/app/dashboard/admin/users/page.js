@@ -131,7 +131,7 @@ export default function AdminUsersPage() {
     setError(null);
     try {
       const qs = new URLSearchParams(
-        Object.entries(filters).filter(([_, v]) => v !== undefined && v !== "")
+        Object.entries(filters).filter(([, v]) => v !== undefined && v !== "")
       ).toString();
       const res = await apiRequest(`/admin/users?${qs}`);
       setRows(res.data || []);
@@ -143,7 +143,7 @@ export default function AdminUsersPage() {
     }
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [searchParams]);
+  useEffect(() => { load(); }, [searchParams]);
 
   const onFiltersChange = (obj) => {
     // Only send status_filter if valid
@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
     };
     // Remove undefined/empty-string values so we never end up with q=undefined in URL
     const qs = new URLSearchParams(
-      Object.entries(nextParams).filter(([_, v]) => v !== undefined && v !== "")
+      Object.entries(nextParams).filter(([, v]) => v !== undefined && v !== "")
     ).toString();
     router.push(`/dashboard/admin/users?${qs}`);
   };
@@ -335,7 +335,7 @@ export default function AdminUsersPage() {
                     onClick={() => {
                       const prevParams = { ...filters, page: (filters.page || 1) - 1 };
                       const qs = new URLSearchParams(
-                        Object.entries(prevParams).filter(([_, v]) => v !== undefined && v !== "")
+                        Object.entries(prevParams).filter(([, v]) => v !== undefined && v !== "")
                       ).toString();
                       router.push(`/dashboard/admin/users?${qs}`);
                     }}
@@ -346,7 +346,7 @@ export default function AdminUsersPage() {
                     onClick={() => {
                       const nextParams = { ...filters, page: (filters.page || 1) + 1 };
                       const qs = new URLSearchParams(
-                        Object.entries(nextParams).filter(([_, v]) => v !== undefined && v !== "")
+                        Object.entries(nextParams).filter(([, v]) => v !== undefined && v !== "")
                       ).toString();
                       router.push(`/dashboard/admin/users?${qs}`);
                     }}

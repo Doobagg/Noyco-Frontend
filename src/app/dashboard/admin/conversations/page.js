@@ -106,7 +106,7 @@ export default function AdminConversationsPage() {
     setError(null);
     try {
       const qs = new URLSearchParams(
-        Object.entries(filters).filter(([_, v]) => v !== undefined && v !== "")
+        Object.entries(filters).filter(([, v]) => v !== undefined && v !== "")
       ).toString();
       const res = await apiRequest(`/admin/conversations?${qs}`);
       setRows(res.data || []);
@@ -118,7 +118,7 @@ export default function AdminConversationsPage() {
     }
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [searchParams]);
+  useEffect(() => { load(); }, [searchParams]);
 
   useEffect(() => {
     // Load agent types once for filter dropdown
@@ -161,7 +161,7 @@ export default function AdminConversationsPage() {
         }
 
         setAgentTypes(deduped);
-      } catch (_) {
+      } catch {
         setAgentTypes([
           { agent_type: "loneliness" },
           { agent_type: "accountability" },
@@ -176,7 +176,7 @@ export default function AdminConversationsPage() {
   const onFiltersChange = (obj) => {
     const nextParams = { ...obj, page: 1, per_page: filters.per_page };
     const qs = new URLSearchParams(
-      Object.entries(nextParams).filter(([_, v]) => v !== undefined && v !== "")
+      Object.entries(nextParams).filter(([, v]) => v !== undefined && v !== "")
     ).toString();
     router.push(`/dashboard/admin/conversations?${qs}`);
   };
@@ -326,7 +326,7 @@ export default function AdminConversationsPage() {
                     onClick={() => {
                       const prevParams = { ...filters, page: (filters.page || 1) - 1 };
                       const qs = new URLSearchParams(
-                        Object.entries(prevParams).filter(([_, v]) => v !== undefined && v !== "")
+                        Object.entries(prevParams).filter(([, v]) => v !== undefined && v !== "")
                       ).toString();
                       router.push(`/dashboard/admin/conversations?${qs}`);
                     }}
@@ -337,7 +337,7 @@ export default function AdminConversationsPage() {
                     onClick={() => {
                       const nextParams = { ...filters, page: (filters.page || 1) + 1 };
                       const qs = new URLSearchParams(
-                        Object.entries(nextParams).filter(([_, v]) => v !== undefined && v !== "")
+                        Object.entries(nextParams).filter(([, v]) => v !== undefined && v !== "")
                       ).toString();
                       router.push(`/dashboard/admin/conversations?${qs}`);
                     }}

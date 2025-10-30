@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
@@ -427,13 +425,6 @@ export default function Plan() {
         </div>
 
         {/* Subscription Management (temporarily disabled) */}
-        {false && (
-          <div className="flex justify-center mt-12">
-            <div className="bg-beige backdrop-blur-xl  border-white/20  p-4">
-              <SubscriptionManager />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

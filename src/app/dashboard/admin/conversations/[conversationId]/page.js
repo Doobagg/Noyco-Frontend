@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { apiRequest } from "@/lib/api";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -30,7 +30,6 @@ function Message({ role, content, timestamp }) {
 
 export default function ConversationDetailPage() {
   const params = useParams();
-  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
@@ -52,7 +51,7 @@ export default function ConversationDetailPage() {
     }
   };
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [conversationId, redact]);
+  useEffect(() => { load(); }, [conversationId, redact]);
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>

@@ -761,7 +761,7 @@ const ImprovedVoiceAssistant = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [isBotSpeaking, setIsBotSpeaking] = useState(false);
+  const [, setIsBotSpeaking] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [debugStatus, setDebugStatus] = useState('Ready');
   const [turnCount, setTurnCount] = useState(0);
@@ -1307,7 +1307,6 @@ const ImprovedVoiceAssistant = () => {
       isRecording={isRecording}
       isConnecting={isConnecting}
       isListening={isListening}
-      isBotSpeaking={isBotSpeaking}
       turnCount={turnCount}
       autoSendEnabled={autoSendEnabled}
       handleAutoSendToggle={handleAutoSendToggle}
@@ -1342,7 +1341,6 @@ const VoiceAssistantContent = ({
   isRecording,
   isConnecting,
   isListening,
-  isBotSpeaking,
   autoSendEnabled,
   handleAutoSendToggle,
   handleManualSend,

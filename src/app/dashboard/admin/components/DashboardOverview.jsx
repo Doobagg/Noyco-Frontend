@@ -8,7 +8,7 @@ import SystemHealthPanel from './SystemHealthPanel';
 import RecentActivityFeed from './RecentActivityFeed';
 import SubscriptionBreakdown from './SubscriptionBreakdown';
 
-export default function DashboardOverview({ data, loading, lastUpdated, onRefresh }) {
+export default function DashboardOverview({ data, lastUpdated, onRefresh }) {
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async () => {

@@ -77,7 +77,7 @@ function Table({ columns, rows, empty = "No data" }) {
 }
 
 export default function AdminBillingPage() {
-    const [loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const [summary, setSummary] = useState(null);
     const [subs, setSubs] = useState({ data: [], page: 1, per_page: 10, total: 0 });
     const [failed, setFailed] = useState({ data: [], page: 1, per_page: 10, total: 0 });
@@ -108,7 +108,6 @@ export default function AdminBillingPage() {
 
     useEffect(() => {
         loadAll(1);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statusFilter]);
 
     const mrrByPlanRows = useMemo(() => {
@@ -175,7 +174,7 @@ export default function AdminBillingPage() {
                             { key: "status", title: "Status" },
                             { key: "start_date", title: "Start", render: (v) => (v ? new Date(v).toLocaleDateString() : "—") },
                             { key: "next_billing_date", title: "Next Billing", render: (v) => (v ? new Date(v).toLocaleDateString() : "—") },
-                            { key: "subscription_id", title: "Sub ID", render: (v) => (v ? String(v).slice(0, 10) + "…" : "—") },
+                                { key: "subscription_id", title: "Sub ID", render: (v) => (v ? String(v).slice(0, 10) + "…" : "—") },
                         ]}
                         rows={subs?.data || []}
                         empty="No subscriptions"
@@ -190,7 +189,7 @@ export default function AdminBillingPage() {
                             columns={[
                                 { key: "date", title: "Date", render: (v) => (v ? new Date(v).toLocaleDateString() : "—") },
                                 { key: "user", title: "User", render: (v) => v?.name || v?.email || "—" },
-                                { key: "amount", title: "Amount", render: (v, row) => formatMoney(v) },
+                                { key: "amount", title: "Amount", render: (v) => formatMoney(v) },
                                 { key: "reason", title: "Reason" },
                             ]}
                             rows={failed?.data || []}
