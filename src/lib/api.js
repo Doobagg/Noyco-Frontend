@@ -197,7 +197,13 @@ export const apiRequest = async (url, options = {}) => {
     } else {
       const text = await response.text();
       if (!response.ok) {
-        throw new Error(`API request failed: ${text}`);
+        // Avoid dumping entire HTML into the error message (e.g., Next.js 404 pages)
+        const trimmed = (text || '').trim();
+        const looksLikeHtml = trimmed.startsWith('<!DOCTYPE html') || trimmed.startsWith('<html');
+        const msg = looksLikeHtml
+          ? `API request failed: ${response.status} ${response.statusText}`
+          : `API request failed: ${trimmed.slice(0, 500)}`; // cap length
+        throw new Error(msg);
       }
       return text;
     }

@@ -163,7 +163,7 @@ export default function Navbar() {
                 <Link
                   href="/auth/login"
                   className={cn(
-                    'inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500',
+                    'inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 text-gray-700 bg-white',
                     loading ? 'pointer-events-none opacity-60' : ''
                   )}
                   aria-disabled={loading}
@@ -174,7 +174,7 @@ export default function Navbar() {
                 <Link
                   href="/getting-started"
                   className={cn(
-                    'inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 border-accent border-accent-top border-accent-left border-accent-right hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500',
+                    'inline-flex items-center justify-center px-6 py-2 text-sm  bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-900 ',
                     loading ? 'pointer-events-none opacity-60' : ''
                   )}
                   aria-disabled={loading}

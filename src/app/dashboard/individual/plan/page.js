@@ -1,12 +1,10 @@
-
-
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
 import { apiRequest } from '../../../../lib/api';
 import CheckoutButton from '@/stripe/components/CheckoutButton';
 import Link from 'next/link';
-import SubscriptionManager from '@/stripe/components/SubscriptionManager';
+// import SubscriptionManager from '@/stripe/components/SubscriptionManager';
 import CancelSubscriptionButton from '@/stripe/components/CancelSubscriptionButton';
 import { getCurrentSubscription } from '@/stripe/services/subscriptionService';
 
@@ -386,7 +384,7 @@ export default function Plan() {
                 </div>
 
                 {/* Plan Details */}
-                <div className="mb-6 p-3 bg-beige   border-accent-right border-accent-left border-accent-top border-accent   border-gray-100 ">
+                {/* <div className="mb-6 p-3 bg-beige   border-accent-right border-accent-left border-accent-top border-accent   border-gray-100 ">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600">Max Agents</span>
                     <span className="font-medium text-gray-900">{plan.max_agents}</span>
@@ -395,7 +393,7 @@ export default function Plan() {
                     <span className="text-gray-600">Model Tier</span>
                     <span className="font-medium text-gray-900 capitalize">{plan.model_tier}</span>
                   </div>
-                </div>
+                </div> */}
 
                 {/* CTA + Legal */}
                 {isCurrentPlan ? (
@@ -426,12 +424,7 @@ export default function Plan() {
           })}
         </div>
 
-        {/* Subscription Management */}
-        <div className="flex justify-center mt-12">
-          <div className="bg-beige backdrop-blur-xl  border-white/20  p-4">
-            <SubscriptionManager />
-          </div>
-        </div>
+        {/* Subscription Management (temporarily disabled) */}
       </div>
     </div>
   );

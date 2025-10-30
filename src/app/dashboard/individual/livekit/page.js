@@ -634,11 +634,7 @@ const ChatTherapist = () => {
               <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2">
                 Start Your Session
               </h3>
-              <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-                Connect to begin a confidential conversation with your personal
-                AI agent. Share your thoughts, feelings, and concerns in a safe
-                space.
-              </p>
+              {/* Intro blurb removed to keep header compact */}
             </div>
           )}
 
@@ -765,7 +761,7 @@ const ImprovedVoiceAssistant = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [isBotSpeaking, setIsBotSpeaking] = useState(false);
+  const [, setIsBotSpeaking] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [debugStatus, setDebugStatus] = useState('Ready');
   const [turnCount, setTurnCount] = useState(0);
@@ -1184,13 +1180,7 @@ const ImprovedVoiceAssistant = () => {
         </div>
       );
     } else if (isRecording) {
-      return (
-        <div className="text-center text-gray-600 px-3">
-          <div className="text-xs sm:text-sm font-medium">
-            Start speaking to begin the conversation...
-          </div>
-        </div>
-      );
+      return null;
     }
     return null;
   };
@@ -1257,15 +1247,7 @@ const ImprovedVoiceAssistant = () => {
           </motion.div>
         );
       }
-      if (isRecording) {
-        return (
-          <div className="text-center text-gray-600 px-3">
-            <div className="text-xs sm:text-sm font-medium">
-              Start speaking to begin the conversation...
-            </div>
-          </div>
-        );
-      }
+      if (isRecording) return null;
       return null;
     }
     const msg = conversationMessages[displayIndex];
@@ -1325,7 +1307,6 @@ const ImprovedVoiceAssistant = () => {
       isRecording={isRecording}
       isConnecting={isConnecting}
       isListening={isListening}
-      isBotSpeaking={isBotSpeaking}
       turnCount={turnCount}
       autoSendEnabled={autoSendEnabled}
       handleAutoSendToggle={handleAutoSendToggle}
@@ -1360,7 +1341,6 @@ const VoiceAssistantContent = ({
   isRecording,
   isConnecting,
   isListening,
-  isBotSpeaking,
   autoSendEnabled,
   handleAutoSendToggle,
   handleManualSend,
@@ -1396,7 +1376,7 @@ const VoiceAssistantContent = ({
         }
       `}</style>
       <div className="min-h-[calc(100vh-200px)] max-h-[calc(100vh-100px)] bg-[#f8f7f1] flex flex-col overflow-hidden">
-        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-3 sm:pt-4 pb-2 bg-[#f8f7f1] sticky top-0 z-10 shadow-sm">
+        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-2 sm:pt-3 pb-1 bg-[#f8f7f1] relative z-10">
           <div className="w-full max-w-4xl mx-auto">
             {/* Profile Loading State */}
             {profilesLoading && (
@@ -1430,9 +1410,9 @@ const VoiceAssistantContent = ({
             )}
 
             {/* Main Control Button with Animated Blobs */}
-            <div className="flex flex-col items-center mb-3 sm:mb-4 md:mb-6">
+            <div className="flex flex-col items-center self-center mb-2 sm:mb-3 md:mb-4 -mt-1">
               {isAuthenticated && user ? (
-                <div className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px] aspect-square">
+                <div className="relative w-full max-w-[260px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px] aspect-square -mt-1 sm:-mt-2 md:-mt-3">
                   <Amoeba
                     gradient="linear-gradient(135deg, #facc15 0%, #f97316 100%)"
                     duration={12}
@@ -1482,67 +1462,10 @@ const VoiceAssistantContent = ({
               )}
 
               {/* Status text */}
-              <div className="mt-2 sm:mt-3 text-center px-2">
-                {!isAuthenticated || !user ? (
-                  <div className="text-[#15345fff] text-sm sm:text-base md:text-lg font-medium">
-                    Please login to start
-                  </div>
-                ) : (
-                  <>
-                    {isListening && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        transition={{ duration: 0.3 }}
-                        className="mb-1"
-                      >
-                        <div className="text-xs sm:text-sm font-medium text-gray-800 mb-0.5 animate-pulse">
-                          🎤 Listening...
-                        </div>
-                        <div className="text-[10px] sm:text-xs text-gray-600">
-                          I can hear you
-                        </div>
-                      </motion.div>
-                    )}
-                    {isRecording &&
-                      (isConnecting || isBotSpeaking) &&
-                      !isListening && (
-                        <div className="text-[#15345fff] text-xs sm:text-sm font-medium">
-                          Voice Assistant Active
-                        </div>
-                      )}
-                  </>
-                )}
-              </div>
+              {/* Status text under amoeba removed to keep logs visible */}
 
               {/* Status Indicator */}
-              {(isRecording || isConnecting) && (
-                <div className="mb-2 mt-2 text-center">
-                  <div className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3 rounded-full transition-all text-[10px] sm:text-xs font-bold bg-gradient-to-r from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 backdrop-blur-md shadow-xl border-2 border-white/50">
-                    <div
-                      className={`w-2 h-2 rounded-full flex-shrink-0 shadow-lg ${
-                        isBotSpeaking
-                          ? 'bg-purple-600 animate-pulse'
-                          : isConnecting
-                          ? 'bg-yellow-500 animate-pulse'
-                          : isListening
-                          ? 'bg-blue-600 animate-pulse'
-                          : 'bg-emerald-500'
-                      }`}
-                    />
-                    <span className="whitespace-nowrap uppercase tracking-wide">
-                      {isBotSpeaking
-                        ? `Speaking...`
-                        : isConnecting
-                        ? 'Waiting for Agent...'
-                        : isListening
-                        ? `Listening...`
-                        : 'Ready'}
-                    </span>
-                  </div>
-                </div>
-              )}
+              {/* Status indicator pill removed to reduce vertical space */}
             </div>
 
             {/* Auto-Send Toggle & Manual Controls */}
@@ -1725,11 +1648,7 @@ const VoiceAssistantContent = ({
                     done
                   </div>
                 )}
-                {isRecording && autoSendEnabled && (
-                  <div className="mt-2 sm:mt-3 text-center text-gray-400 text-[10px] sm:text-xs font-light px-2">
-                    Speak naturally • Assistant responds in real-time
-                  </div>
-                )}
+                {/* Hint below removed to keep view compact */}
               </div>
             )}
           </div>
@@ -1750,15 +1669,15 @@ const TabbedAssistantInterface = () => {
 
   return (
     <div className="flex flex-col h-full bg-beige overflow-hidden">
-      {/* Header with Tab Navigation - Sticky */}
-      <div className="flex-shrink-0 bg-beige border-b border-gray-200/40 sticky top-0 z-20 shadow-sm">
-        <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-3 sm:mb-4">
+      {/* Header with Tab Navigation - Sticky (compact, no bottom border line) */}
+      <div className="flex-shrink-0 bg-beige sticky top-0 z-20">
+        <div className="px-3 sm:px-4 md:px-6 py-1 sm:py-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-2 sm:mb-3">
             <div className="flex-1">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
                 AI Assistant
               </h1>
-              <p className="text-xs sm:text-sm text-gray-600 mt-1">
+              <p className="text-[11px] sm:text-xs text-gray-600 mt-0.5">
                 Connect via voice or chat for support and guidance
               </p>
             </div>
@@ -1768,7 +1687,7 @@ const TabbedAssistantInterface = () => {
           </div>
 
           {/* Tab Navigation */}
-          <nav className="flex space-x-3 sm:space-x-6 md:space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap pb-1">
+          <nav className="flex space-x-3 sm:space-x-6 md:space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap pb-0">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (

@@ -189,10 +189,7 @@ const App = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <div className="inline-flex items-center bg-beige text-gray-800 px-4 py-2  text-sm font-medium mb-4   ml-[-12px]">
-                AI-Powered Mental Health Platform
-              </div>
-
+              
               <h1 className="text-3xl md:text-5xl text-gray-900 mb-4 leading-tight">
                 Your Personal
                 <span className="text-[#5d83b8]"> Emotional Coach</span>

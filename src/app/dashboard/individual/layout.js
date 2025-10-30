@@ -77,7 +77,7 @@ const navItems = [
     name: "Metrics", 
     href: "/dashboard/individual/metrics", // underlying route unchanged
     icon: icons.metrics, 
-    tooltip: "Analytics and Metrics",
+    tooltip: "Insights",
     subItems: [] 
   },
   // { 
@@ -91,7 +91,7 @@ const navItems = [
     name: "Agent profile", 
     href: "/dashboard/individual/agent-profiles", 
     icon: icons.agentProfile, 
-    tooltip: "User Configuration",
+    tooltip: "Profile",
     subItems: [] 
   },
   // {
