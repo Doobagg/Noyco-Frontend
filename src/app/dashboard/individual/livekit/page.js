@@ -565,8 +565,8 @@ const ChatTherapist = () => {
 
   return (
     <div className="flex flex-col bg-[#f8f7f1] h-[calc(100vh-215px)] ">
-      {/* Header - Sticky */}
-      <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 py-3 sm:py-4 sticky top-0 bg-[#f8f7f1] z-10 shadow-sm">
+  {/* Header - Sticky (nudged up, tighter padding) */}
+  <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 py-2 sm:py-3 sticky top-0 bg-[#f8f7f1] z-10 shadow-sm">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
             <div className="flex-1">
@@ -614,7 +614,7 @@ const ChatTherapist = () => {
           </div>
 
           {isConnected && (
-            <div className="mt-3 flex items-center gap-2 text-xs sm:text-sm">
+            <div className="mt-2 flex items-center gap-2 text-xs sm:text-sm">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
               <span className="text-gray-600 font-medium">
                 Connected - Your conversation is secure and private
@@ -658,7 +658,11 @@ const ChatTherapist = () => {
                 </div>
               ) : (
                 <div
-                  className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] px-4 py-3 sm:px-5 sm:py-4 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
+                  className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] ${
+                    msg.sender === 'agent'
+                      ? 'px-4 py-3 sm:px-5 sm:py-4'
+                      : 'px-3 py-2 sm:px-4 sm:py-3'
+                  } rounded-2xl shadow-xl backdrop-blur-md border-2 ${
                     msg.sender === 'agent'
                       ? 'bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-purple-200/50'
                       : 'bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-800 border-blue-300/50'
@@ -671,10 +675,12 @@ const ChatTherapist = () => {
                       }`}
                     ></div>
                     <div className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-80">
-                      {msg.sender === 'agent' ? '� Noyco' : '👤 You'}
+                      {msg.sender === 'agent' ? '🤖 Noyco' : '👤 You'}
                     </div>
                   </div>
-                  <div className="text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">
+                  <div className={`leading-relaxed whitespace-pre-wrap break-words font-medium ${
+                    msg.sender === 'agent' ? 'text-xs sm:text-sm md:text-base' : 'text-[11px] sm:text-xs md:text-sm'
+                  }`}>
                     {msg.text}
                   </div>
                   <div className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500 mt-1.5 sm:mt-2 opacity-70 font-medium">
@@ -1141,7 +1147,11 @@ const ImprovedVoiceAssistant = () => {
               }`}
             >
               <div
-                className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5 rounded-2xl shadow-xl backdrop-blur-md border-2 ${
+                className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[75%] ${
+                  msg.sender === 'agent'
+                    ? 'px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-5'
+                    : 'px-3 py-2 sm:px-4 sm:py-3 md:px-5 md:py-4'
+                } rounded-2xl shadow-xl backdrop-blur-md border-2 ${
                   msg.sender === 'agent'
                     ? 'bg-gradient-to-br from-[#E6D3E7] via-[#F6D9D5] to-[#D6E3EC] text-gray-800 border-purple-200/50'
                     : 'bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-800 border-blue-300/50'
@@ -1157,7 +1167,9 @@ const ImprovedVoiceAssistant = () => {
                     {msg.sender === 'agent' ? '🤖 Noyco' : '👤 You'}
                   </div>
                 </div>
-                <div className="text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-wrap break-words font-medium">
+                <div className={`leading-relaxed whitespace-pre-wrap break-words font-medium ${
+                  msg.sender === 'agent' ? 'text-xs sm:text-sm md:text-base' : 'text-[11px] sm:text-xs md:text-sm'
+                }`}>
                   {msg.text}
                 </div>
                 <div className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-500 mt-1.5 sm:mt-2 opacity-70 font-medium">
@@ -1376,7 +1388,7 @@ const VoiceAssistantContent = ({
         }
       `}</style>
       <div className="min-h-[calc(100vh-200px)] max-h-[calc(100vh-100px)] bg-[#f8f7f1] flex flex-col overflow-hidden">
-        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-2 sm:pt-3 pb-1 bg-[#f8f7f1] relative z-10">
+        <div className="flex-shrink-0 px-3 sm:px-4 md:px-6 pt-1 sm:pt-2 pb-0.5 bg-[#f8f7f1] relative z-10">
           <div className="w-full max-w-4xl mx-auto">
             {/* Profile Loading State */}
             {profilesLoading && (
@@ -1410,48 +1422,71 @@ const VoiceAssistantContent = ({
             )}
 
             {/* Main Control Button with Animated Blobs */}
-            <div className="flex flex-col items-center self-center mb-2 sm:mb-3 md:mb-4 -mt-1">
+            <div className="flex flex-col items-center self-center mb-1.5 sm:mb-2 md:mb-3 mt-1">
               {isAuthenticated && user ? (
-                <div className="relative w-full max-w-[260px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px] aspect-square -mt-1 sm:-mt-2 md:-mt-3">
-                  <Amoeba
-                    gradient="linear-gradient(135deg, #facc15 0%, #f97316 100%)"
-                    duration={12}
-                    delay={0}
-                    sizeClass="w-[42%] aspect-square"
-                    isActive={isRecording}
-                    isListening={isListening}
-                  />
-                  <Amoeba
-                    gradient="linear-gradient(135deg, #a855f7 0%, #ef4444 100%)"
-                    duration={16}
-                    delay={2}
-                    sizeClass="w-[48%] aspect-square"
-                    isActive={isRecording}
-                    isListening={isListening}
-                  />
-                  <Amoeba
-                    gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"
-                    duration={14}
-                    delay={1}
-                    sizeClass="w-[38%] aspect-square"
-                    isActive={isRecording}
-                    isListening={isListening}
-                  />
-                  <Amoeba
-                    gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"
-                    duration={18}
-                    delay={3}
-                    sizeClass="w-[43%] aspect-square"
-                    isActive={isRecording}
-                    isListening={isListening}
-                  />
+                <div style={{ width: 'clamp(220px, 36vh, 380px)' }}>
+                  <div className="relative w-full aspect-square">
+                    <Amoeba
+                      gradient="linear-gradient(135deg, #facc15 0%, #f97316 100%)"
+                      duration={12}
+                      delay={0}
+                      sizeClass="w-[42%] aspect-square"
+                      isActive={isRecording}
+                      isListening={isListening}
+                    />
+                    <Amoeba
+                      gradient="linear-gradient(135deg, #a855f7 0%, #ef4444 100%)"
+                      duration={16}
+                      delay={2}
+                      sizeClass="w-[48%] aspect-square"
+                      isActive={isRecording}
+                      isListening={isListening}
+                    />
+                    <Amoeba
+                      gradient="linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)"
+                      duration={14}
+                      delay={1}
+                      sizeClass="w-[38%] aspect-square"
+                      isActive={isRecording}
+                      isListening={isListening}
+                    />
+                    <Amoeba
+                      gradient="linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)"
+                      duration={18}
+                      delay={3}
+                      sizeClass="w-[43%] aspect-square"
+                      isActive={isRecording}
+                      isListening={isListening}
+                    />
 
-                  <MicIconButton
-                    onClick={handleVoiceToggle}
-                    isActive={isRecording}
-                    isConnecting={isConnecting}
-                    isListening={isListening}
-                  />
+                    <MicIconButton
+                      onClick={handleVoiceToggle}
+                      isActive={isRecording}
+                      isConnecting={isConnecting}
+                      isListening={isListening}
+                    />
+                  </div>
+                  {isRecording && (
+                    <div className="mt-1 sm:mt-1.5 flex justify-end">
+                      <div className="flex items-center gap-2 sm:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/70 backdrop-blur-md shadow-lg border border-blue-200/40">
+                        <span className="text-[10px] sm:text-xs font-bold text-gray-700">Auto-Send</span>
+                        <button
+                          onClick={handleAutoSendToggle}
+                          className={`relative w-9 h-5 sm:w-11 sm:h-6 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 shadow-inner ${
+                            autoSendEnabled
+                              ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600'
+                              : 'bg-gray-300'
+                          }`}
+                        >
+                          <span
+                            className={`absolute top-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
+                              autoSendEnabled ? 'left-[18px] sm:left-[24px]' : 'left-0.5'
+                            }`}
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-300 flex items-center justify-center opacity-50">
@@ -1470,31 +1505,8 @@ const VoiceAssistantContent = ({
 
             {/* Auto-Send Toggle & Manual Controls */}
             {isRecording && (
-              <div className="mt-3 sm:mt-4 mb-2">
+              <div className="mt-1.5 sm:mt-2.5 mb-1.5">
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 md:gap-4">
-                  {/* Auto-Send Toggle */}
-                  <div className="flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 backdrop-blur-md shadow-lg border-2 border-blue-200/40">
-                    <span className="text-[10px] sm:text-xs font-bold text-gray-700">
-                      Auto-Send
-                    </span>
-                    <button
-                      onClick={handleAutoSendToggle}
-                      className={`relative w-10 h-5 sm:w-12 sm:h-6 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-inner ${
-                        autoSendEnabled
-                          ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600'
-                          : 'bg-gray-300'
-                      }`}
-                    >
-                      <span
-                        className={`absolute top-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out ${
-                          autoSendEnabled
-                            ? 'left-[22px] sm:left-[26px]'
-                            : 'left-0.5'
-                        }`}
-                      />
-                    </button>
-                  </div>
-
                   {/* Manual Send Button */}
                   {!autoSendEnabled && (
                     <motion.button
@@ -1613,7 +1625,7 @@ const VoiceAssistantContent = ({
         <div className="flex-1 flex flex-col px-3 sm:px-4 md:px-6 pb-3 sm:pb-4 overflow-y-auto overscroll-contain">
           <div className="w-full max-w-5xl mx-auto flex flex-col min-h-full">
             {hasConversation && (
-              <div className="flex items-center justify-between mb-3 flex-wrap gap-2 sticky top-0 bg-[#f8f7f1] py-2 z-[5]">
+              <div className="flex items-center justify-between mb-2 flex-wrap gap-2 sticky top-0 bg-[#f8f7f1] py-1.5 z-[5]">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
                   <div className="text-[10px] sm:text-xs text-gray-700 font-bold">
@@ -1671,8 +1683,8 @@ const TabbedAssistantInterface = () => {
     <div className="flex flex-col h-full bg-beige overflow-hidden">
       {/* Header with Tab Navigation - Sticky (compact, no bottom border line) */}
       <div className="flex-shrink-0 bg-beige sticky top-0 z-20">
-        <div className="px-3 sm:px-4 md:px-6 py-1 sm:py-2">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-2 sm:mb-3">
+        <div className="px-3 sm:px-4 md:px-6 py-0.5 sm:py-1.5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-1 sm:mb-2">
             <div className="flex-1">
               <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
                 AI Assistant
